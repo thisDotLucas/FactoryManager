@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import view.AlertBox;
+import model.Clock;
 
 
 public class LogInViewController {
@@ -39,5 +40,24 @@ public class LogInViewController {
         System.out.println(user);
         System.out.println(key);
 
+
+
+    }
+
+    @FXML
+    public void initialize(){
+        timeController();
+    }
+
+    private void timeController(){
+        new Clock(this);
+    }
+
+    public Label getTimeLabel() {
+        return timeLabel;
+    }
+
+    public void setTimeLabel(String time){
+        timeLabel.setText(time);
     }
 }
