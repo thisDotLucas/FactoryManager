@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" layoutX="69.0" prefHeight="72.0" prefWidth="191.0">
+         <children>
+            <TextField prefHeight="31.0" prefWidth="167.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="72.0" prefWidth="66.0">
+         <children>
+            <Label text="User:" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="251.0" prefHeight="72.0" prefWidth="50.0">
+         <children>
+            <Label text="Key:" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="301.0" prefHeight="72.0" prefWidth="126.0">
+         <children>
+            <TextField prefHeight="31.0" prefWidth="107.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="427.0" prefHeight="72.0" prefWidth="107.0">
+         <children>
+            <Button mnemonicParsing="false" text="Log out">
+               <HBox.margin>
+                  <Insets left="12.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="534.0" prefHeight="72.0" prefWidth="137.0">
+         <children>
+            <Label text="Logged in as:">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="4.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="671.0" prefHeight="72.0" prefWidth="112.0">
+         <children>
+            <Label prefHeight="28.0" prefWidth="107.0" text="Personx" textFill="#8a7d7d">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="783.0" prefHeight="72.0" prefWidth="107.0">
+         <children>
+            <Label text="Access:">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="11.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="890.0" prefHeight="72.0" prefWidth="107.0">
+         <children>
+            <Label text="Manager" textFill="#8a7d7d">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="997.0" prefHeight="72.0" prefWidth="203.0">
+         <children>
+            <Label text="10:15" textFill="#8a7d7d">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox layoutY="72.0" prefHeight="728.0" prefWidth="289.0" style="-fx-background-color: #ECECEC;">
+         <children>
+            <HBox prefHeight="33.0" prefWidth="289.0" />
+            <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="289.0">
+               <children>
+                  <Label text="Receiver:">
+                     <HBox.margin>
+                        <Insets left="17.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="289.0">
+               <children>
+                  <ComboBox prefHeight="31.0" prefWidth="160.0">
+                     <HBox.margin>
+                        <Insets left="17.0" />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="289.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Send">
+                     <HBox.margin>
+                        <Insets left="17.0" right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="51.0" prefWidth="289.0" />
+            <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="289.0">
+               <children>
+                  <Label text="Choose worker &amp; date:">
+                     <HBox.margin>
+                        <Insets left="17.0" right="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="289.0">
+               <children>
+                  <ComboBox prefHeight="31.0" prefWidth="160.0">
+                     <HBox.margin>
+                        <Insets left="17.0" />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="289.0">
+               <children>
+                  <DatePicker prefWidth="160.0">
+                     <HBox.margin>
+                        <Insets left="17.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="62.0" prefWidth="289.0">
+               <children>
+                  <Button mnemonicParsing="false" prefWidth="85.0" text="Delete">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="85.0" text="Save edit">
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefWidth="85.0" text="Add">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="39.0" prefWidth="289.0" />
+            <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="289.0">
+               <children>
+                  <Label text="Statistics">
+                     <HBox.margin>
+                        <Insets left="17.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="289.0">
+               <children>
+                  <Label text="Show for:">
+                     <HBox.margin>
+                        <Insets left="17.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ChoiceBox prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ChoiceBox>
+               </children>
+            </HBox>
+            <RadioButton mnemonicParsing="false" text="Day">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="17.0" top="5.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" text="Week">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="17.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton mnemonicParsing="false" text="Month">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="17.0" />
+               </VBox.margin>
+            </RadioButton>
+            <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="289.0">
+               <children>
+                  <Label text="Something:">
+                     <HBox.margin>
+                        <Insets left="17.0" right="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField prefHeight="31.0" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="289.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Show">
+                     <HBox.margin>
+                        <Insets left="17.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <TextArea layoutX="289.0" layoutY="72.0" prefHeight="200.0" prefWidth="911.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ECECEC;">
+         <padding>
+            <Insets bottom="10.0" right="10.0" top="10.0" />
+         </padding>
+      </TextArea>
+      <HBox layoutX="289.0" layoutY="788.0" prefHeight="11.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;" />
+      <AnchorPane layoutX="288.0" layoutY="272.0" prefHeight="473.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;">
+         <children>
+            <TableView prefHeight="517.0" prefWidth="902.0">
+              <columns>
+                  <TableColumn editable="false" prefWidth="93.0" text="Date" />
+                <TableColumn prefWidth="86.0" resizable="false" sortable="false" text="Work nr" />
+                <TableColumn editable="false" prefWidth="77.0" resizable="false" sortable="false" text="Worker" />
+                  <TableColumn prefWidth="73.0" resizable="false" sortable="false" text="Start" />
+                  <TableColumn prefWidth="63.0" resizable="false" sortable="false" text="End" />
+                  <TableColumn prefWidth="75.0" resizable="false" sortable="false" text="Amount" />
+                  <TableColumn prefWidth="75.0" resizable="false" sortable="false" text="Trash" />
+                  <TableColumn editable="false" prefWidth="96.0" sortable="false" text="Productivity" />
+                  <TableColumn editable="false" prefWidth="263.0" resizable="false" sortable="false" text="Work name" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
