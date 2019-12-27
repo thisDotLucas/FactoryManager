@@ -12,6 +12,7 @@ public class ViewNavigator {
     private static ViewNavigator ourInstance;
     private Stage primaryStage;
     private String loggedInUser; //Currently logged in user, OBS remember to update this ALWAYS after changing views.
+    private String loggedInUserKey;
 
 
     //Returns this object.
@@ -76,7 +77,7 @@ public class ViewNavigator {
     }
 
 
-    //Updates the current logged in user, always update this after switching views, set as null when switching to log in view.
+    //Updates the current logged in user, always update this after switching views.
     void setCurrentUser(String user) {
 
         if(user != null)
@@ -89,6 +90,17 @@ public class ViewNavigator {
 
     String getLoggedInUser(){
         return loggedInUser;
+    }
+
+
+    //Updates the current logged in user, always update this after switching views.
+    void setCurrentUserKey(String key) {
+        loggedInUserKey = Integer.toString(Integer.parseInt(key));
+    }
+
+
+    String getLoggedInUserKey(){
+        return loggedInUserKey;
     }
 
 }

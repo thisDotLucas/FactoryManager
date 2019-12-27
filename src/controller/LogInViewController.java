@@ -25,18 +25,20 @@ public class LogInViewController implements Viewable {
     public void logInPress() throws Exception {
 
         String user = userTextField.getText();
-        String key = keyTextField.getText();
+        String key = formatKey(keyTextField.getText());
 
         LogInCheck security = new LogInCheck(user, key);
 
             if(security.isEmployee() && security.status() == 1){ //Worker
 
                 ViewNavigator.getInstance().setCurrentUser(user);
+                ViewNavigator.getInstance().setCurrentUserKey(key);
                 ViewNavigator.getInstance().goToWorkerView();
 
             } else if(security.isEmployee() && security.status() == 0){ //Manager
 
                 ViewNavigator.getInstance().setCurrentUser(user);
+                ViewNavigator.getInstance().setCurrentUserKey(key);
                 ViewNavigator.getInstance().goToManagerView();
 
             } else { //Invalid user name or/and key
@@ -60,5 +62,14 @@ public class LogInViewController implements Viewable {
     //To set time label.
     public void setTimeLabel(String time){
         timeLabel.setText(time);
+    }
+
+
+    private String formatKey(String key) {
+        try{
+            return Integer.toString(Integer.parseInt(key));
+        } catch (NumberFormatException e){
+            return null;
+        }
     }
 }

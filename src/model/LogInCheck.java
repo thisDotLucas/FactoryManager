@@ -13,7 +13,7 @@ public class LogInCheck {
     public LogInCheck(String user, String key) {
 
         this.user = user;
-        this.key = formatKey(key);
+        this.key = key;
         employees = new EmployeeMap().getMap();
 
     }
@@ -45,13 +45,5 @@ public class LogInCheck {
 
     }
 
-
-    private String formatKey(String key) {
-        try{
-            return Integer.toString(Integer.parseInt(key));
-        } catch (NumberFormatException e){
-            return null;
-        }
-    }
 
 }
