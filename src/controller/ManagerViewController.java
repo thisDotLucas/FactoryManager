@@ -36,7 +36,7 @@ public class ManagerViewController {
     @FXML
     void logOutPress() throws Exception {
         ViewNavigator.getInstance().goToLogInView();
-        ViewNavigator.getInstance().setCurrentUser(null);
+
     }
 
     @FXML

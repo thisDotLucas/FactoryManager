@@ -98,7 +98,7 @@
                         <Insets left="17.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="0">
+                  <Label fx:id="msgAmountLabel" text="0">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -108,7 +108,7 @@
                         <Insets left="25.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="0">
+                  <Label fx:id="unreadMsgLabel" text="0">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -122,7 +122,7 @@
                         <Insets left="17.0" />
                      </padding>
                   </Label>
-                  <Label text="Personx">
+                  <Label fx:id="msgSenderLabel" text="Personx">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -136,7 +136,7 @@
                         <Insets left="17.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="2019-12-23 12:00">
+                  <Label fx:id="dateTimeRecivedLabel" text="2019-12-23 12:00">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -145,17 +145,17 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="53.0" prefWidth="289.0">
                <children>
-                  <Button mnemonicParsing="false" text="&lt;&lt;">
+                  <Button fx:id="previousMsgButton" mnemonicParsing="false" onAction="#previousMsgPress" text="&lt;&lt;">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Delete">
+                  <Button fx:id="deleteMsgbutton" mnemonicParsing="false" onAction="#deleteMsgPress" text="Delete">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="&gt;&gt;">
+                  <Button fx:id="nextMsgButton" mnemonicParsing="false" onAction="#nextMsgPress" text="&gt;&gt;">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -164,18 +164,18 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="289.0">
                <children>
-                  <Button mnemonicParsing="false" text="Call Manager" />
+                  <Button fx:id="callManagerButton" mnemonicParsing="false" onAction="#callManagerPress" text="Call Manager" />
                </children>
             </HBox>
             <HBox prefHeight="22.0" prefWidth="289.0" />
             <HBox alignment="CENTER" prefHeight="51.0" prefWidth="289.0">
                <children>
-                  <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="90.0" text="Check in">
+                  <Button fx:id="checkInButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkinPress" prefWidth="90.0" text="Check in">
                      <HBox.margin>
                         <Insets right="30.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="90.0" text="Check out">
+                  <Button fx:id="checkOutButton" mnemonicParsing="false" onAction="#checkOutPress" prefWidth="90.0" text="Check out">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
@@ -190,7 +190,7 @@
                         <Insets left="17.0" right="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField />
+                  <TextField fx:id="workNrTextField" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="289.0">
@@ -200,7 +200,7 @@
                         <Insets left="17.0" right="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="31.0" prefWidth="81.0" />
+                  <TextField fx:id="AmountTextField" prefHeight="31.0" prefWidth="81.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="289.0">
@@ -210,13 +210,13 @@
                         <Insets left="17.0" right="10.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="31.0" prefWidth="46.0" />
+                  <TextField fx:id="trashTextField" prefHeight="31.0" prefWidth="46.0" />
                   <Label text="Reason:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox prefHeight="31.0" prefWidth="90.0">
+                  <ComboBox fx:id="reasonComboBox" prefHeight="31.0" prefWidth="90.0">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -225,12 +225,12 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="289.0">
                <children>
-                  <Button minHeight="-Infinity" mnemonicParsing="false" prefWidth="55.0" text="Start">
+                  <Button fx:id="startButton" minHeight="-Infinity" mnemonicParsing="false" onAction="#startPress" prefWidth="55.0" text="Start">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button minHeight="-Infinity" mnemonicParsing="false" prefWidth="55.0" text="End">
+                  <Button fx:id="endButton" minHeight="-Infinity" mnemonicParsing="false" onAction="#endPress" prefWidth="55.0" text="End">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

@@ -28,10 +28,11 @@ public class ViewNavigator {
     //Switches to log in view.
     public void goToLogInView() throws Exception{
 
+        loggedInUser = null;
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/logInView.fxml"));
         primaryStage.setTitle("FactoryManager");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 1188, 788));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
     }

@@ -1,11 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class WorkerViewController {
 
@@ -28,15 +24,76 @@ public class WorkerViewController {
     private Label timeLabel;
 
     @FXML
+    private Label msgSenderLabel;
+
+    @FXML
+    private Label msgAmountLabel;
+
+    @FXML
+    private Label dateTimeRecivedLabel;
+
+    @FXML
     private TextArea messeageBox;
 
     @FXML
     private TableView<?> table;
 
     @FXML
+    private ComboBox<?> reasonComboBox;
+
+    @FXML
+    private Button endButton;
+
+    @FXML
+    private TextField trashTextField;
+
+    @FXML
+    private Button startButton;
+
+    @FXML
     void logOutPress() throws Exception{
         ViewNavigator.getInstance().goToLogInView();
-        ViewNavigator.getInstance().setCurrentUser(null);
+
+    }
+
+    @FXML
+    void previousMsgPress() {
+
+    }
+
+    @FXML
+    void deleteMsgPress() {
+
+    }
+
+    @FXML
+    void nextMsgPress() {
+
+    }
+
+    @FXML
+    void callManagerPress() {
+
+    }
+
+    @FXML
+    void checkinPress() {
+
+    }
+
+    @FXML
+    void checkOutPress() {
+
+    }
+
+    @FXML
+    void startPress() {
+
+    }
+
+    @FXML
+    void endPress() {
+
     }
 
     @FXML
