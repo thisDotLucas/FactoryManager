@@ -1,24 +1,12 @@
 package model;
 
-abstract class Employee {
+public interface Employee {
 
-    String userId;
-    String userKey;
+    public String getUserName();
 
+    public String getUserKey();
 
-   Employee(String userId, String userKey){
+    public void setUserName(String userName);
 
-       this.userId = userId;
-       this.userKey = userKey;
-
-   }
-
-    String getuserId() {
-        return userId;
-    }
-
-    String getUserKey() {
-        return userKey;
-    }
 
 }

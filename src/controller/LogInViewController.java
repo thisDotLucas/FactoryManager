@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.Clock;
 import model.LogInCheck;
+import model.Manager;
+import model.Worker;
 import view.AlertBox;
 
 
@@ -31,14 +33,12 @@ public class LogInViewController implements Viewable {
 
             if(security.isEmployee() && security.status() == 1){ //Worker
 
-                ViewNavigator.getInstance().setCurrentUser(user);
-                ViewNavigator.getInstance().setCurrentUserKey(key);
+                ViewNavigator.getInstance().setCurrentUser(new Worker(user, key));
                 ViewNavigator.getInstance().goToWorkerView();
 
             } else if(security.isEmployee() && security.status() == 0){ //Manager
 
-                ViewNavigator.getInstance().setCurrentUser(user);
-                ViewNavigator.getInstance().setCurrentUserKey(key);
+                ViewNavigator.getInstance().setCurrentUser(new Manager(user, key));
                 ViewNavigator.getInstance().goToManagerView();
 
             } else { //Invalid user name or/and key

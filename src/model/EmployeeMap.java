@@ -8,11 +8,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+//SINGLETON OBJECT
+
 public class EmployeeMap {
 
-    private Map<String, String> employees; //<Key, Name>
+    private Map<String, Employee> employees; //<Key, Name>
+    private static EmployeeMap ourInstance;
 
-    EmployeeMap() { //Constructor
+    public static EmployeeMap getInstance() {
+
+        if(ourInstance == null){
+            ourInstance = new EmployeeMap();
+        }
+        return ourInstance;
+    }
+
+    private EmployeeMap() { //Constructor
         map();
     }
 
@@ -27,9 +38,15 @@ public class EmployeeMap {
             ResultSet rs = statement.executeQuery(sql);
 
             while (rs.next()) {
-                employees.put(rs.getString("id"), rs.getString("user_name"));
 
+                String key = rs.getString("id");
+
+                if(key.length() > 3)
+                    employees.put(key , new Worker(rs.getString("user_name"), key));
+                else
+                    employees.put(key , new Manager(rs.getString("user_name"), key));
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,12 +55,12 @@ public class EmployeeMap {
 
 
     //Returns map.
-    Map<String, String> getMap() {
+    Map<String, Employee> getMap() {
         return employees;
     }
 
     //Returns employee user names.
-    public Collection<String> getEmployeeNames() {
+    public Collection<Employee> getEmployees() {
         return employees.values();
     }
 

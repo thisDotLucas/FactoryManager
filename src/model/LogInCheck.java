@@ -5,16 +5,16 @@ import java.util.Map;
 
 public class LogInCheck {
 
-    Map<String, String> employees; //<Key, Name>
-    String user;
-    String key;
+    private Map<String, Employee> employees; //<Key, Name>
+    private String user;
+    private String key;
 
 
     public LogInCheck(String user, String key) {
 
         this.user = user;
         this.key = key;
-        employees = new EmployeeMap().getMap();
+        employees = EmployeeMap.getInstance().getMap();
 
     }
 
@@ -25,7 +25,7 @@ public class LogInCheck {
 
         if(employees.get(key) == null){
             return false;
-        } else if(employees.get(key).equals(user.toLowerCase())){
+        } else if(employees.get(key).getUserName().equals(user.toLowerCase())){
             return true;
         } else {
             return false;

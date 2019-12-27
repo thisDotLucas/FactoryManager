@@ -98,7 +98,7 @@ public class WorkerViewController {
 
     @FXML
     public void initialize(){
-        userLabel.setText(ViewNavigator.getInstance().getLoggedInUser());
+        userLabel.setText(ViewNavigator.getInstance().getLoggedInUser().getUserName());
         userTextField.setDisable(true);
         keyTextField.setDisable(true);
     }

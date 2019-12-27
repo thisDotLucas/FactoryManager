@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Employee;
 
 //SINGLETON OBJECT
 
@@ -11,8 +12,7 @@ public class ViewNavigator {
 
     private static ViewNavigator ourInstance;
     private Stage primaryStage;
-    private String loggedInUser; //Currently logged in user, OBS remember to update this ALWAYS after changing views.
-    private String loggedInUserKey;
+    private Employee loggedInUser; //Currently logged in user, OBS remember to update this ALWAYS after changing views.
 
 
     //Returns this object.
@@ -59,7 +59,7 @@ public class ViewNavigator {
 
     private void finishStage(Parent root) {
 
-        primaryStage.setTitle(loggedInUser);
+        primaryStage.setTitle(loggedInUser.getUserName());
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -78,29 +78,18 @@ public class ViewNavigator {
 
 
     //Updates the current logged in user, always update this after switching views.
-    void setCurrentUser(String user) {
+    void setCurrentUser(Employee user) {
 
         if(user != null)
-            user = user.substring(0, 1).toUpperCase() + user.substring(1).toLowerCase(); //Stores user name with first letter capitalized
+            user.setUserName(user.getUserName().substring(0, 1).toUpperCase() + user.getUserName().substring(1).toLowerCase()); //Stores user name with first letter capitalized
 
         loggedInUser = user;
 
     }
 
 
-    String getLoggedInUser(){
+    Employee getLoggedInUser() {
         return loggedInUser;
-    }
-
-
-    //Updates the current logged in user, always update this after switching views.
-    void setCurrentUserKey(String key) {
-        loggedInUserKey = Integer.toString(Integer.parseInt(key));
-    }
-
-
-    String getLoggedInUserKey(){
-        return loggedInUserKey;
     }
 
 }
