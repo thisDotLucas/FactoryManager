@@ -1,0 +1,6 @@
+andrew,0389
+joe,1249
+amy,1780
+tom,1436
+elizabeth,1130
+pete,1364

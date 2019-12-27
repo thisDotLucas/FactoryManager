@@ -9,6 +9,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Clock;
+import model.LogInCheck;
+import view.AlertBox;
 
 
 public class LogInViewController {
@@ -37,8 +39,14 @@ public class LogInViewController {
         String user = userTextField.getText();
         String key = keyTextField.getText();
 
-        System.out.println(user);
-        System.out.println(key);
+        LogInCheck security = new LogInCheck(user, key);
+        if(security.isEmployee() && security.status() == 1){
+            new AlertBox("Logged in", 1);
+        } else if(security.isEmployee() && security.status() == 0){
+            new AlertBox("Logged in as manager", 1);
+        } else {
+            new AlertBox("Invalid credentials", 3);
+        }
 
 
 
