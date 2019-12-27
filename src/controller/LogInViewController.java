@@ -13,7 +13,7 @@ import model.LogInCheck;
 import view.AlertBox;
 
 
-public class LogInViewController {
+public class LogInViewController implements Viewable {
 
     @FXML
     private TextField userTextField;
@@ -40,15 +40,18 @@ public class LogInViewController {
         String key = keyTextField.getText();
 
         LogInCheck security = new LogInCheck(user, key);
-        if(security.isEmployee() && security.status() == 1){
-            new AlertBox("Logged in", 1);
-        } else if(security.isEmployee() && security.status() == 0){
-            new AlertBox("Logged in as manager", 1);
-        } else {
-            new AlertBox("Invalid credentials", 3);
+
+        try {
+            if(security.isEmployee() && security.status() == 1){
+                    ViewController.getInstance().goToWorkerView();
+            } else if(security.isEmployee() && security.status() == 0){
+                ViewController.getInstance().goToManagerView();
+            } else {
+                new AlertBox("Invalid credentials", 3);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
 
     }
 

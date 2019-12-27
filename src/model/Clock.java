@@ -1,6 +1,7 @@
 package model;
 
 import controller.LogInViewController;
+import controller.Viewable;
 import javafx.application.Platform;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,12 +9,12 @@ import javafx.concurrent.Task;
 
 public class Clock{
 
-    LogInViewController controller; //UI
+    Viewable controller; //UI
     SimpleDateFormat formatter; //time format HH:mm
     String time; //time dispalyed
     String newTime; //current time
 
-    public Clock(LogInViewController controller){ //constructor
+    public Clock(Viewable controller){ //constructor
 
         this.controller = controller;
         formatter = new SimpleDateFormat("HH:mm");
