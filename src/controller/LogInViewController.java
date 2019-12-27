@@ -19,27 +19,29 @@ public class LogInViewController implements Viewable {
     @FXML
     private Label timeLabel;
 
+
+    //The user name and key are checked and the view will switch accordingly.
     @FXML
-    public void logInPress() {
+    public void logInPress() throws Exception {
 
         String user = userTextField.getText();
         String key = keyTextField.getText();
 
         LogInCheck security = new LogInCheck(user, key);
 
-        try {
-            if(security.isEmployee() && security.status() == 1){
+            if(security.isEmployee() && security.status() == 1){ //Worker
+
                 ViewNavigator.getInstance().setCurrentUser(user);
                 ViewNavigator.getInstance().goToWorkerView();
-            } else if(security.isEmployee() && security.status() == 0){
+
+            } else if(security.isEmployee() && security.status() == 0){ //Manager
+
                 ViewNavigator.getInstance().setCurrentUser(user);
                 ViewNavigator.getInstance().goToManagerView();
-            } else {
+
+            } else { //Invalid user name or/and key
                 new AlertBox("Invalid Credentials", 3);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -48,10 +50,14 @@ public class LogInViewController implements Viewable {
         timeController();
     }
 
+
+    //Handles the clock.
     private void timeController(){
         new Clock(this);
     }
 
+
+    //To set time label.
     public void setTimeLabel(String time){
         timeLabel.setText(time);
     }

@@ -11,7 +11,7 @@ public class EmployeeMap {
 
     Map<String, String> employees; //<Key, Name>
 
-    EmployeeMap(){
+    EmployeeMap(){ //Constructor
         map();
     }
 
@@ -43,11 +43,12 @@ public class EmployeeMap {
     }
 
 
+    //Returns map.
     Map<String, String> getMap(){
         return employees;
     }
 
-
+    //Returns employee user names.
     public Collection<String> getEmployeeNames(){
         return employees.values();
     }

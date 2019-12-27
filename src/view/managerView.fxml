@@ -7,11 +7,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManagerViewController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="69.0" prefHeight="72.0" prefWidth="191.0">
          <children>
-            <TextField prefHeight="31.0" prefWidth="167.0" />
+            <TextField fx:id="userTextField" prefHeight="31.0" prefWidth="167.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="72.0" prefWidth="66.0">
@@ -26,12 +26,12 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="301.0" prefHeight="72.0" prefWidth="126.0">
          <children>
-            <TextField prefHeight="31.0" prefWidth="107.0" />
+            <TextField fx:id="keyTextField" prefHeight="31.0" prefWidth="107.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="427.0" prefHeight="72.0" prefWidth="107.0">
          <children>
-            <Button mnemonicParsing="false" text="Log out">
+            <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutPress" text="Log out">
                <HBox.margin>
                   <Insets left="12.0" />
                </HBox.margin>
@@ -52,7 +52,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="671.0" prefHeight="72.0" prefWidth="112.0">
          <children>
-            <Label prefHeight="28.0" prefWidth="107.0" text="Personx" textFill="#8a7d7d">
+            <Label fx:id="userLabel" prefHeight="28.0" prefWidth="107.0" text="Personx" textFill="#8a7d7d">
                <font>
                   <Font size="19.0" />
                </font>
@@ -73,7 +73,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="890.0" prefHeight="72.0" prefWidth="107.0">
          <children>
-            <Label text="Manager" textFill="#8a7d7d">
+            <Label fx:id="accessLabel" text="Manager" textFill="#8a7d7d">
                <font>
                   <Font size="19.0" />
                </font>
@@ -82,7 +82,7 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="997.0" prefHeight="72.0" prefWidth="203.0">
          <children>
-            <Label text="10:15" textFill="#8a7d7d">
+            <Label fx:id="timeLabel" text="10:15" textFill="#8a7d7d">
                <font>
                   <Font size="21.0" />
                </font>
@@ -226,7 +226,7 @@
             </HBox>
          </children>
       </VBox>
-      <TextArea layoutX="289.0" layoutY="72.0" prefHeight="200.0" prefWidth="911.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ECECEC;">
+      <TextArea fx:id="messeageBox" layoutX="289.0" layoutY="72.0" prefHeight="200.0" prefWidth="911.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ECECEC;">
          <padding>
             <Insets bottom="10.0" right="10.0" top="10.0" />
          </padding>
@@ -234,7 +234,7 @@
       <HBox layoutX="289.0" layoutY="788.0" prefHeight="11.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;" />
       <AnchorPane layoutX="288.0" layoutY="272.0" prefHeight="473.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;">
          <children>
-            <TableView prefHeight="517.0" prefWidth="902.0">
+            <TableView fx:id="table" prefHeight="517.0" prefWidth="902.0">
               <columns>
                   <TableColumn editable="false" prefWidth="93.0" text="Date" />
                 <TableColumn prefWidth="86.0" resizable="false" sortable="false" text="Work nr" />
