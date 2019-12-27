@@ -6,7 +6,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class AlertBox {
 
-    AlertType type;
+    private AlertType type;
 
     public AlertBox(String message, int type){ //constructor
 
@@ -34,7 +34,7 @@ public class AlertBox {
     }
 
 
-    public AlertType setType(int type) { //sets the alert type
+    private AlertType setType(int type) { //sets the alert type
 
         switch (type){
             case 0:

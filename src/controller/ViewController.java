@@ -8,9 +8,9 @@ import javafx.stage.Stage;
 public class ViewController{
 
     private static ViewController ourInstance;
-    private static Stage primaryStage;
+    private Stage primaryStage;
 
-    public static ViewController getInstance() {
+    static ViewController getInstance() {
 
         if(ourInstance == null){
             ourInstance = new ViewController();

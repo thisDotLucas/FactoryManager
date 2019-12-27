@@ -1,6 +1,5 @@
 package model;
 
-import controller.LogInViewController;
 import controller.Viewable;
 import javafx.application.Platform;
 import java.text.SimpleDateFormat;
@@ -9,10 +8,10 @@ import javafx.concurrent.Task;
 
 public class Clock{
 
-    Viewable controller; //UI
-    SimpleDateFormat formatter; //time format HH:mm
-    String time; //time dispalyed
-    String newTime; //current time
+    private Viewable controller; //UI
+    private SimpleDateFormat formatter; //time format HH:mm
+    private String time; //time dispalyed
+    private String newTime; //current time
 
     public Clock(Viewable controller){ //constructor
 
@@ -28,7 +27,7 @@ public class Clock{
 
         Task task = new Task() {
             @Override
-            protected Object call() throws Exception {
+            protected Object call() {
 
                 while(true) {
 
@@ -37,6 +36,7 @@ public class Clock{
                     if(!time.equals(newTime)){ //check if updated time is different from previous time if different would
                                                //indicate that one minute has passed and clock needs to be updated.
                         time = newTime; //newTime is set to the time to be checked
+
                         Platform.runLater(() -> {
                             controller.setTimeLabel(time); //clock is updated in user interface
                         });
