@@ -5,32 +5,28 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ViewController{
+//SINGLETON OBJECT
 
-    private static ViewController ourInstance;
+public class ViewNavigator {
+
+    private static ViewNavigator ourInstance;
     private Stage primaryStage;
+    private String loggedInUser;
 
-    static ViewController getInstance() {
+    public static ViewNavigator getInstance() {
 
         if(ourInstance == null){
-            ourInstance = new ViewController();
+            ourInstance = new ViewNavigator();
         }
 
         return ourInstance;
     }
 
-    public void setStage(Stage primaryStage){
-
-        if(this.primaryStage == null){
-            this.primaryStage = primaryStage;
-        }
-
-    }
 
     public void goToLogInView() throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/logInView.fxml"));
-        primaryStage.close();
+        //primaryStage.close();
         primaryStage.setTitle("FactoryManager");
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, 1188, 788));
@@ -41,23 +37,37 @@ public class ViewController{
     void goToWorkerView() throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/workerView.fxml"));
-        primaryStage.close();
-        primaryStage.setTitle("Worker");
-        primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 1188, 788));
-        primaryStage.show();
+        setStage(root);
 
     }
 
     void goToManagerView() throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/managerView.fxml"));
-        primaryStage.close();
-        primaryStage.setTitle("Manager");
+        setStage(root);
+
+    }
+
+    private void setStage(Parent root) {
+
+        //primaryStage.close();
+        primaryStage.setTitle(loggedInUser);
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, 1188, 788));
         primaryStage.show();
 
+    }
+
+    public void setStage(Stage primaryStage){
+
+        if(this.primaryStage == null){
+            this.primaryStage = primaryStage;
+        }
+
+    }
+
+    public void setCurrentUser(String user) {
+        loggedInUser = user;
     }
 
 }

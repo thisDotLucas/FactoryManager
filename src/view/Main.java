@@ -1,6 +1,6 @@
 package view;
 
-import controller.ViewController;
+import controller.ViewNavigator;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import java.util.Locale;
@@ -10,9 +10,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        ViewController viewController = new ViewController();
-        viewController.setStage(primaryStage);
-        viewController.goToLogInView(); //Log in view on startup
+        ViewNavigator.getInstance().setStage(primaryStage);
+        ViewNavigator.getInstance().goToLogInView(); //Log in view on startup
 
     }
 

@@ -29,11 +29,13 @@ public class LogInViewController implements Viewable {
 
         try {
             if(security.isEmployee() && security.status() == 1){
-                    ViewController.getInstance().goToWorkerView();
+                ViewNavigator.getInstance().setCurrentUser(user);
+                ViewNavigator.getInstance().goToWorkerView();
             } else if(security.isEmployee() && security.status() == 0){
-                ViewController.getInstance().goToManagerView();
+                ViewNavigator.getInstance().setCurrentUser(user);
+                ViewNavigator.getInstance().goToManagerView();
             } else {
-                new AlertBox("Invalid credentials", 3);
+                new AlertBox("Invalid Credentials", 3);
             }
         } catch (Exception e) {
             e.printStackTrace();
