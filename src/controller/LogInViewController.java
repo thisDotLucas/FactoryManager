@@ -53,7 +53,7 @@ public class LogInViewController implements Viewable {
 
     @FXML
     public void initialize(){
-        messageBox.getStylesheets().add("view/MessageBox.css");
+        messageBox.getStylesheets().add("view/DisabledMessageBox.css");
         timeController();
     }
 

@@ -13,7 +13,7 @@ public class Worker implements Employee {
     }
 
 
-    public void starWork(){
+    public void startWork(){
         working = true;
     }
 
