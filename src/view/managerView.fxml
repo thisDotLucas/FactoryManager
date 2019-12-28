@@ -246,10 +246,9 @@
             <TableView fx:id="table" prefHeight="517.0" prefWidth="902.0">
               <columns>
                   <TableColumn fx:id="dateColumn" editable="false" prefWidth="93.0" text="Date" />
+                  <TableColumn fx:id="startColumn" prefWidth="73.0" resizable="false" sortable="false" text="Time" />
                 <TableColumn fx:id="workNrColumn" prefWidth="86.0" resizable="false" sortable="false" text="Work nr" />
                 <TableColumn fx:id="workerColumn" editable="false" prefWidth="77.0" resizable="false" sortable="false" text="Worker" />
-                  <TableColumn fx:id="startColumn" prefWidth="73.0" resizable="false" sortable="false" text="Start" />
-                  <TableColumn fx:id="endColumn" prefWidth="63.0" resizable="false" sortable="false" text="End" />
                   <TableColumn fx:id="amountColumn" prefWidth="75.0" resizable="false" sortable="false" text="Amount" />
                   <TableColumn fx:id="trashColumn" prefWidth="75.0" resizable="false" sortable="false" text="Trash" />
                   <TableColumn fx:id="productivityColumn" editable="false" prefWidth="96.0" sortable="false" text="Productivity" />

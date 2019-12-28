@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -19,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="800.0" maxWidth="1200.0" minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LogInViewController">
+<AnchorPane maxHeight="800.0" maxWidth="1200.0" minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LogInViewController">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="69.0" prefHeight="72.0" prefWidth="191.0">
          <children>
@@ -116,10 +110,9 @@
             <TableView fx:id="table" prefHeight="517.0" prefWidth="902.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;">
                <columns>
                   <TableColumn fx:id="dateColumn" editable="false" prefWidth="93.0" text="Date" />
+                  <TableColumn fx:id="startColumn" prefWidth="73.0" resizable="false" sortable="false" text="Time" />
                   <TableColumn fx:id="workNrColumn" prefWidth="86.0" resizable="false" sortable="false" text="Work nr" />
                   <TableColumn fx:id="workerColumn" editable="false" prefWidth="77.0" resizable="false" sortable="false" text="Worker" />
-                  <TableColumn fx:id="startColumn" prefWidth="73.0" resizable="false" sortable="false" text="Start" />
-                  <TableColumn fx:id="endColumn" prefWidth="63.0" resizable="false" sortable="false" text="End" />
                   <TableColumn fx:id="amountColumn" prefWidth="75.0" resizable="false" sortable="false" text="Amount" />
                   <TableColumn fx:id="trashColumn" prefWidth="75.0" resizable="false" sortable="false" text="Trash" />
                   <TableColumn fx:id="productivityColumn" editable="false" prefWidth="96.0" sortable="false" text="Productivity" />

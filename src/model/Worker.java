@@ -7,7 +7,6 @@ public class Worker implements Employee {
 
     private String userName;
     private String userKey;
-    private String workStartTime;
     private FxWorkerTableController tableController;
     private boolean online = false;
     private boolean working = false;
@@ -42,13 +41,6 @@ public class Worker implements Employee {
         return online;
     }
 
-    public void setWorkStartTime(String time){
-        this.workStartTime = time;
-    }
-
-    public String getWorkStartTime(){
-        return workStartTime;
-    }
 
     public void setTableController(TableView<?> table){
         tableController = new FxWorkerTableController(table);

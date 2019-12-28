@@ -10,20 +10,21 @@ import java.util.Map;
 
 //SINGLETON OBJECT
 
-public class EmployeeMap {
+public class DataMaps {
 
     private Map<String, Employee> employees; //<Key, Name>
-    private static EmployeeMap ourInstance;
+    private Map<Integer, String> workSteps;
+    private static DataMaps ourInstance;
 
-    public static EmployeeMap getInstance() {
+    public static DataMaps getInstance() {
 
         if(ourInstance == null){
-            ourInstance = new EmployeeMap();
+            ourInstance = new DataMaps();
         }
         return ourInstance;
     }
 
-    private EmployeeMap() { //Constructor
+    private DataMaps() { //Constructor
         map();
     }
 
@@ -31,6 +32,8 @@ public class EmployeeMap {
     private void map() {
 
         employees = new HashMap<>();
+        workSteps = new HashMap<>();
+
         Connection connection = MySqlDatabase.getInstance().connect();
         try {
             Statement statement = connection.createStatement();
@@ -47,6 +50,17 @@ public class EmployeeMap {
                     employees.put(key , new Manager(rs.getString("user_name"), key));
             }
 
+            String sql2 = "select * from sql_factory.work_steps";
+            ResultSet rs2 = statement.executeQuery(sql2);
+
+            while (rs2.next()) {
+
+                int key = rs2.getInt("id");
+                workSteps.put(key, rs2.getString("work_step_name") + "," + rs2.getString("productivity_score"));
+
+            }
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,8 +69,12 @@ public class EmployeeMap {
 
 
     //Returns map.
-    Map<String, Employee> getMap() {
+    Map<String, Employee> getEmployeeMap() {
         return employees;
+    }
+
+    public Map<Integer, String> getWorkStepsMap(){
+        return workSteps;
     }
 
     //Returns employee user names.

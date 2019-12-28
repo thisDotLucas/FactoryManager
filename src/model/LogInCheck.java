@@ -14,7 +14,7 @@ public class LogInCheck {
 
         this.user = user;
         this.key = key;
-        employees = EmployeeMap.getInstance().getMap();
+        employees = DataMaps.getInstance().getEmployeeMap();
 
     }
 

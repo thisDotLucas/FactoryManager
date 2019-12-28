@@ -77,9 +77,6 @@ public class WorkerViewController implements Viewable, Initializable {
     private TableColumn<TableRowData, String> amountColumn;
 
     @FXML
-    private TableColumn<TableRowData, String> endColumn;
-
-    @FXML
     private TextField workNrTextField;
 
     @FXML
@@ -139,7 +136,7 @@ public class WorkerViewController implements Viewable, Initializable {
         setNotWorkingView();
         step = new TableRowData(user.getUserKey());
         step.setStart_time(new TimeAndDateHelper().getTime());
-        step.setWork_step_name("Checked In");
+        step.setWork_step_name("Check in");
         addRow();
 
     }
@@ -149,19 +146,21 @@ public class WorkerViewController implements Viewable, Initializable {
         user.logOut();
         user.stopWork();
         setNotLoggedInView();
+        step = new TableRowData(user.getUserKey());
+        step.setStart_time(new TimeAndDateHelper().getTime());
+        step.setWork_step_name("Check out");
+        addRow();
     }
 
     @FXML
     void startPress() {
         user.startWork();
-        user.setWorkStartTime(new TimeAndDateHelper().getTime());
         setWorkingView();
     }
 
     @FXML
     void endPress() {
         user.stopWork();
-        user.setWorkStartTime(null);
         setNotWorkingView();
     }
 
@@ -179,7 +178,6 @@ public class WorkerViewController implements Viewable, Initializable {
         workNrColumn.setCellValueFactory(new PropertyValueFactory<>("work_id"));
         workerColumn.setCellValueFactory(new PropertyValueFactory<>("user_id"));
         startColumn.setCellValueFactory(new PropertyValueFactory<>("start_time"));
-        endColumn.setCellValueFactory(new PropertyValueFactory<>("end_time"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         trashColumn.setCellValueFactory(new PropertyValueFactory<>("trash"));
         productivityColumn.setCellValueFactory(new PropertyValueFactory<>("productivity"));
