@@ -96,7 +96,7 @@
          </children>
       </HBox>
       <VBox layoutY="72.0" prefHeight="728.0" prefWidth="289.0" style="-fx-background-color: #ECECEC;" />
-      <TextArea fx:id="messageBox" disable="true" editable="false" layoutX="289.0" layoutY="72.0" prefHeight="200.0" prefWidth="911.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ECECEC;">
+      <TextArea fx:id="messageBox" editable="false" layoutX="289.0" layoutY="72.0" prefHeight="200.0" prefWidth="911.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ECECEC;">
          <padding>
             <Insets bottom="10.0" right="10.0" top="10.0" />
          </padding>

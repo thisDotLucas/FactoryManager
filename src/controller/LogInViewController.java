@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Clock;
 import model.LogInCheck;
@@ -20,6 +21,9 @@ public class LogInViewController implements Viewable {
 
     @FXML
     private Label timeLabel;
+
+    @FXML
+    private TextArea messageBox;
 
 
     //The user name and key are checked and the view will switch accordingly.
@@ -49,6 +53,7 @@ public class LogInViewController implements Viewable {
 
     @FXML
     public void initialize(){
+        messageBox.getStylesheets().add("view/MessageBox.css");
         timeController();
     }
 

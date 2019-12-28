@@ -6,8 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import model.Clock;
 
-public class ManagerViewController {
+public class ManagerViewController implements Viewable{
 
     @FXML
     private TextField userTextField;
@@ -42,9 +43,22 @@ public class ManagerViewController {
     @FXML
     public void initialize(){
         userLabel.setText(ViewNavigator.getInstance().getLoggedInUser().getUserName());
+        timeController();
         userTextField.setDisable(true);
         keyTextField.setDisable(true);
     }
 
+
+
+    //Handles the clock.
+    private void timeController(){
+        new Clock(this);
+    }
+
+
+    //To set time label.
+    public void setTimeLabel(String time){
+        timeLabel.setText(time);
+    }
 
 }
