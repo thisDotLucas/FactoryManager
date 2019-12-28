@@ -254,17 +254,17 @@
       <AnchorPane layoutX="288.0" layoutY="272.0" prefHeight="473.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;">
          <children>
             <TableView fx:id="table" prefHeight="517.0" prefWidth="902.0">
-              <columns>
-                  <TableColumn editable="false" prefWidth="93.0" sortable="false" text="Date" />
-                <TableColumn editable="false" prefWidth="86.0" resizable="false" sortable="false" text="Work nr" />
-                <TableColumn editable="false" prefWidth="77.0" resizable="false" sortable="false" text="Worker" />
-                  <TableColumn editable="false" prefWidth="73.0" resizable="false" sortable="false" text="Start" />
-                  <TableColumn editable="false" prefWidth="63.0" resizable="false" sortable="false" text="End" />
-                  <TableColumn editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Amount" />
-                  <TableColumn editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Trash" />
-                  <TableColumn editable="false" prefWidth="96.0" sortable="false" text="Productivity" />
-                  <TableColumn editable="false" prefWidth="263.0" resizable="false" sortable="false" text="Work name" />
-              </columns>
+               <columns>
+                  <TableColumn fx:id="dateColumn" editable="false" prefWidth="93.0" text="Date" />
+                  <TableColumn fx:id="workNrColumn" prefWidth="86.0" resizable="false" sortable="false" text="Work nr" />
+                  <TableColumn fx:id="workerColumn" editable="false" prefWidth="77.0" resizable="false" sortable="false" text="Worker" />
+                  <TableColumn fx:id="startColumn" prefWidth="73.0" resizable="false" sortable="false" text="Start" />
+                  <TableColumn fx:id="endColumn" prefWidth="63.0" resizable="false" sortable="false" text="End" />
+                  <TableColumn fx:id="amountColumn" prefWidth="75.0" resizable="false" sortable="false" text="Amount" />
+                  <TableColumn fx:id="trashColumn" prefWidth="75.0" resizable="false" sortable="false" text="Trash" />
+                  <TableColumn fx:id="productivityColumn" editable="false" prefWidth="96.0" sortable="false" text="Productivity" />
+                  <TableColumn fx:id="workNameColumn" editable="false" prefWidth="263.0" resizable="false" sortable="false" text="Work name" />
+               </columns>
             </TableView>
          </children>
       </AnchorPane>

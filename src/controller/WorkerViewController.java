@@ -1,13 +1,26 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.Clock;
+import model.TableRowData;
+import model.TimeAndDateHelper;
 import model.Worker;
 
-public class WorkerViewController implements Viewable{
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class WorkerViewController implements Viewable, Initializable {
 
     private Worker user;
+    private FxWorkerTableController userTable;
+    private TableRowData step;
+
+    private ObservableList<TableRowData> rowData = FXCollections.observableArrayList();
 
     @FXML
     private TextField userTextField;
@@ -40,7 +53,7 @@ public class WorkerViewController implements Viewable{
     private TextArea messageBox;
 
     @FXML
-    private TableView<?> table;
+    private TableView<TableRowData> table;
 
     @FXML
     private ComboBox<?> reasonComboBox;
@@ -61,10 +74,37 @@ public class WorkerViewController implements Viewable{
     private Button checkInButton;
 
     @FXML
+    private TableColumn<TableRowData, String> amountColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> endColumn;
+
+    @FXML
     private TextField workNrTextField;
 
     @FXML
     private TextField amountTextField;
+
+    @FXML
+    private TableColumn<TableRowData, String> productivityColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> workNameColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> startColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> workerColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> trashColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> workNrColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> dateColumn;
 
 
     @FXML
@@ -97,33 +137,53 @@ public class WorkerViewController implements Viewable{
     void checkinPress() {
         user.logIn();
         setNotWorkingView();
+        step = new TableRowData(user.getUserKey());
+        step.setStart_time(new TimeAndDateHelper().getTime());
+        step.setWork_step_name("Checked In");
+        addRow();
+
     }
 
     @FXML
     void checkOutPress() {
         user.logOut();
+        user.stopWork();
         setNotLoggedInView();
     }
 
     @FXML
     void startPress() {
         user.startWork();
+        user.setWorkStartTime(new TimeAndDateHelper().getTime());
         setWorkingView();
     }
 
     @FXML
     void endPress() {
         user.stopWork();
+        user.setWorkStartTime(null);
         setNotWorkingView();
     }
 
     @FXML
-    public void initialize(){
+    public void initialize(URL location, ResourceBundle resources){
         user = (Worker)ViewNavigator.getInstance().getLoggedInUser();
+        user.setTableController(table);
+        userTable = user.getTableController();
         messageBox.setEditable(false);
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
         timeController();
         customizeView();
+
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        workNrColumn.setCellValueFactory(new PropertyValueFactory<>("work_id"));
+        workerColumn.setCellValueFactory(new PropertyValueFactory<>("user_id"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("start_time"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("end_time"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        trashColumn.setCellValueFactory(new PropertyValueFactory<>("trash"));
+        productivityColumn.setCellValueFactory(new PropertyValueFactory<>("productivity"));
+        workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
     }
 
     private void customizeView(){
@@ -181,6 +241,9 @@ public class WorkerViewController implements Viewable{
 
 
 
+
+
+
     //Handles the clock.
     private void timeController(){
         new Clock(this);
@@ -192,4 +255,13 @@ public class WorkerViewController implements Viewable{
         timeLabel.setText(time);
     }
 
+    private void addRow(){
+
+       rowData.add(step);
+       table.setItems(rowData);
+
+    }
+
 }
+
+
