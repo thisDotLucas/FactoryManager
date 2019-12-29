@@ -14,6 +14,7 @@ public class DataMaps {
 
     private Map<String, Employee> employees; //<Key, Name>
     private Map<Integer, String> workSteps;
+    private Map<Integer, Float> productivityScores;
     private static DataMaps ourInstance;
 
     public static DataMaps getInstance() {
@@ -33,6 +34,7 @@ public class DataMaps {
 
         employees = new HashMap<>();
         workSteps = new HashMap<>();
+        productivityScores = new HashMap<>();
 
         Connection connection = MySqlDatabase.getInstance().connect();
         try {
@@ -56,10 +58,19 @@ public class DataMaps {
             while (rs2.next()) {
 
                 int key = rs2.getInt("id");
-                workSteps.put(key, rs2.getString("work_step_name") + "," + rs2.getString("productivity_score"));
+                workSteps.put(key, rs2.getString("work_step_name"));
 
             }
 
+            String sql3 = "select * from sql_factory.work_steps";
+            ResultSet rs3 = statement.executeQuery(sql3);
+
+            while (rs3.next()) {
+
+                int key = rs3.getInt("id");
+                productivityScores.put(key, rs3.getFloat("productivity_score"));
+
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,12 +80,16 @@ public class DataMaps {
 
 
     //Returns map.
-    Map<String, Employee> getEmployeeMap() {
+    public Map<String, Employee> getEmployeeMap() {
         return employees;
     }
 
     public Map<Integer, String> getWorkStepsMap(){
         return workSteps;
+    }
+
+    public  Map<Integer, Float> getProductivityScoresMap(){
+        return productivityScores;
     }
 
     //Returns employee user names.

@@ -1,11 +1,6 @@
 package model;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TableRowData {
@@ -13,8 +8,7 @@ public class TableRowData {
     private SimpleStringProperty work_id;
     private final SimpleStringProperty user_id;
     private final SimpleStringProperty date;
-    private SimpleStringProperty start_time;
-    private SimpleStringProperty end_time;
+    private SimpleStringProperty time;
     private SimpleStringProperty amount_done;
     private SimpleStringProperty trash_amount;
     private SimpleStringProperty productivity;
@@ -25,8 +19,7 @@ public class TableRowData {
         this.user_id = new SimpleStringProperty(userId);
         this.date = new SimpleStringProperty(new TimeAndDateHelper().getDate());
         this.work_id = new SimpleStringProperty("");
-        this.start_time = new SimpleStringProperty("");
-        this.end_time = new SimpleStringProperty("");
+        this.time = new SimpleStringProperty("");
         this.amount_done = new SimpleStringProperty("");
         this.trash_amount = new SimpleStringProperty("");
         this.productivity = new SimpleStringProperty("");
@@ -36,16 +29,12 @@ public class TableRowData {
 
 
 
-    public void setStart_time(String start_time) {
-        this.start_time = new SimpleStringProperty(start_time);
+    public void setTime(String start_time) {
+        this.time = new SimpleStringProperty(start_time);
     }
 
     public void setWork_id(String work_id){
         this.work_id = new SimpleStringProperty(work_id);
-    }
-
-    public void setEnd_time(String end_time) {
-        this.end_time = new SimpleStringProperty(end_time);
     }
 
     public void setAmount_done(String amount_done) {
@@ -78,20 +67,13 @@ public class TableRowData {
     }
 
 
-    public String getStart_time() {
-        return start_time.get();
+    public String getTime() {
+        return time.get();
     }
-
-
-    public String getEnd_time() {
-        return end_time.get();
-    }
-
 
     public String getAmount_done() {
         return amount_done.get();
     }
-
 
     public String getTrash_amount() {
         return trash_amount.get();

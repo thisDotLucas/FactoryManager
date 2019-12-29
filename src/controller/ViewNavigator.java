@@ -41,7 +41,6 @@ public class ViewNavigator {
 
     //Switches to worker view.
     void goToWorkerView() throws Exception{
-
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/workerView.fxml"));
         finishStage(root);
 

@@ -6,19 +6,24 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Clock;
-import model.TableRowData;
-import model.TimeAndDateHelper;
-import model.Worker;
+import model.*;
+import view.AlertBox;
 
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Period;
+import java.util.Date;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class WorkerViewController implements Viewable, Initializable {
 
     private Worker user;
     private FxWorkerTableController userTable;
-    private TableRowData step;
 
     private ObservableList<TableRowData> rowData = FXCollections.observableArrayList();
 
@@ -74,7 +79,7 @@ public class WorkerViewController implements Viewable, Initializable {
     private Button checkInButton;
 
     @FXML
-    private TableColumn<TableRowData, String> amountColumn;
+    private TableColumn<TableRowData, Integer> amountColumn;
 
     @FXML
     private TextField workNrTextField;
@@ -95,7 +100,7 @@ public class WorkerViewController implements Viewable, Initializable {
     private TableColumn<TableRowData, String> workerColumn;
 
     @FXML
-    private TableColumn<TableRowData, String> trashColumn;
+    private TableColumn<TableRowData, Integer> trashColumn;
 
     @FXML
     private TableColumn<TableRowData, String> workNrColumn;
@@ -134,11 +139,12 @@ public class WorkerViewController implements Viewable, Initializable {
     void checkinPress() {
         user.logIn();
         setNotWorkingView();
-        step = new TableRowData(user.getUserKey());
-        step.setStart_time(new TimeAndDateHelper().getTime());
-        step.setWork_step_name("Check in");
+        user.setCurrentWorkStep(new TableRowData(user.getUserKey()));
+        user.getCurrentWorkStep().setTime(new TimeAndDateHelper().getTime());
+        user.getCurrentWorkStep().setWork_step_name("Check in");
+        user.getCurrentWorkStep().setWork_id("00000");
         addRow();
-
+        user.setCurrentWorkStep(null);
     }
 
     @FXML
@@ -146,23 +152,67 @@ public class WorkerViewController implements Viewable, Initializable {
         user.logOut();
         user.stopWork();
         setNotLoggedInView();
-        step = new TableRowData(user.getUserKey());
-        step.setStart_time(new TimeAndDateHelper().getTime());
-        step.setWork_step_name("Check out");
+        user.setCurrentWorkStep(new TableRowData(user.getUserKey()));
+        user.getCurrentWorkStep().setTime(new TimeAndDateHelper().getTime());
+        user.getCurrentWorkStep().setWork_step_name("Check out");
+        user.getCurrentWorkStep().setWork_id("99999");
         addRow();
+        user.setCurrentWorkStep(null);
     }
 
     @FXML
     void startPress() {
-        user.startWork();
-        setWorkingView();
+        IOHelper helper = new IOHelper();
+        String stepName = null;
+        String workNumber = workNrTextField.getText();
+        if(helper.isConvertibleToInteger(workNumber))
+            stepName = DataMaps.getInstance().getWorkStepsMap().get(Integer.parseInt(workNumber));
+
+        if(stepName != null){
+            user.setCurrentWorkStep(new TableRowData(user.getUserKey()));
+            user.getCurrentWorkStep().setTime(new TimeAndDateHelper().getTime());
+            user.getCurrentWorkStep().setWork_step_name(stepName);
+            user.getCurrentWorkStep().setWork_id(workNumber);
+            user.startWork();
+            setWorkingView();
+            addRow();
+        } else {
+            new AlertBox("Invalid work number.", 2);
+        }
+
+
     }
 
     @FXML
     void endPress() {
-        user.stopWork();
-        setNotWorkingView();
+        IOHelper helper = new IOHelper();
+        String amount = amountTextField.getText();
+        String trashAmount = trashTextField.getText();
+        if (helper.isConvertibleToInteger(amount) && helper.isConvertibleToInteger(trashAmount) && !helper.isNegative(Integer.parseInt(amount)) && !helper.isNegative(Integer.parseInt(trashAmount))) {
+            TableRowData endStep = new TableRowData(user.getUserKey());
+            endStep.setWork_id(user.getCurrentWorkStep().getWork_id());
+            endStep.setWork_step_name(user.getCurrentWorkStep().getWork_step_name());
+            endStep.setTime(new TimeAndDateHelper().getTime());
+            endStep.setAmount_done(amount);
+            endStep.setTrash_amount(trashAmount);
+            endStep.setProductivity(user.calculateProductivity(user.getCurrentWorkStep().getWork_id(), Integer.parseInt(amount), user.getCurrentWorkStep().getTime(), endStep.getTime()));
+            user.setCurrentWorkStep(endStep);
+            user.stopWork();
+            setNotWorkingView();
+            addRow();
+            workNrTextField.setText("");
+            amountTextField.setText("");
+            trashTextField.setText("");
+
+            user.setCurrentWorkStep(null);
+        } else {
+            new AlertBox("Enter a valid number in the amount and trash field.", 2);
+            return;
+        }
+
     }
+
+
 
     @FXML
     public void initialize(URL location, ResourceBundle resources){
@@ -177,9 +227,9 @@ public class WorkerViewController implements Viewable, Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         workNrColumn.setCellValueFactory(new PropertyValueFactory<>("work_id"));
         workerColumn.setCellValueFactory(new PropertyValueFactory<>("user_id"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("start_time"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        trashColumn.setCellValueFactory(new PropertyValueFactory<>("trash"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount_done"));
+        trashColumn.setCellValueFactory(new PropertyValueFactory<>("trash_amount"));
         productivityColumn.setCellValueFactory(new PropertyValueFactory<>("productivity"));
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
     }
@@ -238,10 +288,6 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-
-
-
-
     //Handles the clock.
     private void timeController(){
         new Clock(this);
@@ -255,10 +301,14 @@ public class WorkerViewController implements Viewable, Initializable {
 
     private void addRow(){
 
-       rowData.add(step);
+       rowData.add(user.getCurrentWorkStep());
        table.setItems(rowData);
 
     }
+
+
+
+
 
 }
 
