@@ -11,6 +11,7 @@ public class TableRowData {
     private SimpleStringProperty time;
     private SimpleStringProperty amount_done;
     private SimpleStringProperty trash_amount;
+    private SimpleStringProperty reason;
     private SimpleStringProperty productivity;
     private SimpleStringProperty work_step_name;
 
@@ -22,6 +23,7 @@ public class TableRowData {
         this.time = new SimpleStringProperty("");
         this.amount_done = new SimpleStringProperty("");
         this.trash_amount = new SimpleStringProperty("");
+        this.reason = new SimpleStringProperty("");
         this.productivity = new SimpleStringProperty("");
         this.work_step_name = new SimpleStringProperty("");
 
@@ -51,6 +53,10 @@ public class TableRowData {
 
     public void setWork_step_name(String work_step_name) {
         this.work_step_name = new SimpleStringProperty(work_step_name);
+    }
+
+    public void setReason(String reason) {
+        this.reason = new SimpleStringProperty(reason);
     }
 
     public String getUser_id() {
@@ -87,5 +93,7 @@ public class TableRowData {
         return work_step_name.get();
     }
 
-
+    public String getReason() {
+        return reason.get();
+    }
 }

@@ -8,17 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.*;
 import view.AlertBox;
-
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Period;
-import java.util.Date;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 public class WorkerViewController implements Viewable, Initializable {
 
@@ -61,7 +52,7 @@ public class WorkerViewController implements Viewable, Initializable {
     private TableView<TableRowData> table;
 
     @FXML
-    private ComboBox<?> reasonComboBox;
+    private ComboBox<String> reasonComboBox;
 
     @FXML
     private Button endButton;
@@ -107,6 +98,9 @@ public class WorkerViewController implements Viewable, Initializable {
 
     @FXML
     private TableColumn<TableRowData, String> dateColumn;
+
+    @FXML
+    private TableColumn<TableRowData, String> reasonColumn;
 
 
     @FXML
@@ -189,22 +183,30 @@ public class WorkerViewController implements Viewable, Initializable {
         String amount = amountTextField.getText();
         String trashAmount = trashTextField.getText();
         if (helper.isConvertibleToInteger(amount) && helper.isConvertibleToInteger(trashAmount) && !helper.isNegative(Integer.parseInt(amount)) && !helper.isNegative(Integer.parseInt(trashAmount))) {
-            TableRowData endStep = new TableRowData(user.getUserKey());
-            endStep.setWork_id(user.getCurrentWorkStep().getWork_id());
-            endStep.setWork_step_name(user.getCurrentWorkStep().getWork_step_name());
-            endStep.setTime(new TimeAndDateHelper().getTime());
-            endStep.setAmount_done(amount);
-            endStep.setTrash_amount(trashAmount);
-            endStep.setProductivity(user.calculateProductivity(user.getCurrentWorkStep().getWork_id(), Integer.parseInt(amount), user.getCurrentWorkStep().getTime(), endStep.getTime()));
-            user.setCurrentWorkStep(endStep);
-            user.stopWork();
-            setNotWorkingView();
-            addRow();
-            workNrTextField.setText("");
-            amountTextField.setText("");
-            trashTextField.setText("");
+            if (reasonComboBox.getValue() != null) {
 
-            user.setCurrentWorkStep(null);
+                TableRowData endStep = new TableRowData(user.getUserKey());
+                endStep.setWork_id(user.getCurrentWorkStep().getWork_id());
+                endStep.setWork_step_name(user.getCurrentWorkStep().getWork_step_name());
+                endStep.setTime(new TimeAndDateHelper().getTime());
+                endStep.setAmount_done(amount);
+                endStep.setTrash_amount(trashAmount);
+                endStep.setProductivity(user.calculateProductivity(user.getCurrentWorkStep().getWork_id(), Integer.parseInt(amount), user.getCurrentWorkStep().getTime(), endStep.getTime()));
+                endStep.setReason(reasonComboBox.getValue());
+                user.setCurrentWorkStep(endStep);
+                user.stopWork();
+                setNotWorkingView();
+                addRow();
+                workNrTextField.setText("");
+                amountTextField.setText("");
+                trashTextField.setText("");
+                reasonComboBox.setValue("");
+
+                user.setCurrentWorkStep(null);
+            } else {
+                new AlertBox("Choose a reason for the trash amount.", 2);
+                return;
+            }
         } else {
             new AlertBox("Enter a valid number in the amount and trash field.", 2);
             return;
@@ -212,6 +214,25 @@ public class WorkerViewController implements Viewable, Initializable {
 
     }
 
+    @FXML
+    void onReasonComboBox(){
+
+    }
+
+
+    private void onReasonComboBoxClicked(){
+        IOHelper helper = new IOHelper();
+
+        if(helper.isConvertibleToInteger(trashTextField.getText()) && !helper.isNegative(Integer.parseInt(trashTextField.getText())) && Integer.parseInt(trashTextField.getText()) > 0) {
+            reasonComboBox.setItems(FXCollections.observableArrayList(
+                    "Broken part", "Accident", "Failed test", "Other"
+            ));
+
+        } else {
+            reasonComboBox.setItems(FXCollections.observableArrayList("","","",""));
+        }
+
+    }
 
 
     @FXML
@@ -221,6 +242,9 @@ public class WorkerViewController implements Viewable, Initializable {
         userTable = user.getTableController();
         messageBox.setEditable(false);
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
+        table.setMouseTransparent(true);
+        table.getStylesheets().add("view/hideScrollbar.css");
+        reasonComboBox.setOnMouseClicked(event -> onReasonComboBoxClicked());
         timeController();
         customizeView();
 
@@ -230,6 +254,7 @@ public class WorkerViewController implements Viewable, Initializable {
         startColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount_done"));
         trashColumn.setCellValueFactory(new PropertyValueFactory<>("trash_amount"));
+        reasonColumn.setCellValueFactory(new PropertyValueFactory<>("reason"));
         productivityColumn.setCellValueFactory(new PropertyValueFactory<>("productivity"));
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
     }
