@@ -10,7 +10,7 @@ public class TimeAndDateHelper {
 
     public TimeAndDateHelper() {
         date = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        time = DateTimeFormatter.ofPattern("HH:mm");
+        time = DateTimeFormatter.ofPattern("HH:mm:ss");
     }
 
     public String getDate() {

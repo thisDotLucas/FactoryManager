@@ -167,6 +167,7 @@ public class WorkerViewController implements Viewable, Initializable {
             user.getCurrentWorkStep().setTime(new TimeAndDateHelper().getTime());
             user.getCurrentWorkStep().setWork_step_name(stepName);
             user.getCurrentWorkStep().setWork_id(workNumber);
+            user.setCurrentWorkNr(workNumber);
             user.startWork();
             setWorkingView();
             addRow();
@@ -202,6 +203,7 @@ public class WorkerViewController implements Viewable, Initializable {
                 trashTextField.setText("");
                 reasonComboBox.setValue("");
 
+                user.setCurrentWorkNr("");
                 user.setCurrentWorkStep(null);
             } else {
                 new AlertBox("Choose a reason for the trash amount.", 2);
@@ -247,6 +249,7 @@ public class WorkerViewController implements Viewable, Initializable {
         reasonComboBox.setOnMouseClicked(event -> onReasonComboBoxClicked());
         timeController();
         customizeView();
+        table.setItems(MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().getDate(), user.getUserKey()));
 
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         workNrColumn.setCellValueFactory(new PropertyValueFactory<>("work_id"));
@@ -263,6 +266,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
         userLabel.setText(user.getUserName());
         userTextField.setDisable(true);
+        workNrTextField.setText(user.getCurrentWorkNr());
         keyTextField.setDisable(true);
 
         if(!user.isLoggedIn()){ //Not logged in.
@@ -328,6 +332,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
        rowData.add(user.getCurrentWorkStep());
        table.setItems(rowData);
+       MySqlDatabase.getInstance().addWorkStep(user.getCurrentWorkStep());
 
     }
 

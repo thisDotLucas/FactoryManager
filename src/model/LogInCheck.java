@@ -25,7 +25,7 @@ public class LogInCheck {
 
         if(employees.get(key) == null){
             return false;
-        } else if(employees.get(key).getUserName().equals(user.toLowerCase())){
+        } else if(employees.get(key).getUserName().toLowerCase().equals(user.toLowerCase())){
             return true;
         } else {
             return false;

@@ -7,7 +7,7 @@ public class TableRowData {
 
     private SimpleStringProperty work_id;
     private final SimpleStringProperty user_id;
-    private final SimpleStringProperty date;
+    private SimpleStringProperty date;
     private SimpleStringProperty time;
     private SimpleStringProperty amount_done;
     private SimpleStringProperty trash_amount;
@@ -53,6 +53,10 @@ public class TableRowData {
 
     public void setWork_step_name(String work_step_name) {
         this.work_step_name = new SimpleStringProperty(work_step_name);
+    }
+
+    public void setDate(String date){
+        this.date = new SimpleStringProperty(date);
     }
 
     public void setReason(String reason) {

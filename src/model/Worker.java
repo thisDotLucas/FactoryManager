@@ -14,6 +14,7 @@ public class Worker implements Employee {
 
     private String userName;
     private String userKey;
+    private String currentWorkNr;
     private FxWorkerTableController tableController;
     private TableRowData currentWorkStep;
     private boolean online = false;
@@ -93,6 +94,14 @@ public class Worker implements Employee {
 
     public FxWorkerTableController getTableController(){
         return tableController;
+    }
+
+    public String getCurrentWorkNr() {
+        return currentWorkNr;
+    }
+
+    public void setCurrentWorkNr(String currentWorkNr) {
+        this.currentWorkNr = currentWorkNr;
     }
 
     @Override
