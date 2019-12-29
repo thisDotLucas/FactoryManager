@@ -37,7 +37,7 @@ public class LogInCheck {
     //We check if the employee has worker or manager status.
     public int status() {
 
-        if(key.length() == 4){
+        if(key.substring(0,1).equals("1")){
             return 1;   //1 = worker
         } else {
             return 0;   //0 = manager

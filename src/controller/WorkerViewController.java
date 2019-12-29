@@ -128,6 +128,7 @@ public class WorkerViewController implements Viewable, Initializable {
     @FXML
     void callManagerPress() { //Call manager button is pressed, notification is created in data base
         MySqlDatabase.getInstance().addNotification(user.getUserKey(), "0389");
+        new AlertBox("Notification Sent.", 0);
     }
 
     @FXML
@@ -249,7 +250,7 @@ public class WorkerViewController implements Viewable, Initializable {
         userTable = user.getTableController();
         messageBox.setEditable(false);
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
-        table.setMouseTransparent(true);
+        //table.setMouseTransparent(true);
         table.getStylesheets().add("view/hideScrollbar.css");
         reasonComboBox.setOnMouseClicked(event -> onReasonComboBoxClicked());
         timeController();

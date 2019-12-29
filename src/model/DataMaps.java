@@ -46,7 +46,7 @@ public class DataMaps {
 
                 String key = rs.getString("id");
 
-                if(key.length() > 3)
+                if(key.substring(0,1).equals("1"))
                     employees.put(key , new Worker(rs.getString("user_name"), key));
                 else
                     employees.put(key , new Manager(rs.getString("user_name"), key));

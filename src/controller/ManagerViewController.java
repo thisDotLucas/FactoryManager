@@ -6,9 +6,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import model.Clock;
+import model.*;
+import view.AlertBox;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ManagerViewController implements Viewable{
+
+    Manager user;
 
     @FXML
     private TextField userTextField;
@@ -42,13 +48,32 @@ public class ManagerViewController implements Viewable{
 
     @FXML
     public void initialize(){
-        userLabel.setText(ViewNavigator.getInstance().getLoggedInUser().getUserName());
+        user = (Manager) ViewNavigator.getInstance().getLoggedInUser();
+        userLabel.setText(user.getUserName());
         timeController();
         userTextField.setDisable(true);
         keyTextField.setDisable(true);
+        showNotifications();
     }
 
 
+
+    private void showNotifications(){
+        ArrayList<String> senders = MySqlDatabase.getInstance().getNotifications(user.getUserKey());
+        IOHelper helper = new IOHelper();
+        Map<String, Employee> employeeMap = DataMaps.getInstance().getEmployeeMap();
+        String stringToBeShown = "";
+
+        for(String sender : senders){
+            stringToBeShown += helper.capitalizeFirsChar(employeeMap.get(sender).getUserName()) + " Needs Assistance.\n";
+        }
+
+        if(!stringToBeShown.equals("")) {
+            new AlertBox(stringToBeShown, "Notification", 0);
+            MySqlDatabase.getInstance().deleteNotifications(user.getUserKey());
+        }
+
+    }
 
     //Handles the clock.
     private void timeController(){

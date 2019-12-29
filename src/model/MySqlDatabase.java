@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import view.AlertBox;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 //SINGLETON OBJECT
 
@@ -98,6 +99,57 @@ public class MySqlDatabase {
 
             String sql = "insert into sql_factory.notifications (employee_id, sender_id, time_date) select '" + receiver_id + "', '" + sender_id + "', '" + timeAndDate + "' where not exists (" +
                     "select 1 from sql_factory.notifications x where x.employee_id = '" + receiver_id + "' and x.sender_id = '" + sender_id + "')";
+
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+        }
+        disconnect(connection);
+    }
+
+
+    public ArrayList<String> getNotifications(String receiver_id){
+
+        Connection connection = connect();
+
+        ArrayList<String> notifications = new ArrayList();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "select * from sql_factory.notifications where employee_id = '" + receiver_id + "'";
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()){
+
+                notifications.add(rs.getString("sender_id"));
+
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+            disconnect(connection);
+            return null;
+        }
+        disconnect(connection);
+        return notifications;
+    }
+
+
+    public void deleteNotifications(String user_id){
+
+        Connection connection = connect();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "delete from sql_factory.notifications where employee_id = '" + user_id + "'";
 
             statement.executeUpdate(sql);
 

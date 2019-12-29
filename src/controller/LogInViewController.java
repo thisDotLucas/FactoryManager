@@ -30,7 +30,7 @@ public class LogInViewController implements Viewable {
     public void logInPress() throws Exception {
 
         String user = userTextField.getText();
-        String key = formatKey(keyTextField.getText());
+        String key = keyTextField.getText();
 
         LogInCheck security = new LogInCheck(user, key);
 
@@ -70,14 +70,6 @@ public class LogInViewController implements Viewable {
         timeLabel.setText(time);
     }
 
-
-    private String formatKey(String key) {
-        try{
-            return Integer.toString(Integer.parseInt(key));
-        } catch (NumberFormatException e){
-            return null;
-        }
-    }
 
 
     EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
