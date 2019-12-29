@@ -58,7 +58,7 @@ public class MySqlDatabase {
 
             String sql = "select * from work_log where _date = \"" + date + "\" and employee_id = \"" + user_id + "\" order by _time";
             ResultSet rs = statement.executeQuery(sql);
-           
+
             while (rs.next()) {
 
                 TableRowData row = new TableRowData(user_id);
@@ -112,10 +112,4 @@ public class MySqlDatabase {
     }
 
 }
-//Statement statement = connection.createStatement();
-//String sql = "select * from sql_factory.employees";
-//ResultSet rs = statement.executeQuery(sql);
 
-//while (rs.next()){
-//  System.out.println(rs.getString("user_name"));
-//}

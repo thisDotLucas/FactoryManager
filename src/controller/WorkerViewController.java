@@ -126,7 +126,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
     @FXML
     void callManagerPress() {
-
+        System.out.println("LMAO");
     }
 
     @FXML
@@ -235,6 +235,7 @@ public class WorkerViewController implements Viewable, Initializable {
         }
 
     }
+
 
 
     @FXML

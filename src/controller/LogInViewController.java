@@ -1,9 +1,12 @@
 package controller;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import model.*;
 import view.AlertBox;
 
@@ -51,6 +54,8 @@ public class LogInViewController implements Viewable {
     @FXML
     public void initialize(){
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
+        userTextField.addEventFilter(KeyEvent.ANY, handler);
+        keyTextField.addEventFilter(KeyEvent.ANY, handler);
         timeController();
     }
 
@@ -74,4 +79,24 @@ public class LogInViewController implements Viewable {
             return null;
         }
     }
+
+
+    EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+
+        private boolean willConsume = false;
+
+        @Override
+        public void handle(KeyEvent event) {
+
+            if (willConsume)
+                event.consume();
+
+
+            if (event.getCode().isWhitespaceKey())
+                willConsume = true;
+            else
+                willConsume = false;
+        }
+
+    };
 }
