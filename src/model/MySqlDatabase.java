@@ -1,5 +1,6 @@
 package model;
 
+import com.mysql.cj.result.SqlDateValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view.AlertBox;
@@ -73,15 +74,38 @@ public class MySqlDatabase {
 
                 steps.add(row);
             }
-
+            disconnect(connection);
             return steps;
 
         } catch (SQLException e){
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
+            disconnect(connection);
             return null;
         }
 
+    }
+
+
+    public void addNotification(String sender_id, String receiver_id) {
+
+        Connection connection = connect();
+        String timeAndDate = new TimeAndDateHelper().getTimeAndDate();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "insert into sql_factory.notifications (employee_id, sender_id, time_date) select '" + receiver_id + "', '" + sender_id + "', '" + timeAndDate + "' where not exists (" +
+                    "select 1 from sql_factory.notifications x where x.employee_id = '" + receiver_id + "' and x.sender_id = '" + sender_id + "')";
+
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+        }
+        disconnect(connection);
     }
 
 

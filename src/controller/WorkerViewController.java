@@ -13,10 +13,10 @@ import java.util.ResourceBundle;
 
 public class WorkerViewController implements Viewable, Initializable {
 
-    private Worker user;
-    private FxWorkerTableController userTable;
+    private Worker user;  //Logged in user.
+    private FxWorkerTableController userTable; //not in use.
 
-    private ObservableList<TableRowData> rowData = FXCollections.observableArrayList();
+    private ObservableList<TableRowData> rowData = FXCollections.observableArrayList(); //Row data to add on init.
 
     @FXML
     private TextField userTextField;
@@ -104,7 +104,8 @@ public class WorkerViewController implements Viewable, Initializable {
 
 
     @FXML
-    void logOutPress() throws Exception{
+    void logOutPress() throws Exception{ //User logs out, view goes to log in view.
+
         ViewNavigator.getInstance().goToLogInView();
 
     }
@@ -125,13 +126,13 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     @FXML
-    void callManagerPress() {
-        System.out.println("LMAO");
+    void callManagerPress() { //Call manager button is pressed, notification is created in data base
+        MySqlDatabase.getInstance().addNotification(user.getUserKey(), "0389");
     }
 
     @FXML
-    void checkinPress() {
-        user.logIn();
+    void checkinPress() { //User checks in for the day, not working view will be set. Row data also added to table and database.
+        user.logIn(); //Updates user status
         setNotWorkingView();
         user.setCurrentWorkStep(new TableRowData(user.getUserKey()));
         user.getCurrentWorkStep().setTime(new TimeAndDateHelper().getTime());
@@ -142,7 +143,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     @FXML
-    void checkOutPress() {
+    void checkOutPress() { //User checks out, not logged in view will be set. Row data also added to table and database.
         user.logOut();
         user.stopWork();
         setNotLoggedInView();
@@ -155,8 +156,8 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     @FXML
-    void startPress() {
-        IOHelper helper = new IOHelper();
+    void startPress() { //User starts work step, row is added in table and database.
+        IOHelper helper = new IOHelper(); //Checks work number input.
         String stepName = null;
         String workNumber = workNrTextField.getText();
         if(helper.isConvertibleToInteger(workNumber))
@@ -179,7 +180,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     @FXML
-    void endPress() {
+    void endPress() { //User ends current work step, row is added to table and database.
         IOHelper helper = new IOHelper();
         String amount = amountTextField.getText();
         String trashAmount = trashTextField.getText();
@@ -193,7 +194,10 @@ public class WorkerViewController implements Viewable, Initializable {
                 endStep.setAmount_done(amount);
                 endStep.setTrash_amount(trashAmount);
                 endStep.setProductivity(user.calculateProductivity(user.getCurrentWorkStep().getWork_id(), Integer.parseInt(amount), user.getCurrentWorkStep().getTime(), endStep.getTime()));
-                endStep.setReason(reasonComboBox.getValue());
+                if(Integer.parseInt(trashAmount) == 0) {
+                    endStep.setReason("");
+                } else
+                    endStep.setReason(reasonComboBox.getValue());
                 user.setCurrentWorkStep(endStep);
                 user.stopWork();
                 setNotWorkingView();
@@ -222,7 +226,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-    private void onReasonComboBoxClicked(){
+    private void onReasonComboBoxClicked(){ //Gives only empty options whne trash amount is 0
         IOHelper helper = new IOHelper();
 
         if(helper.isConvertibleToInteger(trashTextField.getText()) && !helper.isNegative(Integer.parseInt(trashTextField.getText())) && Integer.parseInt(trashTextField.getText()) > 0) {
@@ -239,7 +243,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
 
     @FXML
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources){ //Initializes everything.
         user = (Worker)ViewNavigator.getInstance().getLoggedInUser();
         user.setTableController(table);
         userTable = user.getTableController();
@@ -250,7 +254,8 @@ public class WorkerViewController implements Viewable, Initializable {
         reasonComboBox.setOnMouseClicked(event -> onReasonComboBoxClicked());
         timeController();
         customizeView();
-        table.setItems(MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().getDate(), user.getUserKey()));
+        rowData.addAll(MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().getDate(), user.getUserKey()));
+        table.setItems(rowData);
 
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         workNrColumn.setCellValueFactory(new PropertyValueFactory<>("work_id"));
@@ -263,7 +268,7 @@ public class WorkerViewController implements Viewable, Initializable {
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
     }
 
-    private void customizeView(){
+    private void customizeView(){ //Checks what view is needed based on booleans from loggen in user.
 
         userLabel.setText(user.getUserName());
         userTextField.setDisable(true);
@@ -281,7 +286,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-    private void setNotLoggedInView(){
+    private void setNotLoggedInView(){ //Sets the view.
         checkOutButton.setDisable(true);
         startButton.setDisable(true);
         endButton.setDisable(true);
@@ -294,7 +299,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-    private void setNotWorkingView(){
+    private void setNotWorkingView(){ //Sets the view.
         checkInButton.setDisable(true);
         amountTextField.setDisable(true);
         endButton.setDisable(true);
@@ -306,7 +311,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-    private void setWorkingView(){
+    private void setWorkingView(){ //Sets the view.
         checkInButton.setDisable(true);
         startButton.setDisable(true);
         workNrTextField.setDisable(true);
@@ -329,7 +334,7 @@ public class WorkerViewController implements Viewable, Initializable {
         timeLabel.setText(time);
     }
 
-    private void addRow(){
+    private void addRow(){ //Adds a row, always called when the worker does something.
 
        rowData.add(user.getCurrentWorkStep());
        table.setItems(rowData);
