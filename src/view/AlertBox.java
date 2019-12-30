@@ -8,7 +8,7 @@ public class AlertBox {
 
     private AlertType type;
 
-    public AlertBox(String message, int type){ //Constructor
+    public AlertBox(String message, int type) { //Constructor
 
         assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments."; //checks the input.
 
@@ -21,7 +21,7 @@ public class AlertBox {
     }
 
 
-    public AlertBox(String message, String title, int type){ //constructor with custom title.
+    public AlertBox(String message, String title, int type) { //constructor with custom title.
 
         assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments."; //checks the input.
 
@@ -37,7 +37,7 @@ public class AlertBox {
 
     private AlertType setType(int type) { //sets the alert type.
 
-        switch (type){
+        switch (type) {
             case 0:
                 return this.type = AlertType.INFORMATION;
             case 1:

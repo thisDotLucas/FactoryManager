@@ -7,7 +7,7 @@ public class Message {
     private final String receiver;
     private final String timeStamp;
 
-    public Message(String sender, String receiver, String message, String timeStamp){
+    public Message(String sender, String receiver, String message, String timeStamp) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
@@ -15,19 +15,12 @@ public class Message {
     }
 
 
-    public String getSender() {
-        return sender;
-    }
+    public String getSender() { return sender; }
 
-    public String getReceiver(){
-        return receiver;
-    }
+    public String getReceiver() { return receiver; }
 
-    public String getMessage() {
-        return message;
-    }
+    public String getMessage() { return message; }
 
-    public String getTimeStamp() {
-        return timeStamp;
-    }
+    public String getTimeStamp() { return timeStamp; }
+
 }

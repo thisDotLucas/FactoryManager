@@ -23,5 +23,7 @@ public class TimeAndDateHelper {
         return time.format(LocalDateTime.now());
     }
 
-    public String getTimeAndDate() { return dateAndTime.format(LocalDateTime.now()); }
+    public String getTimeAndDate() {
+        return dateAndTime.format(LocalDateTime.now());
+    }
 }

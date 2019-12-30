@@ -34,24 +34,24 @@ public class LogInViewController implements Viewable {
 
         LogInCheck security = new LogInCheck(user, key);
 
-            if(security.isEmployee() && security.status() == 1){ //Worker
+        if (security.isEmployee() && security.status() == 1) { //Worker
 
-                ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
-                ViewNavigator.getInstance().goToWorkerView();
+            ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
+            ViewNavigator.getInstance().goToWorkerView();
 
-            } else if(security.isEmployee() && security.status() == 0){ //Manager
+        } else if (security.isEmployee() && security.status() == 0) { //Manager
 
-                ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
-                ViewNavigator.getInstance().goToManagerView();
+            ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
+            ViewNavigator.getInstance().goToManagerView();
 
-            } else { //Invalid user name or/and key
-                new AlertBox("Invalid Credentials", 3);
-            }
+        } else { //Invalid user name or/and key
+            new AlertBox("Invalid Credentials", 3);
+        }
 
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
         userTextField.addEventFilter(KeyEvent.ANY, handler);
         keyTextField.addEventFilter(KeyEvent.ANY, handler);
@@ -60,16 +60,15 @@ public class LogInViewController implements Viewable {
 
 
     //Handles the clock.
-    private void timeController(){
+    private void timeController() {
         new Clock(this);
     }
 
 
     //To set time label.
-    public void setTimeLabel(String time){
+    public void setTimeLabel(String time) {
         timeLabel.setText(time);
     }
-
 
 
     EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {

@@ -16,7 +16,7 @@ public class TableRowData {
     private SimpleStringProperty work_step_name;
 
 
-    public TableRowData(String userId){
+    public TableRowData(String userId) {
         this.user_id = new SimpleStringProperty(userId);
         this.date = new SimpleStringProperty(new TimeAndDateHelper().getDate());
         this.work_id = new SimpleStringProperty("");
@@ -30,12 +30,11 @@ public class TableRowData {
     }
 
 
-
     public void setTime(String start_time) {
         this.time = new SimpleStringProperty(start_time);
     }
 
-    public void setWork_id(String work_id){
+    public void setWork_id(String work_id) {
         this.work_id = new SimpleStringProperty(work_id);
     }
 
@@ -55,7 +54,7 @@ public class TableRowData {
         this.work_step_name = new SimpleStringProperty(work_step_name);
     }
 
-    public void setDate(String date){
+    public void setDate(String date) {
         this.date = new SimpleStringProperty(date);
     }
 

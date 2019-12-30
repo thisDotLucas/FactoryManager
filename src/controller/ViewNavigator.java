@@ -19,7 +19,7 @@ public class ViewNavigator {
     //Returns this object.
     public static ViewNavigator getInstance() {
 
-        if(ourInstance == null){
+        if (ourInstance == null) {
             ourInstance = new ViewNavigator();
         }
 
@@ -28,7 +28,7 @@ public class ViewNavigator {
 
 
     //Switches to log in view.
-    public void goToLogInView() throws Exception{
+    public void goToLogInView() throws Exception {
 
         loggedInUser = null;
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/logInView.fxml"));
@@ -41,7 +41,7 @@ public class ViewNavigator {
 
 
     //Switches to worker view.
-    void goToWorkerView() throws Exception{
+    void goToWorkerView() throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/workerView.fxml"));
         finishStage(root);
 
@@ -49,7 +49,7 @@ public class ViewNavigator {
 
 
     //Switches to manager view.
-    void goToManagerView() throws Exception{
+    void goToManagerView() throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/managerView.fxml"));
         finishStage(root);
@@ -68,9 +68,9 @@ public class ViewNavigator {
 
 
     //Sets the JavaFx Stage at start up, cant be changed later.
-    public void setStage(Stage primaryStage){
+    public void setStage(Stage primaryStage) {
 
-        if(this.primaryStage == null){
+        if (this.primaryStage == null) {
             this.primaryStage = primaryStage;
         }
 

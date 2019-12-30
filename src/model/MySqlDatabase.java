@@ -13,7 +13,6 @@ import java.util.LinkedList;
 public class MySqlDatabase {
 
     private static MySqlDatabase ourInstance;
-    private String dataBase = "sql_factory";
 
 
     public static MySqlDatabase getInstance() {
@@ -26,7 +25,7 @@ public class MySqlDatabase {
     }
 
 
-    public void addWorkStep(TableRowData step){
+    public void addWorkStep(TableRowData step) {
 
         Connection connection = connect();
 
@@ -35,14 +34,14 @@ public class MySqlDatabase {
             Statement statement = connection.createStatement();
 
             String sql = "insert into sql_factory.work_log" +
-                        " values (" + "'" + step.getDate() + "'" + ", " + "'" + step.getTime() + "'" + ", " +  "'" +
-                        step.getWork_id() + "'" + ", " + "'" + step.getUser_id() + "'" + ", " + "'" + step.getAmount_done() + "'" +
-                        ", " + "'" + step.getTrash_amount() + "'" + ", " + "'" + step.getReason() + "'" + ", " + "'" + step.getProductivity() + "'" +
-                        ", " + "'" + step.getWork_step_name()+ "'" + ")";
+                    " values (" + "'" + step.getDate() + "'" + ", " + "'" + step.getTime() + "'" + ", " + "'" +
+                    step.getWork_id() + "'" + ", " + "'" + step.getUser_id() + "'" + ", " + "'" + step.getAmount_done() + "'" +
+                    ", " + "'" + step.getTrash_amount() + "'" + ", " + "'" + step.getReason() + "'" + ", " + "'" + step.getProductivity() + "'" +
+                    ", " + "'" + step.getWork_step_name() + "'" + ")";
 
             statement.executeUpdate(sql);
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
         }
@@ -79,7 +78,7 @@ public class MySqlDatabase {
             disconnect(connection);
             return steps;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
             disconnect(connection);
@@ -103,7 +102,7 @@ public class MySqlDatabase {
 
             statement.executeUpdate(sql);
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
         }
@@ -111,7 +110,7 @@ public class MySqlDatabase {
     }
 
 
-    public ArrayList<String> getNotifications(String receiver_id){
+    public ArrayList<String> getNotifications(String receiver_id) {
 
         Connection connection = connect();
 
@@ -125,13 +124,13 @@ public class MySqlDatabase {
 
             ResultSet rs = statement.executeQuery(sql);
 
-            while (rs.next()){
+            while (rs.next()) {
 
                 notifications.add(rs.getString("sender_id"));
 
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
             disconnect(connection);
@@ -142,7 +141,7 @@ public class MySqlDatabase {
     }
 
 
-    public void deleteNotifications(String user_id){
+    public void deleteNotifications(String user_id) {
 
         Connection connection = connect();
 
@@ -154,7 +153,7 @@ public class MySqlDatabase {
 
             statement.executeUpdate(sql);
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
         }
@@ -178,7 +177,7 @@ public class MySqlDatabase {
     }
 
 
-    public void sendMessage(String sender_id, String receiver_id, String messeage, String timeStamp){
+    public void sendMessage(String sender_id, String receiver_id, String messeage, String timeStamp) {
 
         Connection connection = connect();
 
@@ -190,7 +189,7 @@ public class MySqlDatabase {
 
             statement.executeUpdate(sql);
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
         }
@@ -198,7 +197,7 @@ public class MySqlDatabase {
 
     }
 
-    public LinkedList<Message> getMessages(String receiver_id){
+    public LinkedList<Message> getMessages(String receiver_id) {
 
         Connection connection = connect();
 
@@ -212,13 +211,13 @@ public class MySqlDatabase {
 
             ResultSet rs = statement.executeQuery(sql);
 
-            while (rs.next()){
+            while (rs.next()) {
 
                 messages.addLast(new Message(rs.getString("sender_id"), rs.getString("employee_id"), rs.getString("content"), rs.getString("time_date")));
 
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
             disconnect(connection);
@@ -238,10 +237,10 @@ public class MySqlDatabase {
             Statement statement = connection.createStatement();
 
             String sql = "delete from sql_factory.messages where employee_id = '" + message.getReceiver() + "' and sender_id = '" + message.getSender() + "' and time_date = '" + message.getTimeStamp() + "'";
-            System.out.println(sql);
+
             statement.executeUpdate(sql);
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             new AlertBox("Problem with database.", 3);
         }
@@ -249,11 +248,11 @@ public class MySqlDatabase {
     }
 
 
-    public void disconnect(Connection connection){
+    public void disconnect(Connection connection) {
 
         try {
             connection.close();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

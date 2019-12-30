@@ -22,7 +22,7 @@ public class DataMaps {
 
     public static DataMaps getInstance() {
 
-        if(ourInstance == null){
+        if (ourInstance == null) {
             ourInstance = new DataMaps();
         }
         return ourInstance;
@@ -91,22 +91,24 @@ public class DataMaps {
         return employees;
     }
 
-    public Map<Integer, String> getWorkStepsMap(){
+    public Map<Integer, String> getWorkStepsMap() {
         return workSteps;
     }
 
-    public  Map<Integer, Float> getProductivityScoresMap(){
+    public Map<Integer, Float> getProductivityScoresMap() {
         return productivityScores;
     }
 
-    public Map<String, String> getNameKeyMap(){ return nameKeyMap; }
+    public Map<String, String> getNameKeyMap() {
+        return nameKeyMap;
+    }
 
     //Returns employee user names.
     public ObservableList<String> getWorkerNames() {
 
         ObservableList<String> workerNames = FXCollections.observableArrayList();
-        for(Employee employee : employees.values()){
-            if(employee.getUserKey().substring(0,1).equals("1"))
+        for (Employee employee : employees.values()) {
+            if (employee.getUserKey().substring(0, 1).equals("1"))
                 workerNames.add(employee.getUserName());
         }
         return workerNames;

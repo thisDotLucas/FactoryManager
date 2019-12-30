@@ -8,7 +8,7 @@ import view.AlertBox;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ManagerViewController implements Viewable{
+public class ManagerViewController implements Viewable {
 
     Manager user;
 
@@ -49,7 +49,7 @@ public class ManagerViewController implements Viewable{
     }
 
     @FXML
-    void sendPress(){
+    void sendPress() {
         String msg = messageBox.getText();
         MySqlDatabase.getInstance().sendMessage(user.getUserKey(), DataMaps.getInstance().getNameKeyMap().get(receiverComboBox.getValue()), msg, new TimeAndDateHelper().getTimeAndDate());
         new AlertBox("Message Sent.", 0);
@@ -57,7 +57,7 @@ public class ManagerViewController implements Viewable{
     }
 
     @FXML
-    void onReceiverComboBox(){
+    void onReceiverComboBox() {
         sendButton.setDisable(false);
     }
 
@@ -74,18 +74,17 @@ public class ManagerViewController implements Viewable{
     }
 
 
-
-    private void showNotifications(){
+    private void showNotifications() {
         ArrayList<String> senders = MySqlDatabase.getInstance().getNotifications(user.getUserKey());
         IOHelper helper = new IOHelper();
         Map<String, Employee> employeeMap = DataMaps.getInstance().getEmployeeMap();
         String stringToBeShown = "";
 
-        for(String sender : senders){
+        for (String sender : senders) {
             stringToBeShown += helper.capitalizeFirsChar(employeeMap.get(sender).getUserName()) + " Needs Assistance.\n";
         }
 
-        if(!stringToBeShown.equals("")) {
+        if (!stringToBeShown.equals("")) {
             new AlertBox(stringToBeShown, "Notification", 0);
             MySqlDatabase.getInstance().deleteNotifications(user.getUserKey());
         }
@@ -93,13 +92,13 @@ public class ManagerViewController implements Viewable{
     }
 
     //Handles the clock.
-    private void timeController(){
+    private void timeController() {
         new Clock(this);
     }
 
 
     //To set time label.
-    public void setTimeLabel(String time){
+    public void setTimeLabel(String time) {
         timeLabel.setText(time);
     }
 

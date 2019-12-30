@@ -2,11 +2,11 @@ package model;
 
 public interface Employee {
 
-    public String getUserName();
+    String getUserName();
 
-    public String getUserKey();
+    String getUserKey();
 
-    public void setUserName(String userName);
+    void setUserName(String userName);
 
 
 }

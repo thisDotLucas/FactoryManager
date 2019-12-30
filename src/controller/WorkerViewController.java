@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.*;
 import view.AlertBox;
+
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -15,7 +16,6 @@ import java.util.ResourceBundle;
 public class WorkerViewController implements Viewable, Initializable {
 
     private Worker user;  //Logged in user.
-    private FxWorkerTableController userTable; //not in use.
     private LinkedList<Message> messages;
     private int messageBoxPointer;
 
@@ -116,7 +116,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
 
     @FXML
-    void logOutPress() throws Exception{ //User logs out, view goes to log in view.
+    void logOutPress() throws Exception { //User logs out, view goes to log in view.
 
         ViewNavigator.getInstance().goToLogInView();
 
@@ -127,7 +127,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
         messageBoxPointer--;
 
-        if(messageBoxPointer >= 0) {
+        if (messageBoxPointer >= 0) {
 
             showMessage();
 
@@ -140,7 +140,7 @@ public class WorkerViewController implements Viewable, Initializable {
     @FXML
     void deleteMsgPress() {
 
-        if(messages.size() != 0){
+        if (messages.size() != 0) {
             MySqlDatabase.getInstance().deleteMessage(messages.get(messageBoxPointer));
             messages.remove(messageBoxPointer);
             msgAmountLabel.setText(Integer.toString(messages.size()));
@@ -148,12 +148,12 @@ public class WorkerViewController implements Viewable, Initializable {
             return;
         }
 
-        if(messages.size() == 0){
+        if (messages.size() == 0) {
             messageBox.setText("");
             msgSenderLabel.setText("");
             dateTimeRecivedLabel.setText("");
             messageBoxPointer = -1;
-        } else if(messageBoxPointer - 1 >= 0){
+        } else if (messageBoxPointer - 1 >= 0) {
             messageBox.setText(messages.get(--messageBoxPointer).getMessage());
             msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.get(messageBoxPointer).getSender()).getUserName());
             dateTimeRecivedLabel.setText(messages.get(messageBoxPointer).getTimeStamp());
@@ -163,20 +163,20 @@ public class WorkerViewController implements Viewable, Initializable {
         setButtons();
     }
 
-    private void setButtons(){
-        if(messages.size() <= 0){
+    private void setButtons() {
+        if (messages.size() <= 0) {
             previousMsgButton.setDisable(true);
             deleteMsgButton.setDisable(true);
             nextMsgButton.setDisable(true);
-        } else if(messageBoxPointer == messages.size() - 1 && messageBoxPointer > 0){
+        } else if (messageBoxPointer == messages.size() - 1 && messageBoxPointer > 0) {
             previousMsgButton.setDisable(false);
             deleteMsgButton.setDisable(false);
             nextMsgButton.setDisable(true);
-        } else if(messageBoxPointer - 1 < 0 && messages.size() > 1){
+        } else if (messageBoxPointer - 1 < 0 && messages.size() > 1) {
             previousMsgButton.setDisable(true);
             deleteMsgButton.setDisable(false);
             nextMsgButton.setDisable(false);
-        } else if(messageBoxPointer + 1 < messages.size() && messageBoxPointer - 1 >= 0){
+        } else if (messageBoxPointer + 1 < messages.size() && messageBoxPointer - 1 >= 0) {
             previousMsgButton.setDisable(false);
             deleteMsgButton.setDisable(false);
             nextMsgButton.setDisable(false);
@@ -192,9 +192,9 @@ public class WorkerViewController implements Viewable, Initializable {
 
         messageBoxPointer++;
 
-        if(messageBoxPointer < messages.size()) {
+        if (messageBoxPointer < messages.size()) {
 
-          showMessage();
+            showMessage();
 
         } else {
             messageBoxPointer = messages.size() - 1;
@@ -202,7 +202,7 @@ public class WorkerViewController implements Viewable, Initializable {
         setButtons();
     }
 
-    private void showMessage(){
+    private void showMessage() {
         messageBox.setText(messages.get(messageBoxPointer).getMessage());
         msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.get(messageBoxPointer).getSender()).getUserName());
         dateTimeRecivedLabel.setText(messages.get(messageBoxPointer).getTimeStamp());
@@ -244,10 +244,10 @@ public class WorkerViewController implements Viewable, Initializable {
         IOHelper helper = new IOHelper(); //Checks work number input.
         String stepName = null;
         String workNumber = workNrTextField.getText();
-        if(helper.isConvertibleToInteger(workNumber))
+        if (helper.isConvertibleToInteger(workNumber))
             stepName = DataMaps.getInstance().getWorkStepsMap().get(Integer.parseInt(workNumber));
 
-        if(stepName != null){
+        if (stepName != null) {
             user.setCurrentWorkStep(new TableRowData(user.getUserKey()));
             user.getCurrentWorkStep().setTime(new TimeAndDateHelper().getTime());
             user.getCurrentWorkStep().setWork_step_name(stepName);
@@ -278,7 +278,7 @@ public class WorkerViewController implements Viewable, Initializable {
                 endStep.setAmount_done(amount);
                 endStep.setTrash_amount(trashAmount);
                 endStep.setProductivity(user.calculateProductivity(user.getCurrentWorkStep().getWork_id(), Integer.parseInt(amount), user.getCurrentWorkStep().getTime(), endStep.getTime()));
-                if(Integer.parseInt(trashAmount) == 0) {
+                if (Integer.parseInt(trashAmount) == 0) {
                     endStep.setReason("");
                 } else
                     endStep.setReason(reasonComboBox.getValue());
@@ -305,37 +305,34 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     @FXML
-    void onReasonComboBox(){
+    void onReasonComboBox() {
 
     }
 
 
-    private void onReasonComboBoxClicked(){ //Gives only empty options whne trash amount is 0
+    private void onReasonComboBoxClicked() { //Gives only empty options whne trash amount is 0
         IOHelper helper = new IOHelper();
 
-        if(helper.isConvertibleToInteger(trashTextField.getText()) && !helper.isNegative(Integer.parseInt(trashTextField.getText())) && Integer.parseInt(trashTextField.getText()) > 0) {
+        if (helper.isConvertibleToInteger(trashTextField.getText()) && !helper.isNegative(Integer.parseInt(trashTextField.getText())) && Integer.parseInt(trashTextField.getText()) > 0) {
             reasonComboBox.setItems(FXCollections.observableArrayList(
                     "Broken part", "Accident", "Failed test", "Other"
             ));
 
         } else {
-            reasonComboBox.setItems(FXCollections.observableArrayList("","","",""));
+            reasonComboBox.setItems(FXCollections.observableArrayList("", "", "", ""));
         }
 
     }
 
 
-
     @FXML
-    public void initialize(URL location, ResourceBundle resources){ //Initializes everything.
-        user = (Worker)ViewNavigator.getInstance().getLoggedInUser();
-        user.setTableController(table);
-        userTable = user.getTableController();
+    public void initialize(URL location, ResourceBundle resources) { //Initializes everything.
+        user = (Worker) ViewNavigator.getInstance().getLoggedInUser();
         messageBox.setEditable(false);
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
         messages = MySqlDatabase.getInstance().getMessages(user.getUserKey());
         msgAmountLabel.setText(Integer.toString(messages.size()));
-        if(messages.size() > 0) {
+        if (messages.size() > 0) {
             messageBox.setText(messages.getFirst().getMessage());
             msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.getFirst().getSender()).getUserName());
             dateTimeRecivedLabel.setText(messages.getFirst().getTimeStamp());
@@ -361,16 +358,16 @@ public class WorkerViewController implements Viewable, Initializable {
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
     }
 
-    private void customizeView(){ //Checks what view is needed based on booleans from loggen in user.
+    private void customizeView() { //Checks what view is needed based on booleans from loggen in user.
 
         userLabel.setText(user.getUserName());
         userTextField.setDisable(true);
         workNrTextField.setText(user.getCurrentWorkNr());
         keyTextField.setDisable(true);
 
-        if(!user.isLoggedIn()){ //Not logged in.
+        if (!user.isLoggedIn()) { //Not logged in.
             setNotLoggedInView();
-        } else if(!user.isWorking()){ //Not currently working on anything.
+        } else if (!user.isWorking()) { //Not currently working on anything.
             setNotWorkingView();
         } else { //Currently working.
             setWorkingView();
@@ -379,7 +376,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-    private void setNotLoggedInView(){ //Sets the view.
+    private void setNotLoggedInView() { //Sets the view.
         checkOutButton.setDisable(true);
         startButton.setDisable(true);
         endButton.setDisable(true);
@@ -392,7 +389,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-    private void setNotWorkingView(){ //Sets the view.
+    private void setNotWorkingView() { //Sets the view.
         checkInButton.setDisable(true);
         amountTextField.setDisable(true);
         endButton.setDisable(true);
@@ -404,7 +401,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
 
-    private void setWorkingView(){ //Sets the view.
+    private void setWorkingView() { //Sets the view.
         checkInButton.setDisable(true);
         startButton.setDisable(true);
         workNrTextField.setDisable(true);
@@ -417,26 +414,23 @@ public class WorkerViewController implements Viewable, Initializable {
 
 
     //Handles the clock.
-    private void timeController(){
+    private void timeController() {
         new Clock(this);
     }
 
 
     //To set time label.
-    public void setTimeLabel(String time){
+    public void setTimeLabel(String time) {
         timeLabel.setText(time);
     }
 
-    private void addRow(){ //Adds a row, always called when the worker does something.
+    private void addRow() { //Adds a row, always called when the worker does something.
 
-       rowData.add(user.getCurrentWorkStep());
-       table.setItems(rowData);
-       MySqlDatabase.getInstance().addWorkStep(user.getCurrentWorkStep());
+        rowData.add(user.getCurrentWorkStep());
+        table.setItems(rowData);
+        MySqlDatabase.getInstance().addWorkStep(user.getCurrentWorkStep());
 
     }
-
-
-
 
 
 }

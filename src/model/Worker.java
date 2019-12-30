@@ -1,8 +1,5 @@
 package model;
 
-import controller.FxWorkerTableController;
-import javafx.scene.control.TableView;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -15,7 +12,6 @@ public class Worker implements Employee {
     private String userName;
     private String userKey;
     private String currentWorkNr;
-    private FxWorkerTableController tableController;
     private TableRowData currentWorkStep;
     private boolean online = false;
     private boolean working = false;
@@ -26,40 +22,40 @@ public class Worker implements Employee {
     }
 
 
-    public void startWork(){
+    public void startWork() {
         working = true;
     }
 
-    public void stopWork(){
+    public void stopWork() {
         working = false;
     }
 
-    public void logIn(){
+    public void logIn() {
         online = true;
     }
 
-    public void logOut(){
+    public void logOut() {
         online = false;
     }
 
-    public boolean isWorking(){
+    public boolean isWorking() {
         return working;
     }
 
-    public boolean isLoggedIn(){
+    public boolean isLoggedIn() {
         return online;
     }
 
-    public void setCurrentWorkStep(TableRowData step){
+    public void setCurrentWorkStep(TableRowData step) {
         currentWorkStep = step;
     }
 
-    public TableRowData getCurrentWorkStep(){
+    public TableRowData getCurrentWorkStep() {
         return currentWorkStep;
     }
 
 
-    public String calculateProductivity(String workId, int amount, String startTime, String endTime){
+    public String calculateProductivity(String workId, int amount, String startTime, String endTime) {
         Map<Integer, Float> map = DataMaps.getInstance().getProductivityScoresMap();
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         Date start;
@@ -67,33 +63,25 @@ public class Worker implements Employee {
         try {
             start = formatter.parse(startTime);
             end = formatter.parse(endTime);
-        } catch (ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
             return "120%";
         }
 
         long diff = Math.abs(end.getTime() - start.getTime());
-        int diffInMin = (int)(diff/60*1000)/1000000;
+        int diffInMin = (int) (diff / 60 * 1000) / 1000000;
 
         int id = Integer.parseInt(workId);
 
         float productivityMultiplier;
-        if(map.containsKey(id)){
+        if (map.containsKey(id)) {
             productivityMultiplier = map.get(id);
         } else {
             return "120%";
         }
         NumberFormat decFormatter = new DecimalFormat("#0");
 
-        return decFormatter.format((amount/((diffInMin + 0.1)*productivityMultiplier))*300) + "%";
-    }
-
-    public void setTableController(TableView<?> table){
-        tableController = new FxWorkerTableController(table);
-    }
-
-    public FxWorkerTableController getTableController(){
-        return tableController;
+        return decFormatter.format((amount / ((diffInMin + 0.1) * productivityMultiplier)) * 300) + "%";
     }
 
     public String getCurrentWorkNr() {
