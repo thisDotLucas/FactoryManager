@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Employee;
+import model.IOHelper;
 
 //SINGLETON OBJECT
 
@@ -78,12 +79,7 @@ public class ViewNavigator {
 
     //Updates the current logged in user, always update this after switching views.
     void setCurrentUser(Employee user) {
-
-        if(user != null)
-            user.setUserName(user.getUserName().substring(0, 1).toUpperCase() + user.getUserName().substring(1).toLowerCase()); //Stores user name with first letter capitalized
-
         loggedInUser = user;
-
     }
 
 

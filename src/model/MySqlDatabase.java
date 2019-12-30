@@ -1,12 +1,12 @@
 package model;
 
-import com.mysql.cj.result.SqlDateValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import view.AlertBox;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 //SINGLETON OBJECT
 
@@ -59,6 +59,7 @@ public class MySqlDatabase {
             Statement statement = connection.createStatement();
 
             String sql = "select * from work_log where _date = \"" + date + "\" and employee_id = \"" + user_id + "\" order by _time";
+
             ResultSet rs = statement.executeQuery(sql);
 
             while (rs.next()) {
@@ -174,6 +175,77 @@ public class MySqlDatabase {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public void sendMessage(String sender_id, String receiver_id, String messeage, String timeStamp){
+
+        Connection connection = connect();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "insert into sql_factory.messages values('" + receiver_id + "', '" + sender_id + "', '" + timeStamp + "', '" + messeage + "')";
+
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+        }
+        disconnect(connection);
+
+    }
+
+    public LinkedList<Message> getMessages(String receiver_id){
+
+        Connection connection = connect();
+
+        LinkedList<Message> messages = new LinkedList<>();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "select * from sql_factory.messages where employee_id = '" + receiver_id + "'";
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()){
+
+                messages.addLast(new Message(rs.getString("sender_id"), rs.getString("employee_id"), rs.getString("content"), rs.getString("time_date")));
+
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+            disconnect(connection);
+            return null;
+        }
+        disconnect(connection);
+        return messages;
+    }
+
+
+    public void deleteMessage(Message message) {
+
+        Connection connection = connect();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "delete from sql_factory.messages where employee_id = '" + message.getReceiver() + "' and sender_id = '" + message.getSender() + "' and time_date = '" + message.getTimeStamp() + "'";
+            System.out.println(sql);
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+        }
+        disconnect(connection);
     }
 
 

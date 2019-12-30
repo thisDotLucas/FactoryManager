@@ -9,12 +9,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.*;
 import view.AlertBox;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class WorkerViewController implements Viewable, Initializable {
 
     private Worker user;  //Logged in user.
     private FxWorkerTableController userTable; //not in use.
+    private LinkedList<Message> messages;
+    private int messageBoxPointer;
 
     private ObservableList<TableRowData> rowData = FXCollections.observableArrayList(); //Row data to add on init.
 
@@ -29,6 +32,15 @@ public class WorkerViewController implements Viewable, Initializable {
 
     @FXML
     private Button logOutButton;
+
+    @FXML
+    private Button previousMsgButton;
+
+    @FXML
+    private Button nextMsgButton;
+
+    @FXML
+    private Button deleteMsgButton;
 
     @FXML
     private TextField keyTextField;
@@ -113,16 +125,87 @@ public class WorkerViewController implements Viewable, Initializable {
     @FXML
     void previousMsgPress() {
 
+        messageBoxPointer--;
+
+        if(messageBoxPointer >= 0) {
+
+            showMessage();
+
+        } else {
+            messageBoxPointer = 0;
+        }
+        setButtons();
     }
 
     @FXML
     void deleteMsgPress() {
 
+        if(messages.size() != 0){
+            MySqlDatabase.getInstance().deleteMessage(messages.get(messageBoxPointer));
+            messages.remove(messageBoxPointer);
+            msgAmountLabel.setText(Integer.toString(messages.size()));
+        } else {
+            return;
+        }
+
+        if(messages.size() == 0){
+            messageBox.setText("");
+            msgSenderLabel.setText("");
+            dateTimeRecivedLabel.setText("");
+            messageBoxPointer = -1;
+        } else if(messageBoxPointer - 1 >= 0){
+            messageBox.setText(messages.get(--messageBoxPointer).getMessage());
+            msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.get(messageBoxPointer).getSender()).getUserName());
+            dateTimeRecivedLabel.setText(messages.get(messageBoxPointer).getTimeStamp());
+        } else {
+            showMessage();
+        }
+        setButtons();
+    }
+
+    private void setButtons(){
+        if(messages.size() <= 0){
+            previousMsgButton.setDisable(true);
+            deleteMsgButton.setDisable(true);
+            nextMsgButton.setDisable(true);
+        } else if(messageBoxPointer == messages.size() - 1 && messageBoxPointer > 0){
+            previousMsgButton.setDisable(false);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(true);
+        } else if(messageBoxPointer - 1 < 0 && messages.size() > 1){
+            previousMsgButton.setDisable(true);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(false);
+        } else if(messageBoxPointer + 1 < messages.size() && messageBoxPointer - 1 >= 0){
+            previousMsgButton.setDisable(false);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(false);
+        } else {
+            previousMsgButton.setDisable(true);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(true);
+        }
     }
 
     @FXML
     void nextMsgPress() {
 
+        messageBoxPointer++;
+
+        if(messageBoxPointer < messages.size()) {
+
+          showMessage();
+
+        } else {
+            messageBoxPointer = messages.size() - 1;
+        }
+        setButtons();
+    }
+
+    private void showMessage(){
+        messageBox.setText(messages.get(messageBoxPointer).getMessage());
+        msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.get(messageBoxPointer).getSender()).getUserName());
+        dateTimeRecivedLabel.setText(messages.get(messageBoxPointer).getTimeStamp());
     }
 
     @FXML
@@ -250,6 +333,15 @@ public class WorkerViewController implements Viewable, Initializable {
         userTable = user.getTableController();
         messageBox.setEditable(false);
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
+        messages = MySqlDatabase.getInstance().getMessages(user.getUserKey());
+        msgAmountLabel.setText(Integer.toString(messages.size()));
+        if(messages.size() > 0) {
+            messageBox.setText(messages.getFirst().getMessage());
+            msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.getFirst().getSender()).getUserName());
+            dateTimeRecivedLabel.setText(messages.getFirst().getTimeStamp());
+            messageBoxPointer = 0;
+        }
+        setButtons();
         //table.setMouseTransparent(true);
         table.getStylesheets().add("view/hideScrollbar.css");
         reasonComboBox.setOnMouseClicked(event -> onReasonComboBoxClicked());

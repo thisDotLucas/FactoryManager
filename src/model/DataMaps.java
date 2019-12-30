@@ -1,10 +1,12 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ public class DataMaps {
     private Map<String, Employee> employees; //<Key, Name>
     private Map<Integer, String> workSteps;
     private Map<Integer, Float> productivityScores;
+    private Map<String, String> nameKeyMap;
     private static DataMaps ourInstance;
 
     public static DataMaps getInstance() {
@@ -35,6 +38,7 @@ public class DataMaps {
         employees = new HashMap<>();
         workSteps = new HashMap<>();
         productivityScores = new HashMap<>();
+        nameKeyMap = new HashMap<>();
 
         Connection connection = MySqlDatabase.getInstance().connect();
         try {
@@ -45,11 +49,14 @@ public class DataMaps {
             while (rs.next()) {
 
                 String key = rs.getString("id");
-
-                if(key.substring(0,1).equals("1"))
-                    employees.put(key , new Worker(rs.getString("user_name"), key));
-                else
-                    employees.put(key , new Manager(rs.getString("user_name"), key));
+                String userName = new IOHelper().capitalizeFirsChar(rs.getString("user_name"));
+                if (key.substring(0, 1).equals("1")) {
+                    employees.put(key, new Worker(userName, key));
+                    nameKeyMap.put(userName, key);
+                } else {
+                    employees.put(key, new Manager(userName, key));
+                    nameKeyMap.put(userName, key);
+                }
             }
 
             String sql2 = "select * from sql_factory.work_steps";
@@ -92,9 +99,17 @@ public class DataMaps {
         return productivityScores;
     }
 
+    public Map<String, String> getNameKeyMap(){ return nameKeyMap; }
+
     //Returns employee user names.
-    public Collection<Employee> getEmployees() {
-        return employees.values();
+    public ObservableList<String> getWorkerNames() {
+
+        ObservableList<String> workerNames = FXCollections.observableArrayList();
+        for(Employee employee : employees.values()){
+            if(employee.getUserKey().substring(0,1).equals("1"))
+                workerNames.add(employee.getUserName());
+        }
+        return workerNames;
     }
 
 }

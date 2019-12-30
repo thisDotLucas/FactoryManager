@@ -1,11 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import model.*;
 import view.AlertBox;
 
@@ -35,7 +31,13 @@ public class ManagerViewController implements Viewable{
     private Label timeLabel;
 
     @FXML
-    private TextArea messeageBox;
+    private TextArea messageBox;
+
+    @FXML
+    private ComboBox<String> receiverComboBox;
+
+    @FXML
+    private Button sendButton;
 
     @FXML
     private TableView<?> table;
@@ -47,12 +49,27 @@ public class ManagerViewController implements Viewable{
     }
 
     @FXML
-    public void initialize(){
+    void sendPress(){
+        String msg = messageBox.getText();
+        MySqlDatabase.getInstance().sendMessage(user.getUserKey(), DataMaps.getInstance().getNameKeyMap().get(receiverComboBox.getValue()), msg, new TimeAndDateHelper().getTimeAndDate());
+        new AlertBox("Message Sent.", 0);
+        messageBox.clear();
+    }
+
+    @FXML
+    void onReceiverComboBox(){
+        sendButton.setDisable(false);
+    }
+
+    @FXML
+    public void initialize() {
         user = (Manager) ViewNavigator.getInstance().getLoggedInUser();
-        userLabel.setText(user.getUserName());
         timeController();
+        receiverComboBox.setItems(DataMaps.getInstance().getWorkerNames());
+        userLabel.setText(user.getUserName());
         userTextField.setDisable(true);
         keyTextField.setDisable(true);
+        sendButton.setDisable(true);
         showNotifications();
     }
 
