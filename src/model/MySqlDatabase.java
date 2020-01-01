@@ -88,6 +88,26 @@ public class MySqlDatabase {
     }
 
 
+    public void deleteWorkStep(TableRowData step){
+
+        Connection connection = connect();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "delete from sql_factory.work_log where employee_id = '" + step.getUser_id() + "' and _date = '" + step.getDate() + "' and _time = '" + step.getTime() + "'";
+
+            statement.executeUpdate(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+        }
+        disconnect(connection);
+    }
+
+
     public void addNotification(String sender_id, String receiver_id) {
 
         Connection connection = connect();

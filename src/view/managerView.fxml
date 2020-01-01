@@ -158,17 +158,17 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="62.0" prefWidth="289.0">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="85.0" text="Delete">
+                  <Button mnemonicParsing="false" onAction="#onDeleteRowPress" prefWidth="85.0" text="Del Row">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="85.0" text="Save edit">
+                  <Button mnemonicParsing="false" onAction="#onEditRowPress" prefWidth="85.0" text="Edit Row">
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="85.0" text="Add">
+                  <Button mnemonicParsing="false" onAction="#onAddRowPress" prefWidth="85.0" text="Add Row">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

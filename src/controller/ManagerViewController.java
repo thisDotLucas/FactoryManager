@@ -1,14 +1,27 @@
 package controller;
 
 import javafx.collections.FXCollections;
+import java.awt.event.InputEvent;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.*;
 import view.AlertBox;
 
+import java.awt.*;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,6 +32,7 @@ import java.util.Map;
 public class ManagerViewController implements Viewable {
 
     Manager user;
+    TableRowData selectedRow;
 
     @FXML
     private TextField userTextField;
@@ -91,6 +105,31 @@ public class ManagerViewController implements Viewable {
     }
 
     @FXML
+    void onDeleteRowPress(){
+
+
+        MySqlDatabase.getInstance().deleteWorkStep(selectedRow);
+        updateTable();
+    }
+
+    @FXML
+    void onEditRowPress() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/editView.fxml"));
+        Stage stage = new Stage();
+        stage.setMaxWidth(316);
+        stage.setMaxHeight(480);
+        stage.setTitle("Edit");
+        stage.setResizable(false);
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    @FXML
+    void onAddRowPress(){
+        System.out.println(selectedRow);
+    }
+
+    @FXML
     void onDateChanged(){
         updateTable();
     }
@@ -131,8 +170,11 @@ public class ManagerViewController implements Viewable {
         timeController();
         receiverComboBox.setItems(DataMaps.getInstance().getWorkerNames());
         workerComboBox.setItems(DataMaps.getInstance().getWorkerNames());
-        setDatePickerFormat();
+        initDatePicker();
+        initTable();
         datePicker.setValue(LocalDate.from(LocalDateTime.now()));
+        datePicker.setEditable(false);
+
         userLabel.setText(user.getUserName());
         userTextField.setDisable(true);
         keyTextField.setDisable(true);
@@ -150,7 +192,25 @@ public class ManagerViewController implements Viewable {
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
     }
 
-    private void setDatePickerFormat() {
+    private void initTable() {
+
+        this.table.setRowFactory(e -> {
+            TableRow<TableRowData> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+
+                if (!row.isEmpty() && event.getButton()== MouseButton.PRIMARY && event.getClickCount() > 0) {
+                    System.out.println("lol");
+
+                    selectedRow = row.getItem();
+
+                }
+            });
+            return row;
+        });
+
+    }
+
+    private void initDatePicker() {
 
         datePicker.setConverter(new StringConverter<LocalDate>() {
             private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -171,6 +231,14 @@ public class ManagerViewController implements Viewable {
                     return null;
                 }
                 return LocalDate.parse(dateString,dateTimeFormatter);
+            }
+        });
+
+        datePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.compareTo(LocalDate.now()) > 0);
             }
         });
 
@@ -204,7 +272,5 @@ public class ManagerViewController implements Viewable {
     public void setTimeLabel(String time) {
         timeLabel.setText(time);
     }
-
-
 
 }
