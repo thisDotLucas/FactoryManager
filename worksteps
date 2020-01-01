@@ -1,0 +1,28 @@
+00000  Check in
+99999  Check out
+
+Products:
+
+	Office Crusher ---------------------------------------
+
+		00001	Unpack parts
+		00002   Set up motherboard
+		00003   Set up case
+		00004   Install drives
+		00005	Connect cables
+		00006   Install software
+		00007   Stress test
+		00008   Package
+
+
+	Frame Demon ------------------------------------------
+
+		00101	Unpack parts
+		00102	Set up motherboard
+		00103	Set up case
+		00104	Install GPU
+		00105	Install drives
+		00106	Connect cables
+		00107	Install software
+		00108	Stress test
+		00109	Package

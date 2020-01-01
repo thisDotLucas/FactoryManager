@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,6 +19,8 @@ public class TimeAndDateHelper {
     public String getDate() {
         return date.format(LocalDateTime.now());
     }
+
+    public String formatDate(LocalDate date){ return this.date.format(date); }
 
     public String getTime() {
         return time.format(LocalDateTime.now());

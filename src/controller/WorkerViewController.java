@@ -103,7 +103,7 @@ public class WorkerViewController implements Viewable, Initializable {
     private TableColumn<TableRowData, String> workerColumn;
 
     @FXML
-    private TableColumn<TableRowData, Integer> trashColumn;
+    private TableColumn<TableRowData, String> trashColumn;
 
     @FXML
     private TableColumn<TableRowData, String> workNrColumn;
