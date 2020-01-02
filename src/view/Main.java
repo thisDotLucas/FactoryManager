@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import model.EditAddRowHelper;
 
 import java.util.Locale;
 
@@ -15,6 +16,7 @@ public class Main extends Application {
 
         primaryStage.setMaxHeight(832);
         primaryStage.setMaxWidth(1205);
+        //EditAddRowHelper.getInstance();
         ViewNavigator.getInstance().setStage(primaryStage);
         ViewNavigator.getInstance().goToLogInView(); //Log in view on startup
 

@@ -1,15 +1,24 @@
 package controller;
 
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import model.TableRowData;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import model.*;
+import view.AlertBox;
+import java.util.Map;
+
 
 public class editViewController {
 
-    TableRowData row;
+    private TableRowData row;
+    Map<String, String> workIdMap;
     boolean isEdit;
-
 
     @FXML
     private TextField workNrTextField;
@@ -27,40 +36,140 @@ public class editViewController {
     private TextField trashTextField;
 
     @FXML
-    private ComboBox<String> reasonComboBox;
+    private TextField dateTextField;
 
     @FXML
-    void viewClicked() {
-        System.out.println("Lmao");
-    }
+    private TextField workerTextField;
 
     @FXML
-    void onViewEntered(){
-        System.out.println("XD");
-    }
+    private TextField workNameTextField;
+
+    @FXML
+    private TextField reasonTextField;
+
+    @FXML
+    private Button cancelButton;
+
+
 
     @FXML
     void onSavePress() {
+        TableRowData OriginalRow = new TableRowData(row.getUser_id());
+        OriginalRow.setTime(row.getTime());
+        OriginalRow.setDate(row.getDate());
+        OriginalRow.setWork_id(row.getWork_id());
+        OriginalRow.setWork_step_name(row.getWork_step_name());
+        OriginalRow.setReason(row.getReason());
+        OriginalRow.setAmount_done(row.getAmount_done());
+        OriginalRow.setTrash_amount(row.getTrash_amount());
+        OriginalRow.setProductivity(row.getProductivity());
 
+        if(hourTextField.getText().length() == 2 && minuteTextField.getText().length() == 2 && Integer.parseInt(hourTextField.getText()) < 24 && Integer.parseInt(minuteTextField.getText()) < 60){
+                row.setTime(hourTextField.getText() + ":" + minuteTextField.getText() + ":00");
+        } else {
+            new AlertBox("Invalid Time.", 3);
+            return;
+        }
+
+        if(DataMaps.getInstance().getWorkStepsMap().get(workNrTextField.getText()) == null){
+            new AlertBox("Invalid work number.", 3);
+            return;
+        }
+        row.setAmount_done(amountTextField.getText());
+        row.setTrash_amount(trashTextField.getText());
+        row.setReason(reasonTextField.getText());
+        row.setDate(dateTextField.getText());
+        row.setWork_step_name(workNameTextField.getText());
+        row.setWork_id(workNrTextField.getText());
+
+        if(isEdit) {
+            MySqlDatabase.getInstance().deleteWorkStep(OriginalRow);
+        }
+
+        MySqlDatabase.getInstance().addWorkStep(row);
+        EditAddRowHelper.getInstance().getController().updateTable();
+
+        onCancelPress();
     }
 
     @FXML
     void onCancelPress() {
-
+        EditAddRowHelper.getInstance().reset();
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
     }
+
 
     @FXML
     public void initialize(){
+        row = EditAddRowHelper.getInstance().getRow();
+        this.isEdit = EditAddRowHelper.getInstance().isEdit();
+        workIdMap = DataMaps.getInstance().getWorkStepsMap();
+        dateTextField.setText(row.getDate());
+        workerTextField.setText(row.getUser_id());
+        if(isEdit) {
+            hourTextField.setText(row.getTime().substring(0, 2));
+            minuteTextField.setText(row.getTime().substring(3, 5));
+            workNrTextField.setDisable(true);
+        }
+        workNrTextField.setText(row.getWork_id());
+        workNameTextField.setText(row.getWork_step_name());
+        amountTextField.setText(row.getAmount_done());
+        trashTextField.setText(row.getTrash_amount());
+        reasonTextField.setText(row.getReason());
+
+        if(workNrTextField.getText().equals("00000") || workNrTextField.getText().equals("99999") || amountTextField.getText().equals("") && isEdit){
+            amountTextField.setDisable(true);
+            trashTextField.setDisable(true);
+            reasonTextField.setDisable(true);
+        }
+
+        initNumTextFields(hourTextField, 2);
+        initNumTextFields(minuteTextField, 2);
+        checkWorkStepNameListener(workNrTextField);
+        initNumTextFields(workNrTextField, 5);
+        initNumTextFields(amountTextField, 3);
+        initNumTextFields(trashTextField, 3);
+
 
     }
 
-    public editViewController(TableRowData row){
-        this.row = row;
-        this.isEdit = true;
+    private void  initNumTextFields(TextField textField, int limit){
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (textField.getText().length() > limit) {
+                    String s = textField.getText().substring(0, limit);
+                    textField.setText(s);
+                }
+            }
+        });
     }
 
-    public editViewController(){
-        this.isEdit = false;
+    private void checkWorkStepNameListener(TextField textField){
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (textField.getText().length() == 5) {
+                    if(!workNrTextField.getText().equals("") && workIdMap.get(workNrTextField.getText()) != null){
+                        workNameTextField.setText(workIdMap.get(workNrTextField.getText()));
+                    } else if(!workNrTextField.getText().equals("") && workIdMap.get(workNrTextField.getText()) == null){
+                        workNameTextField.setText("Work step does not exist.");
+                    }
+                }
+            }
+        });
     }
+
 
 }

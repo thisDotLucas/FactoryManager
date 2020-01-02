@@ -15,8 +15,8 @@ import java.util.Map;
 public class DataMaps {
 
     private Map<String, Employee> employees; //<Key, Name>
-    private Map<Integer, String> workSteps;
-    private Map<Integer, Float> productivityScores;
+    private Map<String, String> workSteps;
+    private Map<String, Float> productivityScores;
     private Map<String, String> nameKeyMap;
     private static DataMaps ourInstance;
 
@@ -64,7 +64,7 @@ public class DataMaps {
 
             while (rs2.next()) {
 
-                int key = rs2.getInt("id");
+                String key = rs2.getString("id");
                 workSteps.put(key, rs2.getString("work_step_name"));
 
             }
@@ -74,7 +74,7 @@ public class DataMaps {
 
             while (rs3.next()) {
 
-                int key = rs3.getInt("id");
+                String key = rs3.getString("id");
                 productivityScores.put(key, rs3.getFloat("productivity_score"));
 
             }
@@ -91,17 +91,15 @@ public class DataMaps {
         return employees;
     }
 
-    public Map<Integer, String> getWorkStepsMap() {
+    public Map<String, String> getWorkStepsMap() {
         return workSteps;
     }
 
-    public Map<Integer, Float> getProductivityScoresMap() {
+    public Map<String, Float> getProductivityScoresMap() {
         return productivityScores;
     }
 
-    public Map<String, String> getNameKeyMap() {
-        return nameKeyMap;
-    }
+    public Map<String, String> getNameKeyMap() { return nameKeyMap; }
 
     //Returns employee user names.
     public ObservableList<String> getWorkerNames() {

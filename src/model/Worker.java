@@ -56,7 +56,7 @@ public class Worker implements Employee {
 
 
     public String calculateProductivity(String workId, int amount, String startTime, String endTime) {
-        Map<Integer, Float> map = DataMaps.getInstance().getProductivityScoresMap();
+        Map<String, Float> map = DataMaps.getInstance().getProductivityScoresMap();
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         Date start;
         Date end;
@@ -71,7 +71,7 @@ public class Worker implements Employee {
         long diff = Math.abs(end.getTime() - start.getTime());
         int diffInMin = (int) (diff / 60 * 1000) / 1000000;
 
-        int id = Integer.parseInt(workId);
+        String id = workId;
 
         float productivityMultiplier;
         if (map.containsKey(id)) {

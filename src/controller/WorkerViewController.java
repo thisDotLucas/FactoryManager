@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -244,8 +246,8 @@ public class WorkerViewController implements Viewable, Initializable {
         IOHelper helper = new IOHelper(); //Checks work number input.
         String stepName = null;
         String workNumber = workNrTextField.getText();
-        if (helper.isConvertibleToInteger(workNumber))
-            stepName = DataMaps.getInstance().getWorkStepsMap().get(Integer.parseInt(workNumber));
+        if (helper.isConvertibleToInteger(workNumber) && Integer.parseInt(workNumber) != 0)
+            stepName = DataMaps.getInstance().getWorkStepsMap().get(workNumber);
 
         if (stepName != null) {
             user.setCurrentWorkStep(new TableRowData(user.getUserKey()));
@@ -269,7 +271,7 @@ public class WorkerViewController implements Viewable, Initializable {
         String amount = amountTextField.getText();
         String trashAmount = trashTextField.getText();
         if (helper.isConvertibleToInteger(amount) && helper.isConvertibleToInteger(trashAmount) && !helper.isNegative(Integer.parseInt(amount)) && !helper.isNegative(Integer.parseInt(trashAmount))) {
-            if (reasonComboBox.getValue() != null) {
+            if (reasonComboBox.getValue() != null || Integer.parseInt(trashAmount) == 0 && reasonComboBox.getValue() == null) {
 
                 TableRowData endStep = new TableRowData(user.getUserKey());
                 endStep.setWork_id(user.getCurrentWorkStep().getWork_id());
@@ -298,8 +300,17 @@ public class WorkerViewController implements Viewable, Initializable {
                 return;
             }
         } else {
-            new AlertBox("Enter a valid number in the amount and trash field.", 2);
-            return;
+
+            if(!helper.isConvertibleToInteger(amount) || helper.isConvertibleToInteger(amount) && helper.isNegative(Integer.parseInt(amount))){
+                new AlertBox("Enter a valid number in the amount field.", 2);
+                return;
+            } else if(!helper.isConvertibleToInteger(trashAmount) || helper.isConvertibleToInteger(trashAmount) && helper.isNegative(Integer.parseInt(trashAmount))) {
+                new AlertBox("Enter a valid number in the trash field.", 2);
+                return;
+            } else {
+                new AlertBox("Enter a valid number in the amount and trash field.", 2);
+                return;
+            }
         }
 
     }
@@ -344,6 +355,9 @@ public class WorkerViewController implements Viewable, Initializable {
         reasonComboBox.setOnMouseClicked(event -> onReasonComboBoxClicked());
         timeController();
         customizeView();
+        initNumTextFields(workNrTextField, 5);
+        initNumTextFields(amountTextField, 3);
+        initNumTextFields(trashTextField, 3);
         rowData.addAll(MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().getDate(), user.getUserKey()));
         table.setItems(rowData);
 
@@ -411,6 +425,29 @@ public class WorkerViewController implements Viewable, Initializable {
         trashTextField.setDisable(false);
         reasonComboBox.setDisable(false);
     }
+
+    private void  initNumTextFields(TextField textField, int limit){
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (textField.getText().length() > limit) {
+                    String s = textField.getText().substring(0, limit);
+                    textField.setText(s);
+                }
+            }
+        });
+    }
+
 
 
     //Handles the clock.

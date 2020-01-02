@@ -38,7 +38,7 @@ public class MySqlDatabase {
                     step.getWork_id() + "'" + ", " + "'" + step.getUser_id() + "'" + ", " + "'" + step.getAmount_done() + "'" +
                     ", " + "'" + step.getTrash_amount() + "'" + ", " + "'" + step.getReason() + "'" + ", " + "'" + step.getProductivity() + "'" +
                     ", " + "'" + step.getWork_step_name() + "'" + ")";
-
+            System.out.println(sql);
             statement.executeUpdate(sql);
 
         } catch (SQLException e) {
@@ -96,8 +96,8 @@ public class MySqlDatabase {
 
             Statement statement = connection.createStatement();
 
-            String sql = "delete from sql_factory.work_log where employee_id = '" + step.getUser_id() + "' and _date = '" + step.getDate() + "' and _time = '" + step.getTime() + "'";
-
+            String sql = "delete from sql_factory.work_log where employee_id = '" + step.getUser_id() + "' and _date = '" + step.getDate() + "' and _time = '" + step.getTime() + "' and work_id = '" + step.getWork_id() + "'";
+            System.out.println(sql);
             statement.executeUpdate(sql);
 
         } catch (SQLException e) {
