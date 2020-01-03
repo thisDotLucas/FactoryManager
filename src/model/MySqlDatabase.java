@@ -38,7 +38,7 @@ public class MySqlDatabase {
                     step.getWork_id() + "'" + ", " + "'" + step.getUser_id() + "'" + ", " + "'" + step.getAmount_done() + "'" +
                     ", " + "'" + step.getTrash_amount() + "'" + ", " + "'" + step.getReason() + "'" + ", " + "'" + step.getProductivity() + "'" +
                     ", " + "'" + step.getWork_step_name() + "'" + ")";
-            
+
             statement.executeUpdate(sql);
 
         } catch (SQLException e) {
