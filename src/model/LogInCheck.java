@@ -2,12 +2,15 @@ package model;
 
 import java.util.Map;
 
-
+/**
+ * This class is used to check that the give user and key matches with each other and checks
+ * the users access.
+ */
 public class LogInCheck {
 
     private Map<String, Employee> employees; //<Key, Name>
-    private String user;
-    private String key;
+    private String user; //The user inputted user name.
+    private String key; //The user inputted key.
 
 
     public LogInCheck(String user, String key) {
@@ -18,8 +21,9 @@ public class LogInCheck {
 
     }
 
-
-    //We check that the key and user inputted matches.
+    /**
+     * This method checks that the key and user strings matches.
+     */
     public boolean isEmployee() {
 
         if (employees.get(key) == null) {
@@ -30,7 +34,9 @@ public class LogInCheck {
     }
 
 
-    //We check if the employee has worker or manager status.
+    /**
+     * This method checks if the user has manager or worker access.
+     */
     public int status() {
 
         if (key.substring(0, 1).equals("1")) {

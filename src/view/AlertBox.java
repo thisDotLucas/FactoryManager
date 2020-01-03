@@ -8,6 +8,14 @@ public class AlertBox {
 
     private AlertType type;
 
+    /**
+     * This constructor creates a alert box. It takes the message as a string and a int for the alert
+     * type as arguments.
+     * 0 = info alert
+     * 1 = confirmation alert
+     * 2 = warning alert
+     * 3 = error alert
+     */
     public AlertBox(String message, int type) { //Constructor
 
         assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments."; //checks the input.
@@ -20,7 +28,9 @@ public class AlertBox {
 
     }
 
-
+    /**
+     * Same as base constructor + custom title.
+     */
     public AlertBox(String message, String title, int type) { //constructor with custom title.
 
         assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments."; //checks the input.
@@ -34,8 +44,10 @@ public class AlertBox {
 
     }
 
-
-    private AlertType setType(int type) { //sets the alert type.
+    /**
+     * This method sets the alert type.
+     */
+    private AlertType setType(int type) {
 
         switch (type) {
             case 0:

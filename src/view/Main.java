@@ -3,7 +3,6 @@ package view;
 import controller.ViewNavigator;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import java.util.Locale;
 
 public class Main extends Application {

@@ -46,18 +46,28 @@ public class editAddViewController {
     private Button cancelButton;
 
 
-
+    /**
+     * This method is called when the user presses the save button. A copy of the original row is created for deletion if
+     * we are in edit mode to be able to delete it from the database before adding the new updated version. If we are in add
+     * mode only one new row needs to be created. We access the manager view controller from the EditAddRowHelper to update
+     * table view.
+     * Fires on Save button press.
+     */
     @FXML
     void onSavePress() {
+
         TableRowData OriginalRow = new TableRowData(row.getUser_id());
-        OriginalRow.setTime(row.getTime());
-        OriginalRow.setDate(row.getDate());
-        OriginalRow.setWork_id(row.getWork_id());
-        OriginalRow.setWork_step_name(row.getWork_step_name());
-        OriginalRow.setReason(row.getReason());
-        OriginalRow.setAmount_done(row.getAmount_done());
-        OriginalRow.setTrash_amount(row.getTrash_amount());
-        OriginalRow.setProductivity(row.getProductivity());
+
+        if(isEdit) {
+            OriginalRow.setTime(row.getTime());
+            OriginalRow.setDate(row.getDate());
+            OriginalRow.setWork_id(row.getWork_id());
+            OriginalRow.setWork_step_name(row.getWork_step_name());
+            OriginalRow.setReason(row.getReason());
+            OriginalRow.setAmount_done(row.getAmount_done());
+            OriginalRow.setTrash_amount(row.getTrash_amount());
+            OriginalRow.setProductivity(row.getProductivity());
+        }
 
         if(hourTextField.getText().length() == 2 && minuteTextField.getText().length() == 2 && Integer.parseInt(hourTextField.getText()) < 24 && Integer.parseInt(minuteTextField.getText()) < 60){
                 row.setTime(hourTextField.getText() + ":" + minuteTextField.getText() + ":00");
@@ -70,6 +80,7 @@ public class editAddViewController {
             new AlertBox("Invalid work number.", 3);
             return;
         }
+
         row.setAmount_done(amountTextField.getText());
         row.setTrash_amount(trashTextField.getText());
         row.setReason(reasonTextField.getText());
@@ -87,6 +98,10 @@ public class editAddViewController {
         onCancelPress();
     }
 
+    /**
+     * This method is called to close the EditAddView. The EditAddRowHelper is reset
+     * and the stage is closed.
+     */
     @FXML
     void onCancelPress() {
         EditAddRowHelper.getInstance().reset();
@@ -94,7 +109,10 @@ public class editAddViewController {
         stage.close();
     }
 
-
+    /**
+     * This method is called on initialization. The TableRowData to be added or edited is stored into a variable.
+     * JavaFx control properties are set and/or given listeners.
+     */
     @FXML
     public void initialize(){
 
@@ -140,8 +158,10 @@ public class editAddViewController {
         checkWorkStepNameListener(workNrTextField);
     }
 
-
-
+    /**
+     * This listener updates the work step name text field when a fifth character is inserted into
+     * the work number field.
+     */
     private void checkWorkStepNameListener(TextField textField){
         textField.textProperty().addListener(l -> {
                 if (textField.getText().length() == 5) {

@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This object is used to format date strings and getting current date and time.
+ */
 public class TimeAndDateHelper {
 
     private DateTimeFormatter date;

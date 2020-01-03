@@ -10,14 +10,16 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-//SINGLETON OBJECT
-
+/**
+ * SINGLETON OBJECT
+ * This class creates relevant maps using data from the database.
+ */
 public class DataMaps {
 
-    private Map<String, Employee> employees; //<Key, Name>
-    private Map<String, String> workSteps;
-    private Map<String, Float> productivityScores;
-    private Map<String, String> nameKeyMap;
+    private Map<String, Employee> employees; //<key, name>
+    private Map<String, String> workSteps; //<work id, work name>
+    private Map<String, Float> productivityScores; //<work id, productivity score>
+    private Map<String, String> nameKeyMap; //<name, key>
     private static DataMaps ourInstance;
 
     public static DataMaps getInstance() {
@@ -32,7 +34,9 @@ public class DataMaps {
         map();
     }
 
-    //Reads the employees and their keys from my database.
+    /**
+     * This method is called on creation. It creates the maps using data from the database.
+     */
     private void map() {
 
         employees = new HashMap<>();
@@ -85,23 +89,9 @@ public class DataMaps {
         MySqlDatabase.getInstance().disconnect(connection);
     }
 
-
-    //Returns map.
-    public Map<String, Employee> getEmployeeMap() {
-        return employees;
-    }
-
-    public Map<String, String> getWorkStepsMap() {
-        return workSteps;
-    }
-
-    Map<String, Float> getProductivityScoresMap() {
-        return productivityScores;
-    }
-
-    public Map<String, String> getNameKeyMap() { return nameKeyMap; }
-
-    //Returns employee user names.
+    /**
+     * This method returns employee names in a list.
+     */
     public ObservableList<String> getWorkerNames() {
 
         ObservableList<String> workerNames = FXCollections.observableArrayList();
@@ -111,5 +101,13 @@ public class DataMaps {
         }
         return workerNames;
     }
+
+    public Map<String, Employee> getEmployeeMap() { return employees; }
+
+    public Map<String, String> getWorkStepsMap() { return workSteps; }
+
+    Map<String, Float> getProductivityScoresMap() { return productivityScores; }
+
+    public Map<String, String> getNameKeyMap() { return nameKeyMap; }
 
 }

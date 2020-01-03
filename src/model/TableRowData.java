@@ -2,7 +2,9 @@ package model;
 
 import javafx.beans.property.SimpleStringProperty;
 
-
+/**
+ * This object represent a work step.
+ */
 public class TableRowData {
 
     private SimpleStringProperty work_id;
@@ -17,6 +19,7 @@ public class TableRowData {
 
 
     public TableRowData(String userId) {
+
         this.user_id = new SimpleStringProperty(userId);
         this.date = new SimpleStringProperty(new TimeAndDateHelper().getDate());
         this.work_id = new SimpleStringProperty("");
@@ -50,13 +53,9 @@ public class TableRowData {
         this.productivity = new SimpleStringProperty(productivity);
     }
 
-    public void setWork_step_name(String work_step_name) {
-        this.work_step_name = new SimpleStringProperty(work_step_name);
-    }
+    public void setWork_step_name(String work_step_name) { this.work_step_name = new SimpleStringProperty(work_step_name); }
 
-    public void setDate(String date) {
-        this.date = new SimpleStringProperty(date);
-    }
+    public void setDate(String date) { this.date = new SimpleStringProperty(date); }
 
     public void setReason(String reason) {
         this.reason = new SimpleStringProperty(reason);
@@ -66,7 +65,6 @@ public class TableRowData {
         return user_id.get();
     }
 
-
     public String getWork_id() {
         return work_id.get();
     }
@@ -74,7 +72,6 @@ public class TableRowData {
     public String getDate() {
         return date.get();
     }
-
 
     public String getTime() {
         return time.get();
