@@ -71,18 +71,18 @@ public class LogInViewController implements Viewable {
     }
 
 
-    EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+    private EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
 
         private boolean willConsume = false;
 
         @Override
         public void handle(KeyEvent event) {
 
-            if (willConsume)
+            if(willConsume)
                 event.consume();
 
 
-            if (event.getCode().isWhitespaceKey())
+            if(event.getCode().isWhitespaceKey())
                 willConsume = true;
             else
                 willConsume = false;

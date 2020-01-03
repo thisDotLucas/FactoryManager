@@ -20,14 +20,11 @@ public class TextFieldHelper {
     }
 
     public void setCharLimit(TextField textField, int limit){
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+        textField.textProperty().addListener(l -> {
                 if (textField.getText().length() > limit) {
                     String s = textField.getText().substring(0, limit);
                     textField.setText(s);
                 }
-            }
         });
     }
 

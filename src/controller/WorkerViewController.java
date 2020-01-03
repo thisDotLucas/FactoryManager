@@ -323,7 +323,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     /**
-     * This method is called on initialization. The logged in user is stored into a variable. Javafx
+     * This method is called on initialization. The logged in user is stored into a variable. JavaFx
      * control properties are set and/or given listeners.
      */
     @FXML
@@ -472,7 +472,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     /**
-     * This method adds users current work step to the database and adds it to the Javafx
+     * This method adds users current work step to the database and adds it to the JavaFx
      * table view.
      */
     private void addRow() {
@@ -484,7 +484,7 @@ public class WorkerViewController implements Viewable, Initializable {
     }
 
     /**
-     * This method updates the message that is shown in the Javafx text area + the messageSender and dateTimeReceived label.
+     * This method updates the message that is shown in the JavaFx text area + the messageSender and dateTimeReceived label.
      */
     private void showMessage() {
 

@@ -1,14 +1,9 @@
 package controller;
 
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import model.*;
 import view.AlertBox;
 import java.util.Map;
@@ -17,8 +12,8 @@ import java.util.Map;
 public class editViewController {
 
     private TableRowData row;
-    Map<String, String> workIdMap;
-    boolean isEdit;
+    private Map<String, String> workIdMap;
+    private boolean isEdit;
 
     @FXML
     private TextField workNrTextField;
@@ -148,9 +143,7 @@ public class editViewController {
 
 
     private void checkWorkStepNameListener(TextField textField){
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+        textField.textProperty().addListener(l -> {
                 if (textField.getText().length() == 5) {
                     if(!workNrTextField.getText().equals("") && workIdMap.get(workNrTextField.getText()) != null){
                         workNameTextField.setText(workIdMap.get(workNrTextField.getText()));
@@ -158,9 +151,7 @@ public class editViewController {
                         workNameTextField.setText("Work step does not exist.");
                     }
                 }
-            }
         });
     }
-
 
 }

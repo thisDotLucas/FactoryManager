@@ -95,7 +95,7 @@ public class DataMaps {
         return workSteps;
     }
 
-    public Map<String, Float> getProductivityScoresMap() {
+    Map<String, Float> getProductivityScoresMap() {
         return productivityScores;
     }
 

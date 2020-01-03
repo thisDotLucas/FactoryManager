@@ -71,11 +71,11 @@ public class Worker implements Employee {
         long diff = Math.abs(end.getTime() - start.getTime());
         int diffInMin = (int) (diff / 60 * 1000) / 1000000;
 
-        String id = workId;
+
 
         float productivityMultiplier;
-        if (map.containsKey(id)) {
-            productivityMultiplier = map.get(id);
+        if (map.containsKey(workId)) {
+            productivityMultiplier = map.get(workId);
         } else {
             return "120%";
         }
@@ -102,8 +102,4 @@ public class Worker implements Employee {
         return userKey;
     }
 
-    @Override
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 }

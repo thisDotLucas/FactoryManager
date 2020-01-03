@@ -5,18 +5,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Employee;
-import model.IOHelper;
 
-//SINGLETON OBJECT
 
+/**
+ * SINGLETON OBJECT
+ * This class is used to switch between the available views.
+ */
 public class ViewNavigator {
 
     private static ViewNavigator ourInstance;
     private Stage primaryStage;
-    private Employee loggedInUser; //Currently logged in user, OBS remember to update this ALWAYS after changing views.
+    private Employee loggedInUser; //Currently logged in user, remember to update this after changing views.
 
 
-    //Returns this object.
     public static ViewNavigator getInstance() {
 
         if (ourInstance == null) {
@@ -27,10 +28,13 @@ public class ViewNavigator {
     }
 
 
-    //Switches to log in view.
+    /**
+     * This method loads and shows the log in view, logged in user is always set to null.
+     */
     public void goToLogInView() throws Exception {
 
         loggedInUser = null;
+
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/logInView.fxml"));
         primaryStage.setTitle("FactoryManager");
         primaryStage.setResizable(false);
@@ -39,16 +43,18 @@ public class ViewNavigator {
 
     }
 
-
-    //Switches to worker view.
+    /**
+     * This method loads and shows the worker view.
+     */
     void goToWorkerView() throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/workerView.fxml"));
         finishStage(root);
 
     }
 
-
-    //Switches to manager view.
+    /**
+     * This method loads and shows the manager view.
+     */
     void goToManagerView() throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/managerView.fxml"));
@@ -56,7 +62,9 @@ public class ViewNavigator {
 
     }
 
-
+    /**
+     * This method sets the properties for the stage.
+     */
     private void finishStage(Parent root) {
 
         primaryStage.setTitle(loggedInUser.getUserName());
@@ -67,7 +75,9 @@ public class ViewNavigator {
     }
 
 
-    //Sets the JavaFx Stage at start up, cant be changed later.
+    /**
+     * This method sets the JavaFx Stage at start up, cannot be changed later.
+     */
     public void setStage(Stage primaryStage) {
 
         if (this.primaryStage == null) {
@@ -77,7 +87,6 @@ public class ViewNavigator {
     }
 
 
-    //Updates the current logged in user, always update this after switching views.
     void setCurrentUser(Employee user) {
         loggedInUser = user;
     }

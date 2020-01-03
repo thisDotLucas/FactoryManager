@@ -2,14 +2,12 @@ package model;
 
 import controller.ManagerViewController;
 
-import java.io.IOException;
-
 public class EditAddRowHelper {
 
     private static EditAddRowHelper ourInstance;
     private ManagerViewController controller;
     private TableRowData row;
-    boolean isEdit;
+    private boolean isEdit;
 
 
     public static EditAddRowHelper getInstance() {

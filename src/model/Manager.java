@@ -2,8 +2,8 @@ package model;
 
 public class Manager implements Employee {
 
-    String userName;
-    String userKey;
+    private String userName;
+    private String userKey;
 
     public Manager(String userName, String userKey) {
         this.userName = userName;
@@ -21,8 +21,4 @@ public class Manager implements Employee {
         return userKey;
     }
 
-    @Override
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 }

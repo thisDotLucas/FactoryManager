@@ -1,10 +1,7 @@
 package controller;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import model.*;
 import view.AlertBox;
@@ -31,22 +27,14 @@ import java.util.Map;
 
 public class ManagerViewController implements Viewable {
 
-    private ManagerViewController controller;
-    Manager user;
-    TableRowData selectedRow;
-
+    private Manager user;
+    private TableRowData selectedRow;
 
     @FXML
     private TextField userTextField;
 
     @FXML
     private Label userLabel;
-
-    @FXML
-    private Label accessLabel;
-
-    @FXML
-    private Button logOutButton;
 
     @FXML
     private TextField keyTextField;
@@ -147,7 +135,7 @@ public class ManagerViewController implements Viewable {
         updateTable();
     }
 
-    public void updateTable() {
+    void updateTable() {
 
         ObservableList<TableRowData> rowData;
         rowData = MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().formatDate(datePicker.getValue()), DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()));
@@ -203,14 +191,11 @@ public class ManagerViewController implements Viewable {
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
 
         messageBox.setWrapText(true);
-        messageBox.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+        messageBox.textProperty().addListener(l -> {
                 if (messageBox.getText().length() > 800) {
                     String s = messageBox.getText().substring(0, 800);
                     messageBox.setText(s);
                 }
-            }
         });
     }
 
@@ -271,14 +256,15 @@ public class ManagerViewController implements Viewable {
         ArrayList<String> senders = MySqlDatabase.getInstance().getNotifications(user.getUserKey());
         IOHelper helper = new IOHelper();
         Map<String, Employee> employeeMap = DataMaps.getInstance().getEmployeeMap();
-        String stringToBeShown = "";
+        StringBuilder stringToBeShown = new StringBuilder();
 
         for (String sender : senders) {
-            stringToBeShown += helper.capitalizeFirsChar(employeeMap.get(sender).getUserName()) + " Needs Assistance.\n";
+            stringToBeShown.append(helper.capitalizeFirsChar(employeeMap.get(sender).getUserName()));
+            stringToBeShown.append(" Needs Assistance.\n");
         }
 
-        if (!stringToBeShown.equals("")) {
-            new AlertBox(stringToBeShown, "Notification", 0);
+        if (!stringToBeShown.toString().equals("")) {
+            new AlertBox(stringToBeShown.toString(), "Notification", 0);
             MySqlDatabase.getInstance().deleteNotifications(user.getUserKey());
         }
 
@@ -321,28 +307,12 @@ public class ManagerViewController implements Viewable {
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root));
-        stage.setOnHiding(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.runLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        EditAddRowHelper.getInstance().reset();
-                    }
-                });
-
-            }
-        });
+        stage.setOnHiding(e -> Platform.runLater( () -> EditAddRowHelper.getInstance().reset()));
         stage.show();
     }
 
     public ManagerViewController getController(){
-        return controller;
-    }
-
-    public TableRowData getSelectedRow(){
-        return selectedRow;
+        return this;
     }
 
 }

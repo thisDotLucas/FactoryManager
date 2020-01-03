@@ -24,11 +24,8 @@ public class LogInCheck {
 
         if (employees.get(key) == null) {
             return false;
-        } else if (employees.get(key).getUserName().toLowerCase().equals(user.toLowerCase())) {
-            return true;
-        } else {
-            return false;
-        }
+        } else
+            return employees.get(key).getUserName().toLowerCase().equals(user.toLowerCase());
 
     }
 

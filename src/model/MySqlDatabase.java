@@ -38,7 +38,7 @@ public class MySqlDatabase {
                     step.getWork_id() + "'" + ", " + "'" + step.getUser_id() + "'" + ", " + "'" + step.getAmount_done() + "'" +
                     ", " + "'" + step.getTrash_amount() + "'" + ", " + "'" + step.getReason() + "'" + ", " + "'" + step.getProductivity() + "'" +
                     ", " + "'" + step.getWork_step_name() + "'" + ")";
-            System.out.println(sql);
+            
             statement.executeUpdate(sql);
 
         } catch (SQLException e) {
@@ -97,7 +97,7 @@ public class MySqlDatabase {
             Statement statement = connection.createStatement();
 
             String sql = "delete from sql_factory.work_log where employee_id = '" + step.getUser_id() + "' and _date = '" + step.getDate() + "' and _time = '" + step.getTime() + "' and work_id = '" + step.getWork_id() + "'";
-            System.out.println(sql);
+
             statement.executeUpdate(sql);
 
         } catch (SQLException e) {
@@ -181,22 +181,6 @@ public class MySqlDatabase {
     }
 
 
-    public Connection connect() {
-
-        String url = "jdbc:mysql://localhost/sql_factory?useUnicode=true&serverTimezone=UTC";
-        String user = "root";
-        String password = "038913641249";
-
-        try {
-            return DriverManager.getConnection(url, user, password);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     public void sendMessage(String sender_id, String receiver_id, String messeage, String timeStamp) {
 
         Connection connection = connect();
@@ -268,7 +252,23 @@ public class MySqlDatabase {
     }
 
 
-    public void disconnect(Connection connection) {
+    Connection connect() {
+
+        String url = "jdbc:mysql://localhost/sql_factory?useUnicode=true&serverTimezone=UTC";
+        String user = "root";
+        String password = "038913641249";
+
+        try {
+            return DriverManager.getConnection(url, user, password);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    void disconnect(Connection connection) {
 
         try {
             connection.close();

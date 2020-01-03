@@ -6,7 +6,4 @@ public interface Employee {
 
     String getUserKey();
 
-    void setUserName(String userName);
-
-
 }

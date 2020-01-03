@@ -17,7 +17,7 @@ public class Message {
 
     public String getSender() { return sender; }
 
-    public String getReceiver() { return receiver; }
+    String getReceiver() { return receiver; }
 
     public String getMessage() { return message; }
 
