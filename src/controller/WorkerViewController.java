@@ -124,6 +124,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
     }
 
+
     @FXML
     void previousMsgPress() {
 
@@ -138,6 +139,7 @@ public class WorkerViewController implements Viewable, Initializable {
         }
         setButtons();
     }
+
 
     @FXML
     void deleteMsgPress() {
@@ -165,29 +167,6 @@ public class WorkerViewController implements Viewable, Initializable {
         setButtons();
     }
 
-    private void setButtons() {
-        if (messages.size() <= 0) {
-            previousMsgButton.setDisable(true);
-            deleteMsgButton.setDisable(true);
-            nextMsgButton.setDisable(true);
-        } else if (messageBoxPointer == messages.size() - 1 && messageBoxPointer > 0) {
-            previousMsgButton.setDisable(false);
-            deleteMsgButton.setDisable(false);
-            nextMsgButton.setDisable(true);
-        } else if (messageBoxPointer - 1 < 0 && messages.size() > 1) {
-            previousMsgButton.setDisable(true);
-            deleteMsgButton.setDisable(false);
-            nextMsgButton.setDisable(false);
-        } else if (messageBoxPointer + 1 < messages.size() && messageBoxPointer - 1 >= 0) {
-            previousMsgButton.setDisable(false);
-            deleteMsgButton.setDisable(false);
-            nextMsgButton.setDisable(false);
-        } else {
-            previousMsgButton.setDisable(true);
-            deleteMsgButton.setDisable(false);
-            nextMsgButton.setDisable(true);
-        }
-    }
 
     @FXML
     void nextMsgPress() {
@@ -204,17 +183,13 @@ public class WorkerViewController implements Viewable, Initializable {
         setButtons();
     }
 
-    private void showMessage() {
-        messageBox.setText(messages.get(messageBoxPointer).getMessage());
-        msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.get(messageBoxPointer).getSender()).getUserName());
-        dateTimeRecivedLabel.setText(messages.get(messageBoxPointer).getTimeStamp());
-    }
 
     @FXML
     void callManagerPress() { //Call manager button is pressed, notification is created in data base
         MySqlDatabase.getInstance().addNotification(user.getUserKey(), "0389");
         new AlertBox("Notification Sent.", 0);
     }
+
 
     @FXML
     void checkinPress() { //User checks in for the day, not working view will be set. Row data also added to table and database.
@@ -228,6 +203,7 @@ public class WorkerViewController implements Viewable, Initializable {
         user.setCurrentWorkStep(null);
     }
 
+
     @FXML
     void checkOutPress() { //User checks out, not logged in view will be set. Row data also added to table and database.
         user.logOut();
@@ -240,6 +216,7 @@ public class WorkerViewController implements Viewable, Initializable {
         addRow();
         user.setCurrentWorkStep(null);
     }
+
 
     @FXML
     void startPress() { //User starts work step, row is added in table and database.
@@ -262,8 +239,8 @@ public class WorkerViewController implements Viewable, Initializable {
             new AlertBox("Invalid work number.", 2);
         }
 
-
     }
+
 
     @FXML
     void endPress() { //User ends current work step, row is added to table and database.
@@ -315,51 +292,41 @@ public class WorkerViewController implements Viewable, Initializable {
 
     }
 
-    @FXML
-    void onReasonComboBox() {
-
-    }
-
-
-    private void onReasonComboBoxClicked() { //Gives only empty options whne trash amount is 0
-        IOHelper helper = new IOHelper();
-
-        if (helper.isConvertibleToInteger(trashTextField.getText()) && !helper.isNegative(Integer.parseInt(trashTextField.getText())) && Integer.parseInt(trashTextField.getText()) > 0) {
-            reasonComboBox.setItems(FXCollections.observableArrayList(
-                    "Broken part", "Accident", "Failed test", "Other"
-            ));
-
-        } else {
-            reasonComboBox.setItems(FXCollections.observableArrayList("", "", "", ""));
-        }
-
-    }
-
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) { //Initializes everything.
+
         user = (Worker) ViewNavigator.getInstance().getLoggedInUser();
+
         messageBox.setEditable(false);
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
         messages = MySqlDatabase.getInstance().getMessages(user.getUserKey());
         msgAmountLabel.setText(Integer.toString(messages.size()));
+
         if (messages.size() > 0) {
             messageBox.setText(messages.getFirst().getMessage());
             msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.getFirst().getSender()).getUserName());
             dateTimeRecivedLabel.setText(messages.getFirst().getTimeStamp());
             messageBoxPointer = 0;
         }
-        setButtons();
-        //table.setMouseTransparent(true);
+
+        checkTrashAmountListener(trashTextField);
+
         table.getStylesheets().add("view/hideScrollbar.css");
-        reasonComboBox.setOnMouseClicked(event -> onReasonComboBoxClicked());
-        timeController();
-        customizeView();
-        initNumTextFields(workNrTextField, 5);
-        initNumTextFields(amountTextField, 3);
-        initNumTextFields(trashTextField, 3);
         rowData.addAll(MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().getDate(), user.getUserKey()));
         table.setItems(rowData);
+
+        setButtons();
+        timeController();
+        customizeView();
+
+        TextFieldHelper helper = new TextFieldHelper();
+        helper.setCharLimit(workNrTextField, 5);
+        helper.setCharLimit(amountTextField, 3);
+        helper.setCharLimit(trashTextField, 3);
+        helper.onlyNumbers(workNrTextField);
+        helper.onlyNumbers(amountTextField);
+        helper.onlyNumbers(trashTextField);
 
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         workNrColumn.setCellValueFactory(new PropertyValueFactory<>("work_id"));
@@ -370,7 +337,9 @@ public class WorkerViewController implements Viewable, Initializable {
         reasonColumn.setCellValueFactory(new PropertyValueFactory<>("reason"));
         productivityColumn.setCellValueFactory(new PropertyValueFactory<>("productivity"));
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
+
     }
+
 
     private void customizeView() { //Checks what view is needed based on booleans from loggen in user.
 
@@ -387,6 +356,31 @@ public class WorkerViewController implements Viewable, Initializable {
             setWorkingView();
         }
 
+    }
+
+
+    private void setButtons() {
+        if (messages.size() <= 0) {
+            previousMsgButton.setDisable(true);
+            deleteMsgButton.setDisable(true);
+            nextMsgButton.setDisable(true);
+        } else if (messageBoxPointer == messages.size() - 1 && messageBoxPointer > 0) {
+            previousMsgButton.setDisable(false);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(true);
+        } else if (messageBoxPointer - 1 < 0 && messages.size() > 1) {
+            previousMsgButton.setDisable(true);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(false);
+        } else if (messageBoxPointer + 1 < messages.size() && messageBoxPointer - 1 >= 0) {
+            previousMsgButton.setDisable(false);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(false);
+        } else {
+            previousMsgButton.setDisable(true);
+            deleteMsgButton.setDisable(false);
+            nextMsgButton.setDisable(true);
+        }
     }
 
 
@@ -426,30 +420,39 @@ public class WorkerViewController implements Viewable, Initializable {
         reasonComboBox.setDisable(false);
     }
 
-    private void  initNumTextFields(TextField textField, int limit){
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    textField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
 
+    private void addRow() { //Adds a row, always called when the worker does something.
+
+        rowData.add(user.getCurrentWorkStep());
+        table.setItems(rowData);
+        MySqlDatabase.getInstance().addWorkStep(user.getCurrentWorkStep());
+
+    }
+
+
+    private void showMessage() {
+        messageBox.setText(messages.get(messageBoxPointer).getMessage());
+        msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.get(messageBoxPointer).getSender()).getUserName());
+        dateTimeRecivedLabel.setText(messages.get(messageBoxPointer).getTimeStamp());
+    }
+
+
+    private void checkTrashAmountListener(TextField textField){
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
-                if (textField.getText().length() > limit) {
-                    String s = textField.getText().substring(0, limit);
-                    textField.setText(s);
+                if (textField.getText().length() > 0) {
+                    reasonComboBox.setItems(FXCollections.observableArrayList(
+                            "Broken part", "Accident", "Failed test", "Other"
+                    ));
+                } else {
+                    reasonComboBox.setItems(null);
                 }
             }
         });
     }
 
-
-
+    
     //Handles the clock.
     private void timeController() {
         new Clock(this);
@@ -461,13 +464,7 @@ public class WorkerViewController implements Viewable, Initializable {
         timeLabel.setText(time);
     }
 
-    private void addRow() { //Adds a row, always called when the worker does something.
 
-        rowData.add(user.getCurrentWorkStep());
-        table.setItems(rowData);
-        MySqlDatabase.getInstance().addWorkStep(user.getCurrentWorkStep());
-
-    }
 
 
 }

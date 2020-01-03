@@ -102,16 +102,20 @@ public class editViewController {
 
     @FXML
     public void initialize(){
-        row = EditAddRowHelper.getInstance().getRow();
+
+        this.row = EditAddRowHelper.getInstance().getRow();
         this.isEdit = EditAddRowHelper.getInstance().isEdit();
         workIdMap = DataMaps.getInstance().getWorkStepsMap();
+
         dateTextField.setText(row.getDate());
         workerTextField.setText(row.getUser_id());
+
         if(isEdit) {
             hourTextField.setText(row.getTime().substring(0, 2));
             minuteTextField.setText(row.getTime().substring(3, 5));
             workNrTextField.setDisable(true);
         }
+
         workNrTextField.setText(row.getWork_id());
         workNameTextField.setText(row.getWork_step_name());
         amountTextField.setText(row.getAmount_done());
@@ -124,37 +128,24 @@ public class editViewController {
             reasonTextField.setDisable(true);
         }
 
-        initNumTextFields(hourTextField, 2);
-        initNumTextFields(minuteTextField, 2);
+        TextFieldHelper helper = new TextFieldHelper();
+
+        helper.setCharLimit(hourTextField, 2);
+        helper.setCharLimit(minuteTextField, 2);
+        helper.setCharLimit(workNrTextField, 5);
+        helper.setCharLimit(amountTextField, 3);
+        helper.setCharLimit(trashTextField, 3);
+
+        helper.onlyNumbers(hourTextField);
+        helper.onlyNumbers(minuteTextField);
+        helper.onlyNumbers(workNrTextField);
+        helper.onlyNumbers(amountTextField);
+        helper.onlyNumbers(trashTextField);
+
         checkWorkStepNameListener(workNrTextField);
-        initNumTextFields(workNrTextField, 5);
-        initNumTextFields(amountTextField, 3);
-        initNumTextFields(trashTextField, 3);
-
-
     }
 
-    private void  initNumTextFields(TextField textField, int limit){
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    textField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
 
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
-                if (textField.getText().length() > limit) {
-                    String s = textField.getText().substring(0, limit);
-                    textField.setText(s);
-                }
-            }
-        });
-    }
 
     private void checkWorkStepNameListener(TextField textField){
         textField.textProperty().addListener(new ChangeListener<String>() {
