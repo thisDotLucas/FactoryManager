@@ -25,7 +25,10 @@ public class LogInViewController implements Viewable {
     private TextArea messageBox;
 
 
-    //The user name and key are checked and the view will switch accordingly.
+    /**
+     * The user and key inputs gets checked that they match with each other in the LogInCheck object and
+     * the view will be loaded according to the employees access.
+     */
     @FXML
     public void logInPress() throws Exception {
 
@@ -34,12 +37,12 @@ public class LogInViewController implements Viewable {
 
         LogInCheck security = new LogInCheck(user, key);
 
-        if (security.isEmployee() && security.status() == 1) { //Worker
+        if (security.isEmployee() && security.status() == 1) { //Worker view
 
             ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
             ViewNavigator.getInstance().goToWorkerView();
 
-        } else if (security.isEmployee() && security.status() == 0) { //Manager
+        } else if (security.isEmployee() && security.status() == 0) { //Manager view
 
             ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
             ViewNavigator.getInstance().goToManagerView();
@@ -50,6 +53,10 @@ public class LogInViewController implements Viewable {
 
     }
 
+    /**
+     * This method is called on initialization. It disables the message box and sets handler to the
+     * user and key text fields.
+     */
     @FXML
     public void initialize() {
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
@@ -58,19 +65,9 @@ public class LogInViewController implements Viewable {
         timeController();
     }
 
-
-    //Handles the clock.
-    private void timeController() {
-        new Clock(this);
-    }
-
-
-    //To set time label.
-    public void setTimeLabel(String time) {
-        timeLabel.setText(time);
-    }
-
-
+    /**
+     * This handler prevents whitespaces from the user and key text fields.
+     */
     private EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
 
         private boolean willConsume = false;
@@ -89,4 +86,17 @@ public class LogInViewController implements Viewable {
         }
 
     };
+
+    /**
+     * Activates the clock.
+     */
+    private void timeController() {
+        new Clock(this);
+    }
+
+
+    public void setTimeLabel(String time) {
+        timeLabel.setText(time);
+    }
+
 }

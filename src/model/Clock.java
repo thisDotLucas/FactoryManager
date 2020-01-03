@@ -2,17 +2,15 @@ package model;
 
 import controller.Viewable;
 import javafx.application.Platform;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javafx.concurrent.Task;
 
 public class Clock {
 
     private Viewable controller; //UI
     private SimpleDateFormat formatter; //time format HH:mm
-    private String time; //time dispalyed
+    private String time; //time displayed
     private String newTime; //current time
 
     public Clock(Viewable controller) { //constructor
@@ -56,6 +54,7 @@ public class Clock {
                 }
             }
         };
+
         new Thread(task).start();
 
     }

@@ -9,7 +9,7 @@ import view.AlertBox;
 import java.util.Map;
 
 
-public class editViewController {
+public class editAddViewController {
 
     private TableRowData row;
     private Map<String, String> workIdMap;
