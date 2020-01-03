@@ -132,7 +132,7 @@
                         <Insets left="17.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="dateTimeRecivedLabel" text="2019-12-23 12:00">
+                  <Label fx:id="dateTimeReceivedLabel" text="2019-12-23 12:00">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
