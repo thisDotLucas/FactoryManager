@@ -14,8 +14,7 @@ If you log in as a manager you are able to send messages to your employees and y
 any workers needs assistance upon logging in.
 
 ## Data storage
-All data is stored in a MySQL database running on Amazon RDS (free version). Querys and updates are not that fast but the MySQL dump (factory_databas.sql)
-can be run on localhost where everything is pretty instant.
+All data is stored in a MySQL database running on Amazon RDS (free version). Querys and updates are not that fast but the MySQL dump 
 User names and keys can be found in users.txt and worksteps and their id:s in worksteps.txt.
 All worksteps, work logs, messages, notifications and employee information is stored in the database.
 
