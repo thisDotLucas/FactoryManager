@@ -92,7 +92,7 @@ public class EditAddViewController {
             MySqlDatabase.getInstance().deleteWorkStep(originalRow);
         }
 
-        MySqlDatabase.getInstance().addWorkStep(row);
+        MySqlDatabase.getInstance().managerAddWorkStep(row);
         EditAddRowHelper.getInstance().getController().updateTable();
 
         onCancelPress();

@@ -26,7 +26,7 @@ public class MySqlDatabase {
     }
 
 
-    public void addWorkStep(TableRowData step) {
+    private void addWorkStep(TableRowData step) {
 
         Connection connection = connect();
 
@@ -47,6 +47,22 @@ public class MySqlDatabase {
             new AlertBox("Problem with database.", 3);
         }
         disconnect(connection);
+    }
+
+
+    public void managerAddWorkStep(TableRowData step){
+        addWorkStep(step);
+    }
+
+    public void workerAddWorkStep(TableRowData step){
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                addWorkStep(step);
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
 
 

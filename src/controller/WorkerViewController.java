@@ -479,7 +479,7 @@ public class WorkerViewController implements Viewable, Initializable {
 
         rowData.add(user.getCurrentWorkStep());
         table.setItems(rowData);
-        MySqlDatabase.getInstance().addWorkStep(user.getCurrentWorkStep());
+        MySqlDatabase.getInstance().workerAddWorkStep(user.getCurrentWorkStep());
 
     }
 
