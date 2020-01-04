@@ -117,17 +117,10 @@ public class ManagerViewController implements Viewable {
     @FXML
     void onDeleteRowPress(){
 
-        table.getItems().remove(selectedRow);
+        MySqlDatabase.getInstance().deleteWorkStep(selectedRow);
+        updateTable();
+        selectedRow = null;
 
-        Task task = new Task() {
-            protected Object call() {
-                MySqlDatabase.getInstance().deleteWorkStep(selectedRow);
-                selectedRow = null;
-                //updateTable();
-                return null;
-            }
-        };
-        new Thread(task).start();
     }
 
     /**
