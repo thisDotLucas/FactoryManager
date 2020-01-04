@@ -1,7 +1,9 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +31,7 @@ public class ManagerViewController implements Viewable {
 
     private Manager user; //Logged in user.
     private TableRowData selectedRow; //TableDataRow currently selected by user.
+
 
     @FXML
     private TextField userTextField;
@@ -114,10 +117,17 @@ public class ManagerViewController implements Viewable {
     @FXML
     void onDeleteRowPress(){
 
-        MySqlDatabase.getInstance().deleteWorkStep(selectedRow);
-        selectedRow = null;
-        updateTable();
+        table.getItems().remove(selectedRow);
 
+        Task task = new Task() {
+            protected Object call() {
+                MySqlDatabase.getInstance().deleteWorkStep(selectedRow);
+                selectedRow = null;
+                //updateTable();
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
 
     /**
@@ -382,6 +392,15 @@ public class ManagerViewController implements Viewable {
 
     public ManagerViewController getController(){
         return this;
+    }
+
+    public TableView<TableRowData> getTable(){
+        return table;
+    }
+
+
+    public TableRowData getSelectedRow(){
+        return selectedRow;
     }
 
 }

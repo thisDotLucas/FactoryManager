@@ -13,66 +13,64 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
-            prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.WorkerViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WorkerViewController">
     <HBox alignment="CENTER_LEFT" layoutX="69.0" prefHeight="72.0" prefWidth="191.0">
-        <TextField fx:id="userTextField" prefHeight="31.0" prefWidth="167.0"/>
+        <TextField fx:id="userTextField" prefHeight="31.0" prefWidth="167.0" />
     </HBox>
     <HBox alignment="CENTER" prefHeight="72.0" prefWidth="66.0">
-        <Label text="User:"/>
+        <Label text="User:" />
     </HBox>
     <HBox alignment="CENTER" layoutX="251.0" prefHeight="72.0" prefWidth="50.0">
-        <Label text="Key:"/>
+        <Label text="Key:" />
     </HBox>
     <HBox alignment="CENTER" layoutX="301.0" prefHeight="72.0" prefWidth="126.0">
-        <TextField fx:id="keyTextField" prefHeight="31.0" prefWidth="107.0"/>
+        <TextField fx:id="keyTextField" prefHeight="31.0" prefWidth="107.0" />
     </HBox>
     <HBox alignment="CENTER_LEFT" layoutX="427.0" prefHeight="72.0" prefWidth="107.0">
         <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#logOutPress" text="Log out">
             <HBox.margin>
-                <Insets left="12.0"/>
+                <Insets left="12.0" />
             </HBox.margin>
         </Button>
     </HBox>
     <HBox alignment="CENTER" layoutX="534.0" prefHeight="72.0" prefWidth="137.0">
         <Label text="Logged in as:">
             <font>
-                <Font size="19.0"/>
+                <Font size="19.0" />
             </font>
             <HBox.margin>
-                <Insets left="4.0"/>
+                <Insets left="4.0" />
             </HBox.margin>
         </Label>
     </HBox>
     <HBox alignment="CENTER_LEFT" layoutX="671.0" prefHeight="72.0" prefWidth="112.0">
         <Label fx:id="userLabel" prefHeight="28.0" prefWidth="107.0" text="Personx" textFill="#8a7d7d">
             <font>
-                <Font size="19.0"/>
+                <Font size="19.0" />
             </font>
         </Label>
     </HBox>
     <HBox alignment="CENTER_RIGHT" layoutX="783.0" prefHeight="72.0" prefWidth="107.0">
         <Label text="Access:">
             <font>
-                <Font size="19.0"/>
+                <Font size="19.0" />
             </font>
             <HBox.margin>
-                <Insets right="11.0"/>
+                <Insets right="11.0" />
             </HBox.margin>
         </Label>
     </HBox>
     <HBox alignment="CENTER_LEFT" layoutX="890.0" prefHeight="72.0" prefWidth="107.0">
         <Label text="Worker" textFill="#8a7d7d">
             <font>
-                <Font size="19.0"/>
+                <Font size="19.0" />
             </font>
         </Label>
     </HBox>
     <HBox alignment="CENTER" layoutX="997.0" prefHeight="72.0" prefWidth="203.0">
         <Label fx:id="timeLabel" text="10:15" textFill="#8a7d7d">
             <font>
-                <Font size="21.0"/>
+                <Font size="21.0" />
             </font>
         </Label>
     </HBox>
@@ -80,147 +78,138 @@
         <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="289.0">
             <Label text="Messeages:">
                 <HBox.margin>
-                    <Insets left="17.0"/>
+                    <Insets left="17.0" />
                 </HBox.margin>
             </Label>
             <Label fx:id="msgAmountLabel" text="0">
                 <padding>
-                    <Insets left="5.0"/>
+                    <Insets left="5.0" />
                 </padding>
             </Label>
         </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="289.0">
             <Label text="From:">
                 <padding>
-                    <Insets left="17.0"/>
+                    <Insets left="17.0" />
                 </padding>
             </Label>
-            <Label fx:id="msgSenderLabel" text="Personx">
+            <Label fx:id="msgSenderLabel">
                 <HBox.margin>
-                    <Insets left="5.0"/>
+                    <Insets left="5.0" />
                 </HBox.margin>
             </Label>
         </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="289.0">
             <Label text="Date &amp; Time:">
                 <HBox.margin>
-                    <Insets left="17.0"/>
+                    <Insets left="17.0" />
                 </HBox.margin>
             </Label>
             <Label fx:id="dateTimeReceivedLabel" text="2019-12-23 12:00">
                 <HBox.margin>
-                    <Insets left="5.0"/>
+                    <Insets left="5.0" />
                 </HBox.margin>
             </Label>
         </HBox>
         <HBox alignment="CENTER" prefHeight="53.0" prefWidth="289.0">
             <Button fx:id="previousMsgButton" mnemonicParsing="false" onAction="#previousMsgPress" text="&lt;&lt;">
                 <HBox.margin>
-                    <Insets right="5.0"/>
+                    <Insets right="5.0" />
                 </HBox.margin>
             </Button>
             <Button fx:id="deleteMsgButton" mnemonicParsing="false" onAction="#deleteMsgPress" text="Delete">
                 <HBox.margin>
-                    <Insets left="5.0" right="5.0"/>
+                    <Insets left="5.0" right="5.0" />
                 </HBox.margin>
             </Button>
             <Button fx:id="nextMsgButton" mnemonicParsing="false" onAction="#nextMsgPress" text="&gt;&gt;">
                 <HBox.margin>
-                    <Insets left="5.0"/>
+                    <Insets left="5.0" />
                 </HBox.margin>
             </Button>
         </HBox>
         <HBox alignment="CENTER" prefHeight="43.0" prefWidth="289.0">
-            <Button mnemonicParsing="false" onAction="#callManagerPress" text="Call Manager"/>
+            <Button mnemonicParsing="false" onAction="#callManagerPress" text="Call Manager" />
         </HBox>
-        <HBox prefHeight="22.0" prefWidth="289.0"/>
+        <HBox prefHeight="22.0" prefWidth="289.0" />
         <HBox alignment="CENTER" prefHeight="51.0" prefWidth="289.0">
-            <Button fx:id="checkInButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-                    onAction="#checkinPress" prefWidth="90.0" text="Check in">
+            <Button fx:id="checkInButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkinPress" prefWidth="90.0" text="Check in">
                 <HBox.margin>
-                    <Insets right="30.0"/>
+                    <Insets right="30.0" />
                 </HBox.margin>
             </Button>
-            <Button fx:id="checkOutButton" mnemonicParsing="false" onAction="#checkOutPress" prefWidth="90.0"
-                    text="Check out">
+            <Button fx:id="checkOutButton" mnemonicParsing="false" onAction="#checkOutPress" prefWidth="90.0" text="Check out">
                 <HBox.margin>
-                    <Insets left="30.0"/>
+                    <Insets left="30.0" />
                 </HBox.margin>
             </Button>
         </HBox>
-        <HBox prefHeight="33.0" prefWidth="289.0"/>
+        <HBox prefHeight="33.0" prefWidth="289.0" />
         <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="289.0">
             <Label text="Work nr:">
                 <HBox.margin>
-                    <Insets left="17.0" right="10.0"/>
+                    <Insets left="17.0" right="10.0" />
                 </HBox.margin>
             </Label>
-            <TextField fx:id="workNrTextField"/>
+            <TextField fx:id="workNrTextField" />
         </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="289.0">
             <Label text="Amount:">
                 <HBox.margin>
-                    <Insets left="17.0" right="10.0"/>
+                    <Insets left="17.0" right="10.0" />
                 </HBox.margin>
             </Label>
-            <TextField fx:id="amountTextField" prefHeight="31.0" prefWidth="81.0"/>
+            <TextField fx:id="amountTextField" prefHeight="31.0" prefWidth="81.0" />
         </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="289.0">
             <Label text="Trash:">
                 <HBox.margin>
-                    <Insets left="17.0" right="10.0"/>
+                    <Insets left="17.0" right="10.0" />
                 </HBox.margin>
             </Label>
-            <TextField fx:id="trashTextField" prefHeight="31.0" prefWidth="46.0"/>
+            <TextField fx:id="trashTextField" prefHeight="31.0" prefWidth="46.0" />
             <Label text="Reason:">
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </Label>
             <ComboBox fx:id="reasonComboBox" prefHeight="31.0" prefWidth="90.0">
                 <HBox.margin>
-                    <Insets left="5.0"/>
+                    <Insets left="5.0" />
                 </HBox.margin>
             </ComboBox>
         </HBox>
         <HBox alignment="CENTER" prefHeight="56.0" prefWidth="289.0">
-            <Button fx:id="startButton" minHeight="-Infinity" mnemonicParsing="false" onAction="#startPress"
-                    prefWidth="55.0" text="Start">
+            <Button fx:id="startButton" minHeight="-Infinity" mnemonicParsing="false" onAction="#startPress" prefWidth="55.0" text="Start">
                 <HBox.margin>
-                    <Insets right="10.0"/>
+                    <Insets right="10.0" />
                 </HBox.margin>
             </Button>
-            <Button fx:id="endButton" minHeight="-Infinity" mnemonicParsing="false" onAction="#endPress"
-                    prefWidth="55.0" text="End">
+            <Button fx:id="endButton" minHeight="-Infinity" mnemonicParsing="false" onAction="#endPress" prefWidth="55.0" text="End">
                 <HBox.margin>
-                    <Insets left="10.0"/>
+                    <Insets left="10.0" />
                 </HBox.margin>
             </Button>
         </HBox>
     </VBox>
-    <TextArea fx:id="messageBox" layoutX="289.0" layoutY="72.0" prefHeight="200.0" prefWidth="911.0"
-              style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ECECEC;">
+    <TextArea fx:id="messageBox" layoutX="289.0" layoutY="72.0" prefHeight="200.0" prefWidth="911.0" style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-color: #ECECEC;">
         <padding>
-            <Insets bottom="10.0" right="10.0" top="10.0"/>
+            <Insets bottom="10.0" right="10.0" top="10.0" />
         </padding>
     </TextArea>
-    <HBox layoutX="289.0" layoutY="747.0" prefHeight="52.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;"/>
-    <AnchorPane layoutX="288.0" layoutY="272.0" prefHeight="473.0" prefWidth="911.0"
-                style="-fx-background-color: #ECECEC;">
+    <HBox layoutX="289.0" layoutY="747.0" prefHeight="52.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;" />
+    <AnchorPane layoutX="288.0" layoutY="272.0" prefHeight="473.0" prefWidth="911.0" style="-fx-background-color: #ECECEC;">
         <TableView fx:id="table" editable="true" prefHeight="517.0" prefWidth="902.0">
             <columns>
-                <TableColumn fx:id="dateColumn" editable="false" prefWidth="90.0" text="Date"/>
-                <TableColumn fx:id="startColumn" prefWidth="66.0" resizable="false" sortable="false" text="Time"/>
-                <TableColumn fx:id="workNrColumn" prefWidth="86.0" resizable="false" sortable="false" text="Work nr"/>
-                <TableColumn fx:id="workerColumn" editable="false" prefWidth="87.0" resizable="false" sortable="false"
-                             text="Worker"/>
-                <TableColumn fx:id="amountColumn" prefWidth="75.0" resizable="false" sortable="false" text="Amount"/>
-                <TableColumn fx:id="trashColumn" prefWidth="62.0" resizable="false" sortable="false" text="Trash"/>
-                <TableColumn fx:id="reasonColumn" prefWidth="84.0" text="Reason"/>
-                <TableColumn fx:id="productivityColumn" editable="false" prefWidth="97.0" sortable="false"
-                             text="Productivity"/>
-                <TableColumn fx:id="workNameColumn" editable="false" prefWidth="254.0" resizable="false"
-                             sortable="false" text="Work name"/>
+                <TableColumn fx:id="dateColumn" editable="false" prefWidth="90.0" text="Date" />
+                <TableColumn fx:id="startColumn" prefWidth="66.0" resizable="false" sortable="false" text="Time" />
+                <TableColumn fx:id="workNrColumn" prefWidth="86.0" resizable="false" sortable="false" text="Work nr" />
+                <TableColumn fx:id="workerColumn" editable="false" prefWidth="87.0" resizable="false" sortable="false" text="Worker" />
+                <TableColumn fx:id="amountColumn" prefWidth="75.0" resizable="false" sortable="false" text="Amount" />
+                <TableColumn fx:id="trashColumn" prefWidth="62.0" resizable="false" sortable="false" text="Trash" />
+                <TableColumn fx:id="reasonColumn" prefWidth="84.0" text="Reason" />
+                <TableColumn fx:id="productivityColumn" editable="false" prefWidth="97.0" sortable="false" text="Productivity" />
+                <TableColumn fx:id="workNameColumn" editable="false" prefWidth="254.0" resizable="false" sortable="false" text="Work name" />
             </columns>
         </TableView>
     </AnchorPane>

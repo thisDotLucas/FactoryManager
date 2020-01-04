@@ -2,6 +2,7 @@ package model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import view.AlertBox;
 
 import java.sql.*;
@@ -110,23 +111,31 @@ public class MySqlDatabase {
 
     public void addNotification(String sender_id, String receiver_id) {
 
-        Connection connection = connect();
-        String timeAndDate = new TimeAndDateHelper().getTimeAndDate();
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                Connection connection = connect();
+                String timeAndDate = new TimeAndDateHelper().getTimeAndDate();
 
-        try {
+                try {
 
-            Statement statement = connection.createStatement();
+                    Statement statement = connection.createStatement();
 
-            String sql = "insert into sql_factory.notifications (employee_id, sender_id, time_date) select '" + receiver_id + "', '" + sender_id + "', '" + timeAndDate + "' where not exists (" +
-                    "select 1 from sql_factory.notifications x where x.employee_id = '" + receiver_id + "' and x.sender_id = '" + sender_id + "')";
+                    String sql = "insert into sql_factory.notifications (employee_id, sender_id, time_date) select '" + receiver_id + "', '" + sender_id + "', '" + timeAndDate + "' where not exists (" +
+                            "select 1 from sql_factory.notifications x where x.employee_id = '" + receiver_id + "' and x.sender_id = '" + sender_id + "')";
 
-            statement.executeUpdate(sql);
+                    statement.executeUpdate(sql);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            new AlertBox("Problem with database.", 3);
-        }
-        disconnect(connection);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    new AlertBox("Problem with database.", 3);
+                }
+                disconnect(connection);
+                return null;
+            }
+        };
+        new Thread(task).start();
+
     }
 
 
@@ -163,41 +172,56 @@ public class MySqlDatabase {
 
     public void deleteNotifications(String user_id) {
 
-        Connection connection = connect();
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                Connection connection = connect();
 
-        try {
+                try {
 
-            Statement statement = connection.createStatement();
+                    Statement statement = connection.createStatement();
 
-            String sql = "delete from sql_factory.notifications where employee_id = '" + user_id + "'";
+                    String sql = "delete from sql_factory.notifications where employee_id = '" + user_id + "'";
 
-            statement.executeUpdate(sql);
+                    statement.executeUpdate(sql);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            new AlertBox("Problem with database.", 3);
-        }
-        disconnect(connection);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    new AlertBox("Problem with database.", 3);
+                }
+                disconnect(connection);
+                return null;
+            }
+        };
+        new Thread(task).start();
+
     }
 
 
     public void sendMessage(String sender_id, String receiver_id, String messeage, String timeStamp) {
 
-        Connection connection = connect();
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                Connection connection = connect();
 
-        try {
+                try {
 
-            Statement statement = connection.createStatement();
+                    Statement statement = connection.createStatement();
 
-            String sql = "insert into sql_factory.messages values('" + receiver_id + "', '" + sender_id + "', '" + timeStamp + "', '" + messeage + "')";
+                    String sql = "insert into sql_factory.messages values('" + receiver_id + "', '" + sender_id + "', '" + timeStamp + "', '" + messeage + "')";
 
-            statement.executeUpdate(sql);
+                    statement.executeUpdate(sql);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            new AlertBox("Problem with database.", 3);
-        }
-        disconnect(connection);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    new AlertBox("Problem with database.", 3);
+                }
+                disconnect(connection);
+                return null;
+            }
+        };
+        new Thread(task).start();
 
     }
 
@@ -234,21 +258,28 @@ public class MySqlDatabase {
 
     public void deleteMessage(Message message) {
 
-        Connection connection = connect();
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                Connection connection = connect();
 
-        try {
+                try {
 
-            Statement statement = connection.createStatement();
+                    Statement statement = connection.createStatement();
 
-            String sql = "delete from sql_factory.messages where employee_id = '" + message.getReceiver() + "' and sender_id = '" + message.getSender() + "' and time_date = '" + message.getTimeStamp() + "'";
+                    String sql = "delete from sql_factory.messages where employee_id = '" + message.getReceiver() + "' and sender_id = '" + message.getSender() + "' and time_date = '" + message.getTimeStamp() + "'";
 
-            statement.executeUpdate(sql);
+                    statement.executeUpdate(sql);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            new AlertBox("Problem with database.", 3);
-        }
-        disconnect(connection);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    new AlertBox("Problem with database.", 3);
+                }
+                disconnect(connection);
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
 
 

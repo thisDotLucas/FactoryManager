@@ -16,9 +16,9 @@ public class AlertBox {
      * 2 = warning alert
      * 3 = error alert
      */
-    public AlertBox(String message, int type) { //Constructor
+    public AlertBox(String message, int type) {
 
-        assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments."; //checks the input.
+        assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments.";
 
         this.type = setType(type);
 
@@ -31,9 +31,9 @@ public class AlertBox {
     /**
      * Same as base constructor + custom title.
      */
-    public AlertBox(String message, String title, int type) { //constructor with custom title.
+    public AlertBox(String message, String title, int type) {
 
-        assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments."; //checks the input.
+        assert type < 4 && type > 0 : "type only takes int between 0-3 as arguments.";
 
         this.type = setType(type);
 

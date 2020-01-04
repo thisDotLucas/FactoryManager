@@ -56,17 +56,17 @@ public class EditAddViewController {
     @FXML
     void onSavePress() {
 
-        TableRowData OriginalRow = new TableRowData(row.getUser_id());
+        TableRowData originalRow = new TableRowData(row.getUser_id());
 
         if(isEdit) {
-            OriginalRow.setTime(row.getTime());
-            OriginalRow.setDate(row.getDate());
-            OriginalRow.setWork_id(row.getWork_id());
-            OriginalRow.setWork_step_name(row.getWork_step_name());
-            OriginalRow.setReason(row.getReason());
-            OriginalRow.setAmount_done(row.getAmount_done());
-            OriginalRow.setTrash_amount(row.getTrash_amount());
-            OriginalRow.setProductivity(row.getProductivity());
+            originalRow.setTime(row.getTime());
+            originalRow.setDate(row.getDate());
+            originalRow.setWork_id(row.getWork_id());
+            originalRow.setWork_step_name(row.getWork_step_name());
+            originalRow.setReason(row.getReason());
+            originalRow.setAmount_done(row.getAmount_done());
+            originalRow.setTrash_amount(row.getTrash_amount());
+            originalRow.setProductivity(row.getProductivity());
         }
 
         if(hourTextField.getText().length() == 2 && minuteTextField.getText().length() == 2 && Integer.parseInt(hourTextField.getText()) < 24 && Integer.parseInt(minuteTextField.getText()) < 60){
@@ -89,7 +89,7 @@ public class EditAddViewController {
         row.setWork_id(workNrTextField.getText());
 
         if(isEdit) {
-            MySqlDatabase.getInstance().deleteWorkStep(OriginalRow);
+            MySqlDatabase.getInstance().deleteWorkStep(originalRow);
         }
 
         MySqlDatabase.getInstance().addWorkStep(row);
