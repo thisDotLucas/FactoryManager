@@ -254,8 +254,8 @@ public class MySqlDatabase {
 
     Connection connect() {
 
-        //String url = "jdbc:mysql://localhost/sql_factory?useUnicode=true&serverTimezone=UTC";
-        String url = "jdbc:mysql://factorymanager.cnkiejckzy7g.us-east-2.rds.amazonaws.com/sql_factory?useUnicode=true&serverTimezone=UTC";
+        //String url = "jdbc:mysql://localhost/sql_factory?useUnicode=true&serverTimezone=UTC"; //Local host
+        String url = "jdbc:mysql://factorymanager.cnkiejckzy7g.us-east-2.rds.amazonaws.com/sql_factory?useUnicode=true&serverTimezone=UTC"; //Aws server
         String user = "root";
         String password = "038913641249";
 
