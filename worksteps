@@ -5,6 +5,8 @@ Products:
 
 	Office Crusher ---------------------------------------
 
+               work nr  work step name
+		
 		00001	Unpack parts
 		00002   Set up motherboard
 		00003   Set up case
@@ -17,6 +19,8 @@ Products:
 
 	Frame Demon ------------------------------------------
 
+	       work nr  work step name
+		
 		00101	Unpack parts
 		00102	Set up motherboard
 		00103	Set up case
