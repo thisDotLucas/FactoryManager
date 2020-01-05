@@ -306,7 +306,7 @@ public class ManagerViewController implements Viewable {
     void updateTable() {
 
         ObservableList<TableRowData> rowData;
-        rowData = MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().formatDate(datePicker.getValue()), DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()));
+        rowData = DataMaps.getInstance().getWorkStepDataFromDate(DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()), new TimeAndDateHelper().formatDate(datePicker.getValue()));
         table.setItems(rowData);
         updateButtons();
 
@@ -317,21 +317,23 @@ public class ManagerViewController implements Viewable {
      * and then deleted from the database.
      */
     private void showNotifications() {
-        ArrayList<String> senders = MySqlDatabase.getInstance().getNotifications(user.getUserKey());
-        IOHelper helper = new IOHelper();
-        Map<String, Employee> employeeMap = DataMaps.getInstance().getEmployeeMap();
-        StringBuilder stringToBeShown = new StringBuilder();
+        ArrayList<String> senders = DataMaps.getInstance().getNotifications(user.getUserKey());
 
-        for (String sender : senders) {
-            stringToBeShown.append(helper.capitalizeFirsChar(employeeMap.get(sender).getUserName()));
-            stringToBeShown.append(" Needs Assistance.\n");
+        if(senders != null) {
+            IOHelper helper = new IOHelper();
+            Map<String, Employee> employeeMap = DataMaps.getInstance().getEmployeeMap();
+            StringBuilder stringToBeShown = new StringBuilder();
+
+            for (String sender : senders) {
+                stringToBeShown.append(helper.capitalizeFirsChar(employeeMap.get(sender).getUserName()));
+                stringToBeShown.append(" Needs Assistance.\n");
+            }
+
+            if (!stringToBeShown.toString().equals("")) {
+                new AlertBox(stringToBeShown.toString(), "Notification", 0);
+                MySqlDatabase.getInstance().deleteNotifications(user.getUserKey());
+            }
         }
-
-        if (!stringToBeShown.toString().equals("")) {
-            new AlertBox(stringToBeShown.toString(), "Notification", 0);
-            MySqlDatabase.getInstance().deleteNotifications(user.getUserKey());
-        }
-
     }
 
     /**

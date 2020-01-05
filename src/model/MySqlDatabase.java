@@ -7,7 +7,9 @@ import view.AlertBox;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 //SINGLETON OBJECT
 
@@ -102,6 +104,50 @@ public class MySqlDatabase {
             return null;
         }
 
+    }
+
+
+    public Map<String, ObservableList<TableRowData>> mapWorkSteps(){
+
+        Connection connection = connect();
+        Map<String, ObservableList<TableRowData>> steps = new HashMap<>();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "select * from work_log order by _time";
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String key = rs.getString("employee_id");
+
+                if(!steps.keySet().contains(key))
+                    steps.put(key, FXCollections.observableArrayList());
+
+                TableRowData row = new TableRowData(key);
+                row.setDate(rs.getString("_date"));
+                row.setTime(rs.getString("_time"));
+                row.setWork_id(rs.getString("work_id"));
+                row.setAmount_done(rs.getString("amount"));
+                row.setTrash_amount(rs.getString("trash"));
+                row.setReason(rs.getString("trash_reason"));
+                row.setProductivity(rs.getString("productivity"));
+                row.setWork_step_name(rs.getString("work_step_name"));
+
+                steps.get(key).add(row);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+            disconnect(connection);
+            return null;
+        }
+        disconnect(connection);
+        return steps;
     }
 
 
@@ -214,6 +260,42 @@ public class MySqlDatabase {
     }
 
 
+    public Map<String, ArrayList<String>> mapNotifications(){
+
+        Connection connection = connect();
+
+        Map<String, ArrayList<String>> notifications = new HashMap<>();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "select * from sql_factory.notifications";
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String key = rs.getString("employee_id");
+
+                if (!notifications.keySet().contains(key))
+                    notifications.put(key, new ArrayList<>());
+
+                notifications.get(key).add(rs.getString("sender_id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+            disconnect(connection);
+            return null;
+        }
+        disconnect(connection);
+        return notifications;
+
+    }
+
+
     public void sendMessage(String sender_id, String receiver_id, String messeage, String timeStamp) {
 
         Task task = new Task() {
@@ -298,15 +380,50 @@ public class MySqlDatabase {
         new Thread(task).start();
     }
 
+    public Map<String, LinkedList<Message>> mapMessages(){
+        Connection connection = connect();
+
+        Map<String, LinkedList<Message>> messages = new HashMap<>();
+
+        try {
+
+            Statement statement = connection.createStatement();
+
+            String sql = "select * from sql_factory.messages";
+
+            ResultSet rs = statement.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String key = rs.getString("employee_id");
+
+                if(!messages.keySet().contains(key))
+                    messages.put(key, new LinkedList<>());
+
+                messages.get(key).add(new Message(rs.getString("sender_id"), key, rs.getString("content"), rs.getString("time_date")));
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new AlertBox("Problem with database.", 3);
+            disconnect(connection);
+            return null;
+        }
+        disconnect(connection);
+        return messages;
+    }
+
 
     Connection connect() {
-
+        final long startTime = System.currentTimeMillis();
         //String url = "jdbc:mysql://localhost/sql_factory?useUnicode=true&serverTimezone=UTC"; //Local host
         String url = "jdbc:mysql://factorymanager.cnkiejckzy7g.us-east-2.rds.amazonaws.com/sql_factory?useUnicode=true&serverTimezone=UTC"; //Aws server
         String user = "root";
         String password = "038913641249";
 
         try {
+
             return DriverManager.getConnection(url, user, password);
 
         } catch (SQLException e) {

@@ -1,7 +1,10 @@
 package controller;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -24,6 +27,21 @@ public class LogInViewController implements Viewable {
     @FXML
     private TextArea messageBox;
 
+    @FXML
+    private void onUserTextFieldClick(){
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                DataMaps.getInstance().prepareNotificationsAndMessages();
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+
+    @FXML
+    private Button logInButton;
+
 
     /**
      * The user and key inputs gets checked that they match with each other in the LogInCheck object and
@@ -37,22 +55,25 @@ public class LogInViewController implements Viewable {
 
         LogInCheck security = new LogInCheck(user, key);
 
-        if (security.isEmployee() && security.status() == 1) { //Worker view
+        try {
+            if (security.isEmployee() && security.status() == 1) { //Worker view
 
-            ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
-            ViewNavigator.getInstance().goToWorkerView();
+                ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
+                ViewNavigator.getInstance().goToWorkerView();
 
-        } else if (security.isEmployee() && security.status() == 0) { //Manager view
+            } else if (security.isEmployee() && security.status() == 0) { //Manager view
 
-            ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
-            ViewNavigator.getInstance().goToManagerView();
+                ViewNavigator.getInstance().setCurrentUser(DataMaps.getInstance().getEmployeeMap().get(key));
+                ViewNavigator.getInstance().goToManagerView();
 
-        } else { //Invalid user name or/and key
-            new AlertBox("Invalid Credentials", 3);
+            } else { //Invalid user name or/and key
+                new AlertBox("Invalid Credentials", 3);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            new AlertBox("Unexpected error! Try again.", 3);
         }
-
     }
-
     /**
      * This method is called on initialization. It disables the message box and sets handler to the
      * user and key text fields.
@@ -60,9 +81,20 @@ public class LogInViewController implements Viewable {
     @FXML
     public void initialize() {
         messageBox.getStylesheets().add("view/DisabledMessageBox.css");
+        userTextField.setFocusTraversable(false);
+        keyTextField.setFocusTraversable(false);
+        logInButton.setFocusTraversable(false);
         userTextField.addEventFilter(KeyEvent.ANY, handler);
         keyTextField.addEventFilter(KeyEvent.ANY, handler);
         timeController();
+        Task task = new Task(){
+            @Override
+            protected Object call() throws Exception {
+                DataMaps.getInstance().prepareWorkSteps();
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
 
     /**

@@ -2,12 +2,13 @@ package model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -20,6 +21,9 @@ public class DataMaps {
     private Map<String, String> workSteps; //<work id, work name>
     private Map<String, Float> productivityScores; //<work id, productivity score>
     private Map<String, String> nameKeyMap; //<name, key>
+    private Map<String, LinkedList<Message>> preparedMessages;
+    private Map<String, ArrayList<String>> preparedNotifications;
+    private Map<String, ObservableList<TableRowData>> preparedWorkSteps;
     private static DataMaps ourInstance;
 
     public static DataMaps getInstance() {
@@ -102,6 +106,32 @@ public class DataMaps {
         return workerNames;
     }
 
+
+    public void prepareNotificationsAndMessages(){
+
+        preparedMessages = MySqlDatabase.getInstance().mapMessages();
+        preparedNotifications = MySqlDatabase.getInstance().mapNotifications();
+
+    }
+
+    public void prepareWorkSteps(){
+
+        preparedWorkSteps = MySqlDatabase.getInstance().mapWorkSteps();
+
+    }
+
+    public ObservableList<TableRowData> getWorkStepDataFromDate(String user_id, String date){
+
+        ObservableList<TableRowData> todayData = FXCollections.observableArrayList();
+
+        for(TableRowData row : getPreparedWorkSteps(user_id)){
+            if(row.getDate().equals(date))
+                todayData.add(row);
+        }
+        return todayData;
+    }
+
+
     public Map<String, Employee> getEmployeeMap() { return employees; }
 
     public Map<String, String> getWorkStepsMap() { return workSteps; }
@@ -110,4 +140,9 @@ public class DataMaps {
 
     public Map<String, String> getNameKeyMap() { return nameKeyMap; }
 
+    public LinkedList<Message> getMessages(String user_id){ return preparedMessages.get(user_id); }
+
+    public ObservableList<TableRowData> getPreparedWorkSteps(String user_id){ return  preparedWorkSteps.get(user_id); }
+
+    public ArrayList<String> getNotifications(String user_id) { return preparedNotifications.get(user_id); }
 }

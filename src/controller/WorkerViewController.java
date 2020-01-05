@@ -331,25 +331,12 @@ public class WorkerViewController implements Viewable, Initializable {
 
         user = (Worker) ViewNavigator.getInstance().getLoggedInUser();
 
-        messageBox.setEditable(false);
-        messageBox.getStylesheets().add("view/DisabledMessageBox.css");
-        messages = MySqlDatabase.getInstance().getMessages(user.getUserKey());
-        msgAmountLabel.setText(Integer.toString(messages.size()));
-
-        if (messages.size() > 0) { //If messages exist in database for logged in user.
-            messageBox.setText(messages.getFirst().getMessage());
-            msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.getFirst().getSender()).getUserName());
-            dateTimeReceivedLabel.setText(messages.getFirst().getTimeStamp());
-            messageBoxPointer = 0;
-        }
-
         checkTrashAmountListener(trashTextField);
 
         table.getStylesheets().add("view/hideScrollbar.css");
-        rowData.addAll(MySqlDatabase.getInstance().getWorkSteps(new TimeAndDateHelper().getDate(), user.getUserKey()));
+        rowData.addAll(DataMaps.getInstance().getWorkStepDataFromDate(user.getUserKey(), new TimeAndDateHelper().getDate()));
         table.setItems(rowData);
 
-        updateMessageButtons();
         timeController();
         customizeView();
 
@@ -371,6 +358,22 @@ public class WorkerViewController implements Viewable, Initializable {
         productivityColumn.setCellValueFactory(new PropertyValueFactory<>("productivity"));
         workNameColumn.setCellValueFactory(new PropertyValueFactory<>("work_step_name"));
 
+        messageBox.setEditable(false);
+        messageBox.getStylesheets().add("view/DisabledMessageBox.css");
+        messages = DataMaps.getInstance().getMessages(user.getUserKey());
+
+        if (messages == null)
+            messages = new LinkedList<>();
+
+        msgAmountLabel.setText(Integer.toString(messages.size()));
+
+        if (messages.size() > 0) { //If messages exist in database for logged in user.
+            messageBox.setText(messages.getFirst().getMessage());
+            msgSenderLabel.setText(DataMaps.getInstance().getEmployeeMap().get(messages.getFirst().getSender()).getUserName());
+            dateTimeReceivedLabel.setText(messages.getFirst().getTimeStamp());
+            messageBoxPointer = 0;
+        }
+        updateMessageButtons();
     }
 
     /**
@@ -493,6 +496,9 @@ public class WorkerViewController implements Viewable, Initializable {
         dateTimeReceivedLabel.setText(messages.get(messageBoxPointer).getTimeStamp());
 
     }
+
+
+
 
     /**
      * This listener is applied to the trash amount text field to set the values inside of the reason combo box to null if
