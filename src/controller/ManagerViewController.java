@@ -31,6 +31,7 @@ public class ManagerViewController implements Viewable {
 
     private Manager user; //Logged in user.
     private TableRowData selectedRow; //TableDataRow currently selected by user.
+    private Map<String, ObservableList<TableRowData>> workStepMap;
 
 
     @FXML
@@ -117,10 +118,17 @@ public class ManagerViewController implements Viewable {
     @FXML
     void onDeleteRowPress(){
 
-        MySqlDatabase.getInstance().deleteWorkStep(selectedRow);
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                MySqlDatabase.getInstance().deleteWorkStep(selectedRow);
+                return null;
+            }
+        };
+        new Thread(task).start();
+        removeFromMap(selectedRow);
         updateTable();
         selectedRow = null;
-
     }
 
     /**
@@ -204,6 +212,7 @@ public class ManagerViewController implements Viewable {
     public void initialize() {
 
         user = (Manager) ViewNavigator.getInstance().getLoggedInUser();
+        workStepMap = DataMaps.getInstance().getPreparedWorkStepsMap();
 
         receiverComboBox.setItems(DataMaps.getInstance().getWorkerNames());
         workerComboBox.setItems(DataMaps.getInstance().getWorkerNames());
@@ -305,9 +314,7 @@ public class ManagerViewController implements Viewable {
      */
     void updateTable() {
 
-        ObservableList<TableRowData> rowData;
-        rowData = DataMaps.getInstance().getWorkStepDataFromDate(DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()), new TimeAndDateHelper().formatDate(datePicker.getValue()));
-        table.setItems(rowData);
+        updateMap(DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()), new TimeAndDateHelper().formatDate(datePicker.getValue()));
         updateButtons();
 
     }
@@ -373,6 +380,29 @@ public class ManagerViewController implements Viewable {
         stage.show();
     }
 
+
+    private void updateMap(String user_id, String date){
+
+        ObservableList<TableRowData> relevantData = FXCollections.observableArrayList();
+
+        for(TableRowData row : workStepMap.get(user_id)){
+            if(row.getDate().equals(date))
+                relevantData.add(row);
+        }
+        table.setItems(relevantData);
+    }
+
+    private void removeFromMap(TableRowData row1){
+
+        ObservableList<TableRowData> data = workStepMap.get(DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()));
+
+        for(int i = 0; i < data.size(); i++){
+            if(row1.getTime().equals(data.get(i).getTime()) && row1.getWork_id().equals(data.get(i).getWork_id())){
+                workStepMap.get(DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue())).remove(i);
+                break;
+            }
+        }
+    }
 
     /**
      * Activates the clock.

@@ -124,7 +124,7 @@ public class DataMaps {
 
         ObservableList<TableRowData> todayData = FXCollections.observableArrayList();
 
-        for(TableRowData row : getPreparedWorkSteps(user_id)){
+        for(TableRowData row : preparedWorkSteps.get(user_id)){
             if(row.getDate().equals(date))
                 todayData.add(row);
         }
@@ -143,6 +143,8 @@ public class DataMaps {
     public LinkedList<Message> getMessages(String user_id){ return preparedMessages.get(user_id); }
 
     public ObservableList<TableRowData> getPreparedWorkSteps(String user_id){ return  preparedWorkSteps.get(user_id); }
+
+    public Map<String, ObservableList<TableRowData>> getPreparedWorkStepsMap() { return preparedWorkSteps; }
 
     public ArrayList<String> getNotifications(String user_id) { return preparedNotifications.get(user_id); }
 }
