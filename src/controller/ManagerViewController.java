@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 
 public class ManagerViewController implements Viewable {
@@ -117,7 +118,6 @@ public class ManagerViewController implements Viewable {
      */
     @FXML
     void onDeleteRowPress(){
-
         Task task = new Task() {
             @Override
             protected Object call() throws Exception {
@@ -389,7 +389,23 @@ public class ManagerViewController implements Viewable {
             if(row.getDate().equals(date))
                 relevantData.add(row);
         }
+        Comparator<TableRowData> comparator = Comparator.comparing(TableRowData :: getTime);
+        FXCollections.sort(relevantData, comparator);
         table.setItems(relevantData);
+    }
+
+    public void deleteRow(TableRowData row){
+        Task task = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                MySqlDatabase.getInstance().deleteWorkStep(row);
+                return null;
+            }
+        };
+        new Thread(task).start();
+        removeFromMap(row);
+        updateTable();
+
     }
 
     private void removeFromMap(TableRowData row1){
@@ -423,9 +439,18 @@ public class ManagerViewController implements Viewable {
         return table;
     }
 
+    public Map<String, ObservableList<TableRowData>> getWorkStepMap() {
+        return workStepMap;
+    }
+
+    public void addToMap(String user_id, TableRowData row){
+        workStepMap.get(user_id).add(row);
+        updateTable();
+    }
 
     public TableRowData getSelectedRow(){
         return selectedRow;
     }
+
 
 }
