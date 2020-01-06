@@ -57,8 +57,6 @@ public class EditAddViewController {
     @FXML
     void onSavePress() {
 
-        TableRowData originalRow = EditAddRowHelper.getInstance().getController().getSelectedRow();
-
         if(hourTextField.getText().length() == 2 && minuteTextField.getText().length() == 2 && Integer.parseInt(hourTextField.getText()) < 24 && Integer.parseInt(minuteTextField.getText()) < 60){
             if(!isEdit)
                 row.setTime(hourTextField.getText() + ":" + minuteTextField.getText() + ":00");
@@ -85,7 +83,7 @@ public class EditAddViewController {
             EditAddRowHelper.getInstance().getController().onDeleteRowPress();
         }
 
-        MySqlDatabase.getInstance().workerAddWorkStep(row);
+        MySqlDatabase.getInstance().addWorkStep(row);
         EditAddRowHelper.getInstance().getController().addToMap(row.getUser_id(), row);
 
         onCancelPress();

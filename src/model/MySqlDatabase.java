@@ -28,39 +28,30 @@ public class MySqlDatabase {
     }
 
 
-    private void addWorkStep(TableRowData step) {
+    public void addWorkStep(TableRowData step) {
 
-        Connection connection = connect();
-
-        try {
-
-            Statement statement = connection.createStatement();
-
-            String sql = "insert into sql_factory.work_log" +
-                    " values (" + "'" + step.getDate() + "'" + ", " + "'" + step.getTime() + "'" + ", " + "'" +
-                    step.getWork_id() + "'" + ", " + "'" + step.getUser_id() + "'" + ", " + "'" + step.getAmount_done() + "'" +
-                    ", " + "'" + step.getTrash_amount() + "'" + ", " + "'" + step.getReason() + "'" + ", " + "'" + step.getProductivity() + "'" +
-                    ", " + "'" + step.getWork_step_name() + "'" + ")";
-
-            statement.executeUpdate(sql);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            new AlertBox("Problem with database.", 3);
-        }
-        disconnect(connection);
-    }
-
-
-    public void managerAddWorkStep(TableRowData step){
-        addWorkStep(step);
-    }
-
-    public void workerAddWorkStep(TableRowData step){
         Task task = new Task() {
             @Override
             protected Object call() throws Exception {
-                addWorkStep(step);
+                Connection connection = connect();
+
+                try {
+
+                    Statement statement = connection.createStatement();
+
+                    String sql = "insert into sql_factory.work_log" +
+                            " values (" + "'" + step.getDate() + "'" + ", " + "'" + step.getTime() + "'" + ", " + "'" +
+                            step.getWork_id() + "'" + ", " + "'" + step.getUser_id() + "'" + ", " + "'" + step.getAmount_done() + "'" +
+                            ", " + "'" + step.getTrash_amount() + "'" + ", " + "'" + step.getReason() + "'" + ", " + "'" + step.getProductivity() + "'" +
+                            ", " + "'" + step.getWork_step_name() + "'" + ")";
+
+                    statement.executeUpdate(sql);
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    new AlertBox("Problem with database.", 3);
+                }
+                disconnect(connection);
                 return null;
             }
         };

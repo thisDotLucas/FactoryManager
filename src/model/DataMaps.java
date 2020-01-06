@@ -106,7 +106,9 @@ public class DataMaps {
         return workerNames;
     }
 
-
+    /**
+     * This method maps all messages, this is called during the loginView.
+     */
     public void prepareNotificationsAndMessages(){
 
         preparedMessages = MySqlDatabase.getInstance().mapMessages();
@@ -114,12 +116,18 @@ public class DataMaps {
 
     }
 
+    /**
+     * This method maps the work log, this is called during the loginView.
+     */
     public void prepareWorkSteps(){
 
         preparedWorkSteps = MySqlDatabase.getInstance().mapWorkSteps();
 
     }
 
+    /**
+     * This method returns work step data from a given user and date.
+     */
     public ObservableList<TableRowData> getWorkStepDataFromDate(String user_id, String date){
 
         ObservableList<TableRowData> todayData = FXCollections.observableArrayList();

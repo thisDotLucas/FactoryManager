@@ -312,7 +312,7 @@ public class ManagerViewController implements Viewable {
     /**
      * This method fetches work step data from the database according to the date picker value and the chosen worker.
      */
-    void updateTable() {
+    private void updateTable() {
 
         updateMap(DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()), new TimeAndDateHelper().formatDate(datePicker.getValue()));
         updateButtons();
@@ -381,6 +381,9 @@ public class ManagerViewController implements Viewable {
     }
 
 
+    /**
+     * This method sets the wanted data to the table view and sorts it according to time.
+     */
     private void updateMap(String user_id, String date){
 
         ObservableList<TableRowData> relevantData = FXCollections.observableArrayList();
@@ -394,20 +397,9 @@ public class ManagerViewController implements Viewable {
         table.setItems(relevantData);
     }
 
-    public void deleteRow(TableRowData row){
-        Task task = new Task() {
-            @Override
-            protected Object call() throws Exception {
-                MySqlDatabase.getInstance().deleteWorkStep(row);
-                return null;
-            }
-        };
-        new Thread(task).start();
-        removeFromMap(row);
-        updateTable();
-
-    }
-
+    /**
+     * This method finds the matching row and removes it
+     */
     private void removeFromMap(TableRowData row1){
 
         ObservableList<TableRowData> data = workStepMap.get(DataMaps.getInstance().getNameKeyMap().get(workerComboBox.getValue()));
@@ -420,11 +412,18 @@ public class ManagerViewController implements Viewable {
         }
     }
 
+
     /**
      * Activates the clock.
      */
     private void timeController() {
         new Clock(this);
+    }
+
+
+    public void addToMap(String user_id, TableRowData row){
+        workStepMap.get(user_id).add(row);
+        updateTable();
     }
 
     public void setTimeLabel(String time) {
@@ -435,22 +434,7 @@ public class ManagerViewController implements Viewable {
         return this;
     }
 
-    public TableView<TableRowData> getTable(){
-        return table;
-    }
 
-    public Map<String, ObservableList<TableRowData>> getWorkStepMap() {
-        return workStepMap;
-    }
-
-    public void addToMap(String user_id, TableRowData row){
-        workStepMap.get(user_id).add(row);
-        updateTable();
-    }
-
-    public TableRowData getSelectedRow(){
-        return selectedRow;
-    }
 
 
 }

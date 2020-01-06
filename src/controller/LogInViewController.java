@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,6 +26,10 @@ public class LogInViewController implements Viewable {
     @FXML
     private TextArea messageBox;
 
+
+    /**
+     * Message and notification maps gets updated in DataMaps.
+     */
     @FXML
     private void onUserTextFieldClick(){
         Task task = new Task() {
@@ -76,7 +79,7 @@ public class LogInViewController implements Viewable {
     }
     /**
      * This method is called on initialization. It disables the message box and sets handler to the
-     * user and key text fields.
+     * user and key text fields. Work step map in DataMaps gets updated.
      */
     @FXML
     public void initialize() {
