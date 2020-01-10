@@ -1,6 +1,13 @@
 # Factory Manager
 
-#### This system is meant to keep track of employees and the work progress in our "factory". It is inspired by a system that i have used myself but with some added features like communication between employees and managers and a user interface that is easier to use. 
+This system is meant to keep track of employees and the work progress in our "factory". It is inspired by a system that i have used myself but with some added features like communication between employees and managers and a user interface that is easier to use. 
+
+## How to install
+### Eclipse
+File -> Import -> Git -> Projects from Git -> clone URI -> insert URL
+### Intellij IDEA
+VCS -> Git -> Clone -> insert URL
+
 
 ## Get started
 
