@@ -25,4 +25,11 @@ All data is stored in a MySQL database running on Amazon RDS (free version). Que
 User names and keys can be found in users.txt and worksteps and their id:s in worksteps.txt.
 All worksteps, work logs, messages, notifications and employee information is stored in the database.
 
+## Screenshots
 
+### Manager view
+![Manager](https://user-images.githubusercontent.com/43991152/72163004-a2260600-33cb-11ea-8266-1a65597b6072.png)
+### Worker view
+![worker](https://user-images.githubusercontent.com/43991152/72163007-a5b98d00-33cb-11ea-9e9d-9368711fb7d5.png)
+### Login view
+![LogIn](https://user-images.githubusercontent.com/43991152/72163015-a94d1400-33cb-11ea-90b2-bfb7652c36fc.png)
