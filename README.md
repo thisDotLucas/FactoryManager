@@ -13,7 +13,7 @@ VCS -> Git -> Clone -> insert URL
 
 ### Worker
 In the login view you need to input a user name and key these are located in users.txt. If logged in as a worker you need to check in and then input a work number which can
-be found in worksteps.txt. When the workstep is "done" you input the amount done and trash amount and end the workstep. When the day is over the worker checks out. Workers are able to use the call manager button to send anotification to their manager 
+be found in worksteps.txt. When the workstep is "done" you input the amount done and trash amount and end the workstep. When the day is over the worker checks out. Workers are able to use the call manager button to send a notification to their manager 
 as soon as they log in to the system. Messages from the manager can also be read from the message box.
 
 ### Manager
