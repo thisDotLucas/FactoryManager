@@ -30,6 +30,6 @@ All worksteps, work logs, messages, notifications and employee information is st
 ### Manager view
 ![Manager](https://user-images.githubusercontent.com/43991152/72163004-a2260600-33cb-11ea-8266-1a65597b6072.png)
 ### Worker view
-![worker](https://user-images.githubusercontent.com/43991152/72163007-a5b98d00-33cb-11ea-9e9d-9368711fb7d5.png)
+![worker](https://user-images.githubusercontent.com/43991152/72163150-f4672700-33cb-11ea-90a4-254a25b888ca.png)
 ### Login view
 ![LogIn](https://user-images.githubusercontent.com/43991152/72163015-a94d1400-33cb-11ea-90b2-bfb7652c36fc.png)
